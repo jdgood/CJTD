@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -14,9 +15,17 @@ import com.cjtd.globals.G;
 
 public class MainGame extends Activity{
 	private static final int DIALOG_PAUSE_ID = 0;
+	
 	private GLSurfaceView mGLSurfaceView;
+	
+	private float oldDist = 1f;
 	private float prevX;
 	private float prevY;
+	
+	private static final int NONE = 0;
+    private static final int ZOOM = 1;
+	private int mode = NONE;
+	
 	
 	float p2wx(float xp) {
 		//return 2 * ((float)(2*G.W*xp) / (G.H*(G.W-1)) - ((float)G.W / G.H));
@@ -32,71 +41,69 @@ public class MainGame extends Activity{
 		//return (G.H-1) - yp;
 		return (G.H-1) - yp;
 	}
-	
-	/*@Override 
-    public boolean onTouchEvent(MotionEvent e) {
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
-
-        float x = e.getX();
-        float y = e.getY();
-        
-        switch (e.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-    
-                float dx = x - G.viewX;
-                float dy = y - G.viewY;
-    
-                // reverse direction of rotation above the mid-line
-                if (y > getHeight() / 2) {
-                  dx = dx * -1 ;
-                }
-    
-                // reverse direction of rotation to left of the mid-line
-                if (x < getWidth() / 2) {
-                  dy = dy * -1 ;
-                }
-              
-                mRenderer.mAngle += (dx + dy) * TOUCH_SCALE_FACTOR;
-                requestRender();
-        }
-
-        G.viewX = x;
-        G.viewY = y;
-        return true;
-    }*/
-	
-	/*@Override public boolean onTrackballEvent(MotionEvent e) {
-        mRenderer.mAngleX += e.getX() * TRACKBALL_SCALE_FACTOR;
-        mRenderer.mAngleY += e.getY() * TRACKBALL_SCALE_FACTOR;
-        requestRender();
-        return true;
-    }*/
 
     @Override public boolean onTouchEvent(MotionEvent e) {
         float x = p2wx(e.getX());
         float y = p2wy(e.getY());
-        switch (e.getAction()) {
+        switch (e.getAction() & MotionEvent.ACTION_MASK) {
+	        case MotionEvent.ACTION_POINTER_DOWN:
+	            oldDist = spacing(e);
+	            //System.out.println("oldDist=" + oldDist);
+	            if (oldDist > 10f) {
+	               mode = ZOOM;
+	               //System.out.println("mode=ZOOM");
+	            }
+	            break;
+	            
+	        case MotionEvent.ACTION_POINTER_UP:
+	            mode = NONE;
+	            //System.out.println("mode=NONE");
+	            break;
+	            
 	        case MotionEvent.ACTION_MOVE:
-	        	if(G.viewX + x - prevX < G.viewXlimit && G.viewX + x - prevX > -G.viewXlimit){
-	        		G.viewX += x - prevX;
+	        	if(mode == NONE){
+		        	if(G.viewX + x - prevX < G.viewXlimit && G.viewX + x - prevX > -G.viewXlimit){
+		        		G.viewX += x - prevX;
+		        	}
+		        	if(G.viewY + y - prevY < G.viewYlimit && G.viewY + y - prevY > -G.viewYlimit){
+		        		G.viewY += y - prevY;
+		        	}
+		            //G.viewX++;
+		            //G.viewY++;
+		            //float dx = x - prevX;
+		            //float dy = y - prevY;
+		            //mRenderer.mAngleX += dx * TOUCH_SCALE_FACTOR;
+		            //mRenderer.mAngleY += dy * TOUCH_SCALE_FACTOR;
 	        	}
-	        	if(G.viewY + y - prevY < G.viewYlimit && G.viewY + y - prevY > -G.viewYlimit){
-	        		G.viewY += y - prevY;
+	        	else if(mode == ZOOM){
+	        		float newDist = spacing(e);
+	        		//System.out.println("newDist=" + newDist);
+					if (newDist > 10f) {
+						float scale = newDist / oldDist;
+						//System.out.println("scale=" + scale);
+						if(scale > 1){
+							if(G.viewZ - 1 >= G.viewZlimit)
+								G.viewZ--;
+						}
+						else if(scale < 1){
+							if(G.viewZ + 1 <= 0)
+								G.viewZ++;
+						}
+						oldDist = newDist;
+					}
 	        	}
-	            //G.viewX++;
-	            //G.viewY++;
-	            //float dx = x - prevX;
-	            //float dy = y - prevY;
-	            //mRenderer.mAngleX += dx * TOUCH_SCALE_FACTOR;
-	            //mRenderer.mAngleY += dy * TOUCH_SCALE_FACTOR;
-	            mGLSurfaceView.requestRender();
+	        	mGLSurfaceView.requestRender();
 	            break;
         }
         prevX = x;
         prevY = y;
         return true;
+    }
+    
+    private float spacing(MotionEvent event) {
+    	   float x = event.getX(0) - event.getX(1);
+    	   float y = event.getY(0) - event.getY(1);
+    	   return FloatMath.sqrt(x * x + y * y);
     }
 	
 	@Override
@@ -112,16 +119,12 @@ public class MainGame extends Activity{
 	
 	@Override
 	protected void onResume() {
-	    // Ideally a game should implement onResume() and onPause()
-	    // to take appropriate action when the activity looses focus
 	    super.onResume();
 	    mGLSurfaceView.onResume();
 	}
 	
 	@Override
 	protected void onPause() {
-	    // Ideally a game should implement onResume() and onPause()
-	    // to take appropriate action when the activity looses focus
 	    super.onPause();
 	    mGLSurfaceView.onPause();
 	}
@@ -131,7 +134,6 @@ public class MainGame extends Activity{
 	    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_APP_SWITCH) {
 	    	mGLSurfaceView.onPause();
 	    	showDialog(DIALOG_PAUSE_ID);
-	    	//moveTaskToBack(true);
 	    	return true;
 	    }
 	    /*else if (keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_APP_SWITCH) {
