@@ -1,0 +1,16 @@
+Achievement System: SQLite backend
+
+Contains two main methods:
+	-database.Database, which creates a populates a database with users and achievements.
+	-Simulation, which simulates n amount of games, in which n is a number input as an argument.
+		If there is no argument supplied, then 2000 games are simulated.
+
+Adding an achievement is as simple as adding a name, description, and a set of conditions(attribute,
+ comparitive operation, and a number to compare to).
+ 
+Adding a stat involves changes to either the participates or users table, which is based on game and
+ global stats, respectively. This also implies changes to methods involved with inserting updating and 
+ selecting from the database. The final change must be done in the condition data container class, where
+ an else if or switch (depending on jdk version) clause must be added to the getAttribute function.
+ 
+Added a death stat as part of game statistics and added a KDR achievement.

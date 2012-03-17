@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/AbsoluteLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/ic_launcher" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/NewHard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="129dp"
+        android:layout_y="142dp"
+        android:onClick="newHard"
+        android:text="@string/New" />
+
+    <Button
+        android:id="@+id/NewNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="129dp"
+        android:layout_y="90dp"
+        android:onClick="newNormal"
+        android:text="@string/New" />
+
+    <Button
+        android:id="@+id/NewEasy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="129dp"
+        android:layout_y="39dp"
+        android:onClick="newEasy"
+        android:text="@string/New" />
+
+    <Button
+        android:id="@+id/ContinueEasy"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_x="27dp"
+        android:layout_y="37dp"
+        android:onClick="continueEasy"
+        android:text="@string/Easy" />
+
+    <Button
+        android:id="@+id/ContinueNormal"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_x="25dp"
+        android:layout_y="90dp"
+        android:onClick="continueNormal"
+        android:text="@string/Normal" />
+
+    <Button
+        android:id="@+id/ContinueHard"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_x="24dp"
+        android:layout_y="141dp"
+        android:onClick="continueHard"
+        android:text="@string/Hard" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="296dp"
+        android:layout_y="192dp"
+        android:onClick="quit"
+        android:text="@string/quit" />
+
+</AbsoluteLayout>

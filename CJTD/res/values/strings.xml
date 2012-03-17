@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, CJTDActivity!</string>
+    <string name="app_name">Tower Defense!!!</string>
+    <string name="Hard">Hard</string>
+    <string name="Normal">Normal</string>
+    <string name="Easy">Easy</string>
+    <string name="New">New</string>
+    <string name="quit">Quit</string>
+
+</resources>
