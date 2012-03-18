@@ -6,6 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import com.cjtd.globals.*;
+
 import android.opengl.GLU;
 
 /**
@@ -13,23 +14,50 @@ import android.opengl.GLU;
  */
 
 public class Renderer implements GLSurfaceView.Renderer {
+    private long startTime, endTime;
+    
 	public Renderer(Context context) {
 		this.context = context;
 		G.viewX = 0;
 		G.viewY = 0;
 		G.viewZ = -10;
 		mCube = new Cube();
+	    startTime = System.currentTimeMillis();
 	}
     
-    /*private void update(float dt){
+	/** dt : time in sec */
+    private void update(float dt){
     	if(!G.paused){
-    		xrot += 0.3f;
-    		yrot += 0.2f;
-    		zrot += 0.4f;
-    	}
-	}*/
+            if(G.viewX + G.velX * dt < G.viewXlimit && G.viewX + G.velX * dt > -G.viewXlimit){
+                G.viewX += G.velX * dt;
+            } else {
+                G.velX = 0;
+            }
+            if(G.viewY + G.velY * dt < G.viewYlimit && G.viewY + G.velY * dt > -G.viewYlimit){
+                G.viewY += G.velY * dt;
+            } else {
+                G.velY = 0;
+            }
+
+            if(G.velX < G.friction * dt && G.velX > -G.friction * dt)
+                G.velX = 0;
+            else if(G.velX > 0)
+                G.velX -= G.friction * dt;
+            else if(G.velX < 0)
+                G.velX += G.friction * dt;
+
+            if(G.velY < G.friction * dt && G.velY > -G.friction * dt)
+                G.velY = 0;
+            else if (G.velY > 0)
+                G.velY -= G.friction * dt;
+            else if(G.velY < 0)
+                G.velY += G.friction * dt;
+        }
+    }
 
     public void onDrawFrame(GL10 gl) {
+        endTime = System.currentTimeMillis();
+        float dt = (float)(endTime - startTime)/1000f;
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	
 		gl.glLoadIdentity();
 		
@@ -49,7 +77,8 @@ public class Renderer implements GLSurfaceView.Renderer {
 					
 			mCube.draw(gl);
 		gl.glPopMatrix();
-		//update(1);
+        update(dt);
+        startTime = System.currentTimeMillis();
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) {

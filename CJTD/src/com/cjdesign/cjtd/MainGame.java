@@ -22,6 +22,8 @@ public class MainGame extends Activity{
 	private float oldDist = 1f;
 	private float prevX;
 	private float prevY;
+	private long startTime = 0;
+	private long endTime = 0;
 	
 	private static final int NONE = 0;
     private static final int ZOOM = 1;
@@ -46,6 +48,8 @@ public class MainGame extends Activity{
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        endTime = System.currentTimeMillis();
+        float dt = (float)(endTime - startTime)/1000f;
         float x = p2wx(e.getX());
         float y = p2wy(e.getY());
         switch (e.getAction() & MotionEvent.ACTION_MASK) {
@@ -64,19 +68,10 @@ public class MainGame extends Activity{
 	            break;
 	            
 	        case MotionEvent.ACTION_MOVE:
+                G.velX = G.velY = 0;
 	        	if(mode == NONE){
-		        	if(G.viewX + x - prevX < G.viewXlimit && G.viewX + x - prevX > -G.viewXlimit){
-		        		G.viewX += x - prevX;
-		        	}
-		        	if(G.viewY + y - prevY < G.viewYlimit && G.viewY + y - prevY > -G.viewYlimit){
-		        		G.viewY += y - prevY;
-		        	}
-		            //G.viewX++;
-		            //G.viewY++;
-		            //float dx = x - prevX;
-		            //float dy = y - prevY;
-		            //mRenderer.mAngleX += dx * TOUCH_SCALE_FACTOR;
-		            //mRenderer.mAngleY += dy * TOUCH_SCALE_FACTOR;
+                    G.velX = (x - prevX)/dt;
+                    G.velY = (y - prevY)/dt;
 	        	}
 	        	else if(mode == ZOOM){
 	        		float newDist = spacing(e);
@@ -100,6 +95,7 @@ public class MainGame extends Activity{
         }
         prevX = x;
         prevY = y;
+        startTime = System.currentTimeMillis();
         return true;
     }
     
