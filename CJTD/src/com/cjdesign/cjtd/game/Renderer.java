@@ -1,5 +1,7 @@
 package com.cjdesign.cjtd.game;
 
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -15,44 +17,46 @@ import android.opengl.GLU;
 
 public class Renderer implements GLSurfaceView.Renderer {
     private long startTime, endTime;
+    private Context context;
     
 	public Renderer(Context context) {
 		this.context = context;
 		G.viewX = 0;
 		G.viewY = 0;
 		G.viewZ = -10;
-		mCube = new Cube();
+		G.objs = new ArrayList<GameObject>();
+		G.objs.add(new Grid());
 	    startTime = System.currentTimeMillis();
 	}
     
 	/** dt : time in sec */
     private void update(float dt){
-    	if(!G.paused){
-            if(G.viewX + G.velX * dt < G.viewXlimit && G.viewX + G.velX * dt > -G.viewXlimit){
-                G.viewX += G.velX * dt;
-            } else {
-                G.velX = 0;
-            }
-            if(G.viewY + G.velY * dt < G.viewYlimit && G.viewY + G.velY * dt > -G.viewYlimit){
-                G.viewY += G.velY * dt;
-            } else {
-                G.velY = 0;
-            }
-
-            if(G.velX < G.friction * dt && G.velX > -G.friction * dt)
-                G.velX = 0;
-            else if(G.velX > 0)
-                G.velX -= G.friction * dt;
-            else if(G.velX < 0)
-                G.velX += G.friction * dt;
-
-            if(G.velY < G.friction * dt && G.velY > -G.friction * dt)
-                G.velY = 0;
-            else if (G.velY > 0)
-                G.velY -= G.friction * dt;
-            else if(G.velY < 0)
-                G.velY += G.friction * dt;
+        if(G.viewX + G.velX * dt < G.viewXlimit && G.viewX + G.velX * dt > -G.viewXlimit){
+            G.viewX += G.velX * dt;
+        } else {
+            G.velX = 0;
         }
+        if(G.viewY + G.velY * dt < G.viewYlimit && G.viewY + G.velY * dt > -G.viewYlimit){
+            G.viewY += G.velY * dt;
+        } else {
+            G.velY = 0;
+        }
+
+        if(G.velX < G.friction * dt && G.velX > -G.friction * dt)
+            G.velX = 0;
+        else if(G.velX > 0)
+            G.velX -= G.friction * dt;
+        else if(G.velX < 0)
+            G.velX += G.friction * dt;
+
+        if(G.velY < G.friction * dt && G.velY > -G.friction * dt)
+            G.velY = 0;
+        else if (G.velY > 0)
+            G.velY -= G.friction * dt;
+        else if(G.velY < 0)
+            G.velY += G.friction * dt;
+        
+        
     }
 
     public void onDrawFrame(GL10 gl) {
@@ -66,18 +70,17 @@ public class Renderer implements GLSurfaceView.Renderer {
 				G.viewX, G.viewY, 1, //reference point
 				0, 1, 0); //normal
 		
-		gl.glPushMatrix();
-			gl.glTranslatef(0.0f, 0.0f, 15.0f);
-			gl.glScalef(15, 15, 1);
-			
-			//Rotate around the axis based on the rotation matrix (rotation, x, y, z)
-			//gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);	//X
-			//gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);	//Y
-			//gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);	//Z
-					
-			mCube.draw(gl);
-		gl.glPopMatrix();
-        update(dt);
+		for(GameObject go : G.objs){
+			go.draw(gl);
+		}
+		
+		if(!G.paused){
+			for(GameObject go : G.objs){
+				go.update(dt);
+			}
+			update(dt);
+		}
+		
         startTime = System.currentTimeMillis();
     }
 
@@ -98,7 +101,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {		
 		//Load the texture for the cube once during Surface creation
-		mCube.loadGLTexture(gl, this.context);
+    	for(GameObject go : G.objs){
+    		((Grid)go).loadGLTexture(gl, this.context);
+    	}
 		
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
@@ -118,11 +123,4 @@ public class Renderer implements GLSurfaceView.Renderer {
     public void onResume(){
     	G.paused = false;
     }
-    
-    private Cube mCube;
-    //private Grid bg;
-    private Context context;
-    //private float xrot;
-	//private float yrot;
-	//private float zrot;
 }
