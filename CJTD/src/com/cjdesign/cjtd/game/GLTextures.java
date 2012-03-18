@@ -91,7 +91,7 @@ public class GLTextures {
 		}
 	}
 	
-	private java.util.HashMap textureMap;
+	private java.util.HashMap<Integer, Integer> textureMap;
 	private int[] textureFiles;
 	private GL10 gl;
 	private Context context;

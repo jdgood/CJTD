@@ -1,17 +1,13 @@
 package com.cjdesign.cjtd;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 public class CJTDActivity extends Activity {
 	private static final int DIALOG_NEW_EASY_GAME_ID = 0;
@@ -20,16 +16,43 @@ public class CJTDActivity extends Activity {
 	private static final int DIALOG_QUIT_ID = 3;
 	
 	View view;
+	MediaPlayer mpMenu;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        mpMenu = MediaPlayer.create(this, R.raw.menu);
+        mpMenu.setLooping(true);
+        mpMenu.start();
+    }
+    
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	mpMenu.release();
+		mpMenu = null;
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	if(mpMenu!=null)
+    		mpMenu.start();
+    }
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	if(mpMenu!=null)
+        	mpMenu.pause();
     }
     
     @Override
     protected Dialog onCreateDialog(int id) {
+    	//mpMenu.start();
     	final String difficulty;
     	AlertDialog.Builder builder;
         
@@ -104,13 +127,6 @@ public class CJTDActivity extends Activity {
 	}
 	
 	public void createNewGame(String mode){
-		/*try {
-			System.setOut(new PrintStream(new FileOutputStream("output.txt")));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}*/
-		
-		
 		if(mode.equals("Easy")){
 			System.out.println("Creating new easy game save");
 			//set difficulty to easy
@@ -149,6 +165,7 @@ public class CJTDActivity extends Activity {
 	}
 	
 	private void runGame(){
+		mpMenu.pause();
 		Intent myIntent = new Intent(view.getContext(), MainGame.class);
         startActivityForResult(myIntent, 0);
 	}

@@ -21,13 +21,13 @@ public class Renderer implements GLSurfaceView.Renderer {
 		mCube = new Cube();
 	}
     
-    private void update(float dt){
+    /*private void update(float dt){
     	if(!G.paused){
     		xrot += 0.3f;
     		yrot += 0.2f;
     		zrot += 0.4f;
     	}
-	}
+	}*/
 
     public void onDrawFrame(GL10 gl) {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	
@@ -49,7 +49,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 					
 			mCube.draw(gl);
 		gl.glPopMatrix();
-		update(1);
+		//update(1);
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -91,9 +91,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     }
     
     private Cube mCube;
-    private Grid bg;
+    //private Grid bg;
     private Context context;
-    private float xrot;
-	private float yrot;
-	private float zrot;
+    //private float xrot;
+	//private float yrot;
+	//private float zrot;
 }

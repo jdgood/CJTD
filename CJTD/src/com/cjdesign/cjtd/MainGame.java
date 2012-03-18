@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.FloatMath;
@@ -26,6 +27,7 @@ public class MainGame extends Activity{
     private static final int ZOOM = 1;
 	private int mode = NONE;
 	
+	MediaPlayer mpGame;
 	
 	float p2wx(float xp) {
 		//return 2 * ((float)(2*G.W*xp) / (G.H*(G.W-1)) - ((float)G.W / G.H));
@@ -42,7 +44,8 @@ public class MainGame extends Activity{
 		return (G.H-1) - yp;
 	}
 
-    @Override public boolean onTouchEvent(MotionEvent e) {
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
         float x = p2wx(e.getX());
         float y = p2wy(e.getY());
         switch (e.getAction() & MotionEvent.ACTION_MASK) {
@@ -113,20 +116,37 @@ public class MainGame extends Activity{
 	    // Create our Preview view and set it as the content of our
 	    // Activity
 	    mGLSurfaceView = new GLSurfaceView(this);
+	    mGLSurfaceView.setKeepScreenOn(true);
 	    mGLSurfaceView.setRenderer(new Renderer(this));
 	    setContentView(mGLSurfaceView);
+	    
+	    mpGame = MediaPlayer.create(this, R.raw.game);
+        mpGame.setLooping(true);
+        mpGame.start();
 	}
 	
 	@Override
 	protected void onResume() {
 	    super.onResume();
 	    mGLSurfaceView.onResume();
+	    if(mpGame!=null)
+	    	mpGame.start();
 	}
 	
 	@Override
 	protected void onPause() {
 	    super.onPause();
 	    mGLSurfaceView.onPause();
+	    if(mpGame!=null)
+	    	mpGame.pause();
+	}
+	
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+	    mGLSurfaceView.onPause();
+	    mpGame.release();
+	    mpGame = null;
 	}
 	
 	@Override
@@ -145,7 +165,7 @@ public class MainGame extends Activity{
 	
 	@Override
     protected Dialog onCreateDialog(int id) {
-    	final String difficulty;
+    	//final String difficulty;
     	AlertDialog.Builder builder;
         
         switch(id) {
