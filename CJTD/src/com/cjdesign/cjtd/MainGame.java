@@ -81,11 +81,11 @@ public class MainGame extends Activity{
 					if (newDist > 10f) {
 						float scale = newDist / oldDist;
 						//System.out.println("scale=" + scale);
-						if(scale > 1){
+						if(scale < 1){
 							if(G.viewZ - 1 >= G.viewZlimit)
 								G.viewZ--;
 						}
-						else if(scale < 1){
+						else if(scale > 1){
 							if(G.viewZ + 1 <= 0)
 								G.viewZ++;
 						}
