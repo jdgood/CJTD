@@ -23,6 +23,7 @@ public class G {
 	public static float friction = 50f;
 	public static float velX = 0;
 	public static float velY = 0;
+	public static float gridDepth = 15;
 	
 	public static GameState gamestate;
 	public static CJAccount acc;

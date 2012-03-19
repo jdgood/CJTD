@@ -106,12 +106,12 @@ public class Tower extends GameObject {
 			    		20,21,23, 20,23,22, 	
     										};
 
-	public Tower(float x, float y, float z) {
+	public Tower(float x, float y) {
 		super(G.TOWER_ID);
 		
 		this.x = x; 
 		this.y = y;
-		this.z = z;
+		this.z = G.gridDepth-.1f;
 		
 		textureID = G.textures.loadTexture(R.drawable.tower);
 

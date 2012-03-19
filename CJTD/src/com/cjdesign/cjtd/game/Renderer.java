@@ -107,9 +107,37 @@ public class Renderer implements GLSurfaceView.Renderer {
     	}*/
     	
     	G.textures = new GLTextures(gl, G.gameContext);
-    	G.objs.add(new Grid());
-    	G.objs.add(new Tower(2,2,5));
-    	G.objs.add(new Tower(-2,-2,5));
+    	Ground[][] gridArray = new Ground[5][5];
+    	gridArray[0][0] = new GroundDirt();
+    	gridArray[0][1] = new GroundGrass();
+    	gridArray[0][2] = new GroundDirt();
+    	gridArray[0][3] = new GroundGrass();
+    	gridArray[0][4] = new GroundDirt();
+    	gridArray[1][0] = new GroundGrass();
+    	gridArray[1][1] = new GroundDirt();
+    	gridArray[1][1].occupied = true;
+    	gridArray[1][2] = new GroundGrass();
+    	gridArray[1][3] = new GroundDirt();
+    	gridArray[1][4] = new GroundGrass();
+    	gridArray[2][0] = new GroundDirt();
+    	gridArray[2][1] = new GroundGrass();
+    	gridArray[2][2] = new GroundDirt();
+    	gridArray[2][3] = new GroundGrass();
+    	gridArray[2][4] = new GroundDirt();
+    	gridArray[3][0] = new GroundGrass();
+    	gridArray[3][1] = new GroundDirt();
+    	gridArray[3][2] = new GroundGrass();
+    	gridArray[3][3] = new GroundDirt();
+    	gridArray[3][3].occupied = true;
+    	gridArray[3][4] = new GroundGrass();
+    	gridArray[4][0] = new GroundDirt();
+    	gridArray[4][1] = new GroundGrass();
+    	gridArray[4][2] = new GroundDirt();
+    	gridArray[4][3] = new GroundGrass();
+    	gridArray[4][4] = new GroundDirt();
+    	G.objs.add(new Grid(gridArray, 5, 5));
+    	G.objs.add(new Tower(2,2));
+    	G.objs.add(new Tower(-2,-2));
     	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
