@@ -43,6 +43,7 @@ public class Tower extends GameObject {
 		super(G.TOWER_ID);
 		
 		location = g;
+		location.setTower(this);
 		
 		this.x = g.xPos; 
 		this.y = g.yPos;
@@ -75,6 +76,10 @@ public class Tower extends GameObject {
 			zrot = 0;
 		}
 	}
+	
+	public void setTexture(GL10 gl){
+		
+	}
 
 	/**
 	 * The object own drawing function.
@@ -87,7 +92,6 @@ public class Tower extends GameObject {
 		if(textureID == -1){
 			textureID = G.textures.loadTexture(textureResource, gl); 
 		}
-		
 		gl.glPushMatrix();
 			//gl.glTranslatef(x, y, z);
 			gl.glTranslatef(0, 0, .1f);

@@ -28,9 +28,10 @@ public class Renderer implements GLSurfaceView.Renderer {
 		G.viewZ = 10;
 		G.objs = new ArrayList<GameObject>();
 		
-    	//doing this is superhacks!
+    	//doing this is superhacks! create texture container
     	G.textures = new GLTextures(G.gameContext);
     	
+    	//create demo gameworld(create a level importer later)
     	int xSize = 5;
     	int ySize = 5;
     	
@@ -55,13 +56,19 @@ public class Renderer implements GLSurfaceView.Renderer {
     		}
     	}
     	
-    	G.objs.add(new Grid(gridArray, xSize, ySize));
+    	G.level = new Grid(gridArray, xSize, ySize);
     	
+    	//adding towers for sanity checks and to test ai in a bit
     	gridArray[1][1].setTower(new Tower(gridArray[1][1]));
     	gridArray[3][3].setTower(new Tower(gridArray[3][3]));
     	
-    	G.objs.add(new AlphaObject(0,0));
-    	
+    	new AlphaObject(gridArray[0][0]);
+    	new AlphaObject(gridArray[1][2]);
+    	new AlphaObject(gridArray[1][3]);
+    	new AlphaObject(gridArray[3][4]);
+    	new AlphaObject(gridArray[3][2]);
+    	new AlphaObject(gridArray[3][1]);
+    	//setup game start time
 	    startTime = System.currentTimeMillis();
 	}
     
@@ -110,12 +117,16 @@ public class Renderer implements GLSurfaceView.Renderer {
 			go.draw(gl);
 		}
 		
+		G.level.draw(gl);
+		
 		if(!G.paused){
 			for(GameObject go : G.objs){
 				go.update(dt);
 			}
 			update(dt);
 		}
+		
+		G.level.update(dt);
 		
         startTime = System.currentTimeMillis();
     }

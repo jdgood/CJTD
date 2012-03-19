@@ -100,7 +100,9 @@ public abstract class Ground {
 			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glPopMatrix();
-		
+	}
+	
+	public void drawTower(GL10 gl){
 		if(occupied){
 			occupiedBy.draw(gl);
 		}

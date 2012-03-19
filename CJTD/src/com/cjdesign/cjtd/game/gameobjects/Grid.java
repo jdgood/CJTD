@@ -57,6 +57,14 @@ public class Grid extends GameObject {
 			//gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);	//Y
 			//gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);	//Z
 			
+			drawGrid(gl);
+			drawTowers(gl);
+			
+		gl.glPopMatrix();
+	}
+	
+	private void drawGrid(GL10 gl){
+		gl.glPushMatrix();
 			for(int i = 0; i < ySize; i++){
 				gl.glPushMatrix();
 					for(int j = 0; j < xSize; j++){
@@ -65,6 +73,20 @@ public class Grid extends GameObject {
 					}
 				gl.glPopMatrix();
 				gl.glTranslatef(0, -G.gridSize, 0);
+			}
+		gl.glPopMatrix();
+	}
+	
+	private void drawTowers(GL10 gl){
+		gl.glPushMatrix();
+			for(int i = 0; i < ySize; i++){
+				gl.glPushMatrix();
+					for(int j = 0; j < xSize; j++){
+						GroundArray[j][i].drawTower(gl);
+						gl.glTranslatef(G.gridSize, 0, .01f);//change in z to avoid z-fighting on blending
+					}
+				gl.glPopMatrix();
+				gl.glTranslatef(0, -G.gridSize, .01f * xSize * ySize);//compound change in z to avoid z-fighting on blending
 			}
 		gl.glPopMatrix();
 	}
