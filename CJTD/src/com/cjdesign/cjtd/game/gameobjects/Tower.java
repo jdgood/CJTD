@@ -45,8 +45,8 @@ public class Tower extends GameObject {
 		location = g;
 		location.setTower(this);
 		
-		this.x = g.xPos; 
-		this.y = g.yPos;
+		this.x = g.x; 
+		this.y = g.y;
 		this.z = G.gridDepth+.1f;
 		
 		textureResource = R.drawable.tower;
@@ -76,10 +76,6 @@ public class Tower extends GameObject {
 			zrot = 0;
 		}
 	}
-	
-	public void setTexture(GL10 gl){
-		
-	}
 
 	/**
 	 * The object own drawing function.
@@ -93,8 +89,8 @@ public class Tower extends GameObject {
 			textureID = G.textures.loadTexture(textureResource, gl); 
 		}
 		gl.glPushMatrix();
-			//gl.glTranslatef(x, y, z);
-			gl.glTranslatef(0, 0, .1f);
+			gl.glTranslatef(x, y, z);
+			//gl.glTranslatef(0, 0, .1f);
 			gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);
 		
 			//Bind our only previously generated texture in this case

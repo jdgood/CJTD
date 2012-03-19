@@ -8,12 +8,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.cjtd.globals.G;
 
-public abstract class Ground {
+public abstract class Ground extends GameObject {
 	public boolean occupied = false;
 	public Tower occupiedBy = null;
 	public int xPos,yPos;
-	public int textureID = -1;
-	public int textureResource = -1;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -41,10 +39,16 @@ public abstract class Ground {
 	
 	
 	
-	public Ground(int xpos, int ypos) {
+	public Ground(int xpos, int ypos, float x, float y) {
+		super(G.GRID_ID);
+		
+		this.x = x;
+		this.y = y;
+		z = G.gridDepth;
+		
 		this.xPos = xpos;
 		this.yPos = ypos;
-		
+
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
 		vertexBuffer = byteBuf.asFloatBuffer();
@@ -79,6 +83,8 @@ public abstract class Ground {
 		}
 		
 		gl.glPushMatrix();
+			gl.glTranslatef(x, y, z);
+			
 			//Bind our only previously generated texture in this case
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);
 			

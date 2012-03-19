@@ -32,11 +32,14 @@ public class Renderer implements GLSurfaceView.Renderer {
     	G.textures = new GLTextures(G.gameContext);
     	
     	//create demo gameworld(create a level importer later)
-    	int xSize = 5;
+    	int xSize = 10;
     	int ySize = 5;
-    	
-    	Ground[][] gridArray = new Ground[xSize][ySize];
+    	Ground[][] gridArray = new Ground[ySize][xSize];
     	boolean grass = true;
+    	
+    	float startx = -xSize*G.gridSize/2+G.gridSize/2;
+    	float starty = ySize*G.gridSize/2-G.gridSize/2;
+    	
     	for(int i = 0; i < ySize; i++){
     		if(i%2==0){
     			grass = true;
@@ -47,10 +50,10 @@ public class Renderer implements GLSurfaceView.Renderer {
     		
     		for(int j = 0; j < xSize; j++){
     			if(grass){
-    				gridArray[j][i] = new GroundGrass(j,i);
+    				gridArray[i][j] = new GroundGrass(i,j,startx+G.gridSize*j,starty-G.gridSize*i);
     			}
     			else{
-    				gridArray[j][i] = new GroundDirt(j,i);
+    				gridArray[i][j] = new GroundDirt(i,j,startx+G.gridSize*j,starty-G.gridSize*i);
     			}
     			grass = !grass;
     		}
@@ -63,11 +66,27 @@ public class Renderer implements GLSurfaceView.Renderer {
     	gridArray[3][3].setTower(new Tower(gridArray[3][3]));
     	
     	new AlphaObject(gridArray[0][0]);
-    	new AlphaObject(gridArray[1][2]);
-    	new AlphaObject(gridArray[1][3]);
-    	new AlphaObject(gridArray[3][4]);
-    	new AlphaObject(gridArray[3][2]);
+    	new AlphaObject(gridArray[2][1]);
     	new AlphaObject(gridArray[3][1]);
+    	
+    	new AlphaObject(gridArray[1][3]);
+    	new AlphaObject(gridArray[2][3]);
+    	new AlphaObject(gridArray[4][3]);
+    	
+    	new AlphaObject(gridArray[0][5]);
+    	new AlphaObject(gridArray[1][5]);
+    	new AlphaObject(gridArray[2][5]);
+    	new AlphaObject(gridArray[3][5]);
+    	
+    	new AlphaObject(gridArray[1][7]);
+    	new AlphaObject(gridArray[2][7]);
+    	new AlphaObject(gridArray[3][7]);
+    	new AlphaObject(gridArray[4][7]);
+    	
+    	new AlphaObject(gridArray[0][9]);
+    	new AlphaObject(gridArray[1][9]);
+    	new AlphaObject(gridArray[2][9]);
+    	new AlphaObject(gridArray[3][9]);
     	//setup game start time
 	    startTime = System.currentTimeMillis();
 	}
