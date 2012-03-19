@@ -1,12 +1,6 @@
 package com.cjdesign.cjtd.game.gameobjects;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-
 import javax.microedition.khronos.opengles.GL10;
-
-import com.cjdesign.cjtd.R;
 import com.cjtd.globals.G;
 
 public class Grid extends GameObject {
@@ -50,7 +44,7 @@ public class Grid extends GameObject {
 	 */
 	public void draw(GL10 gl) {
 		gl.glPushMatrix();
-			gl.glTranslatef(x-xSize+1, y+ySize-1, z);
+			gl.glTranslatef(x-xSize*G.gridSize/2+G.gridSize/2, y+ySize*G.gridSize/2-G.gridSize/2, z);
 			//gl.glScalef(15, 15, 1);
 			
 			//Rotate around the axis based on the rotation matrix (rotation, x, y, z)
@@ -64,10 +58,10 @@ public class Grid extends GameObject {
 						gl.glPushMatrix();
 							GroundArray[j][i].draw(gl);
 						gl.glPopMatrix();
-						gl.glTranslatef(xSize/2, 0, 0);
+						gl.glTranslatef(G.gridSize, 0, 0);
 					}
 				gl.glPopMatrix();
-				gl.glTranslatef(0, -ySize/2, 0);
+				gl.glTranslatef(0, -G.gridSize, 0);
 			}
 		gl.glPopMatrix();
 	}

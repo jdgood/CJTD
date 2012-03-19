@@ -20,10 +20,10 @@ public class Ground {
 	private ByteBuffer indexBuffer;
 	
 	private float vertices[] = {
-    		1.0f, -1.0f, -1.0f,
-    		-1.0f, -1.0f, -1.0f,    		
-    		1.0f, 1.0f, -1.0f,
-    		-1.0f, 1.0f, -1.0f};
+    		G.gridSize/2, -G.gridSize/2, -G.gridSize/2f,
+    		-G.gridSize/2, -G.gridSize/2, -G.gridSize/2,    		
+    		G.gridSize/2, G.gridSize/2, -G.gridSize/2,
+    		-G.gridSize/2, G.gridSize/2, -G.gridSize/2};
 
 	/** The initial texture coordinates (u, v) */	
 	private float texture[] = {

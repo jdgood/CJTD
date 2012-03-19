@@ -25,7 +25,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 		G.gameContext = context;
 		G.viewX = 0;
 		G.viewY = 0;
-		G.viewZ = -10;
+		G.viewZ = 10;
 		G.objs = new ArrayList<GameObject>();
 	    startTime = System.currentTimeMillis();
 	}
@@ -67,8 +67,8 @@ public class Renderer implements GLSurfaceView.Renderer {
 		gl.glLoadIdentity();
 		
 		GLU.gluLookAt(gl,
-				G.viewX, G.viewY, G.viewZ, //camera.pos.px, camera.pos.py - 20, camera.pos.pz, //eye position
-				G.viewX, G.viewY, 1, //reference point
+				G.viewX, G.viewY, G.viewZ, //camera.pos.px, camera.pos.py, camera.pos.pz, //eye position
+				G.viewX, G.viewY, -1, //reference point
 				0, 1, 0); //normal
 		
 		for(GameObject go : G.objs){
@@ -108,36 +108,29 @@ public class Renderer implements GLSurfaceView.Renderer {
     	
     	G.textures = new GLTextures(gl, G.gameContext);
     	Ground[][] gridArray = new Ground[5][5];
-    	gridArray[0][0] = new GroundDirt();
-    	gridArray[0][1] = new GroundGrass();
-    	gridArray[0][2] = new GroundDirt();
-    	gridArray[0][3] = new GroundGrass();
-    	gridArray[0][4] = new GroundDirt();
-    	gridArray[1][0] = new GroundGrass();
-    	gridArray[1][1] = new GroundDirt();
-    	gridArray[1][1].occupied = true;
-    	gridArray[1][2] = new GroundGrass();
-    	gridArray[1][3] = new GroundDirt();
-    	gridArray[1][4] = new GroundGrass();
-    	gridArray[2][0] = new GroundDirt();
-    	gridArray[2][1] = new GroundGrass();
-    	gridArray[2][2] = new GroundDirt();
-    	gridArray[2][3] = new GroundGrass();
-    	gridArray[2][4] = new GroundDirt();
-    	gridArray[3][0] = new GroundGrass();
-    	gridArray[3][1] = new GroundDirt();
-    	gridArray[3][2] = new GroundGrass();
-    	gridArray[3][3] = new GroundDirt();
-    	gridArray[3][3].occupied = true;
-    	gridArray[3][4] = new GroundGrass();
-    	gridArray[4][0] = new GroundDirt();
-    	gridArray[4][1] = new GroundGrass();
-    	gridArray[4][2] = new GroundDirt();
-    	gridArray[4][3] = new GroundGrass();
-    	gridArray[4][4] = new GroundDirt();
+    	boolean grass = true;
+    	for(int i = 0; i < 5; i++){
+    		if(i%2==0){
+    			grass = true;
+    		}
+    		else{
+    			grass = false;
+    		}
+    		
+    		for(int j = 0; j < 5; j++){
+    			if(grass){
+    				gridArray[j][i] = new GroundGrass();
+    			}
+    			else{
+    				gridArray[j][i] = new GroundDirt();
+    			}
+    			grass = !grass;
+    		}
+    	}
     	G.objs.add(new Grid(gridArray, 5, 5));
-    	G.objs.add(new Tower(2,2));
-    	G.objs.add(new Tower(-2,-2));
+    	
+    	G.objs.add(new Tower(-G.gridSize,G.gridSize));
+    	G.objs.add(new Tower(G.gridSize,-G.gridSize));
     	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading

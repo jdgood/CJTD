@@ -68,7 +68,7 @@ public class MainGame extends Activity{
 	        case MotionEvent.ACTION_MOVE:
                 G.velX = G.velY = 0;
 	        	if(mode == NONE){
-                    G.velX = (x - prevX)/dt;
+                    G.velX = -(x - prevX)/dt;
                     G.velY = (y - prevY)/dt;
 	        	}
 	        	else if(mode == ZOOM){
@@ -77,13 +77,13 @@ public class MainGame extends Activity{
 					if (newDist > 10f) {
 						float scale = newDist / oldDist;
 						//System.out.println("scale=" + scale);
-						if(scale < 1){
-							if(G.viewZ - 1 >= G.viewZlimit)
-								G.viewZ--;
-						}
-						else if(scale > 1){
-							if(G.viewZ + 1 <= 0)
+						if(scale < 1){//zoom out
+							if(G.viewZ + 1 <= G.viewZlimit)
 								G.viewZ++;
+						}
+						else if(scale > 1){//zoom in
+							if(G.viewZ - 1 >= 0)
+								G.viewZ--;
 						}
 						oldDist = newDist;
 					}

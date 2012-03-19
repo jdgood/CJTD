@@ -29,20 +29,20 @@ public class Tower extends GameObject {
 	 */	
     private float vertices[] = {
     					//Vertices according to faces
-			    		-1.0f, -1.0f, 1.0f, //Vertex 0
-			    		1.0f, -1.0f, 1.0f,  //v1
-			    		-1.0f, 1.0f, 1.0f,  //v2
-			    		1.0f, 1.0f, 1.0f,   //v3
+			    		-G.gridSize/2, -G.gridSize/2, G.gridSize/2, //Vertex 0
+			    		G.gridSize/2, -G.gridSize/2, G.gridSize/2,  //v1
+			    		-G.gridSize/2, G.gridSize/2, G.gridSize/2,  //v2
+			    		G.gridSize/2, G.gridSize/2, G.gridSize/2,   //v3
 			    		
 			    		1.0f, -1.0f, 1.0f,	//...
 			    		1.0f, -1.0f, -1.0f,    		
 			    		1.0f, 1.0f, 1.0f,
 			    		1.0f, 1.0f, -1.0f,
 			    		
-			    		1.0f, -1.0f, -1.0f,
-			    		-1.0f, -1.0f, -1.0f,    		
-			    		1.0f, 1.0f, -1.0f,
-			    		-1.0f, 1.0f, -1.0f,
+			    		G.gridSize/2, -G.gridSize/2, -G.gridSize/2,
+			    		-G.gridSize/2, -G.gridSize/2, -G.gridSize/2,    		
+			    		G.gridSize/2, G.gridSize/2, -G.gridSize/2,
+			    		-G.gridSize/2, G.gridSize/2, -G.gridSize/2,
 			    		
 			    		-1.0f, -1.0f, -1.0f,
 			    		-1.0f, -1.0f, 1.0f,    		
@@ -111,7 +111,7 @@ public class Tower extends GameObject {
 		
 		this.x = x; 
 		this.y = y;
-		this.z = G.gridDepth-.1f;
+		this.z = G.gridDepth+.1f;
 		
 		textureID = G.textures.loadTexture(R.drawable.tower);
 
