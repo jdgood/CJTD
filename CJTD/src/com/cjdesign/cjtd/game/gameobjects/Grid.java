@@ -1,7 +1,5 @@
 package com.cjdesign.cjtd.game.gameobjects;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -9,13 +7,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.R;
-import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.globals.G;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLUtils;
 
 public class Grid extends GameObject {
 	//private float xrot;

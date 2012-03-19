@@ -109,6 +109,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     	
     	G.textures = new GLTextures(gl, G.gameContext);
     	G.objs.add(new Grid());
+    	G.objs.add(new Grid());
     	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
