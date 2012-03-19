@@ -39,8 +39,7 @@ public class Creep extends GameObject {
 	public Creep() {
 		super(G.CREEP_ID);
 		
-		textureResource = R.drawable.android_sh;//this isn't loading for some reason
-		//textureResource = R.drawable.tower;
+		textureResource = R.drawable.android_sh;
 		
 		current = G.level.getStart();
 		
