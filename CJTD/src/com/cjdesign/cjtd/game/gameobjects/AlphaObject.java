@@ -1,17 +1,13 @@
 package com.cjdesign.cjtd.game.gameobjects;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
+import java.nio.*;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.cjdesign.cjtd.R;
 import com.cjtd.globals.G;
 
-public class Ground {
-	public boolean occupied = false;
-	public Tower occupiedBy = null;
-	public int xPos,yPos;
+public class AlphaObject extends GameObject{
 	public int textureID;
 	
 	/** The buffer holding the vertices */
@@ -38,11 +34,14 @@ public class Ground {
 	private byte indices[] = {
 	    		0,1,3, 0,3,2};
 	
-	
-	
-	public Ground(int xpos, int ypos) {
-		this.xPos = xpos;
-		this.yPos = ypos;
+	public AlphaObject(float x, float y) {
+		super(G.TOWER_ID);
+		
+		this.x = x; 
+		this.y = y;
+		this.z = G.gridDepth+.1f;
+		
+		textureID = G.textures.loadTexture(R.drawable.lightsource);
 		
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -60,20 +59,24 @@ public class Ground {
 		indexBuffer.put(indices);
 		indexBuffer.position(0);
 	}
-	
-	public void setTower(Tower temp){
-		occupied = true;
-		occupiedBy = temp;
-	}
-	
+
 	public void update(float dt){
-		if(occupied){
-			occupiedBy.update(dt);
-		}
 	}
 
+	/**
+	 * The object own drawing function.
+	 * Called from the renderer to redraw this instance
+	 * with possible changes in values.
+	 * 
+	 * @param gl - The GL Context
+	 */
 	public void draw(GL10 gl) {
 		gl.glPushMatrix();
+			gl.glTranslatef(x, y, z);
+			
+			gl.glEnable(GL10.GL_BLEND);
+			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+		
 			//Bind our only previously generated texture in this case
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);
 			
@@ -94,10 +97,9 @@ public class Ground {
 			//Disable the client state before leaving
 			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-		gl.glPopMatrix();
+			
+			gl.glDisable(GL10.GL_BLEND);
 		
-		if(occupied){
-			occupiedBy.draw(gl);
-		}
+		gl.glPopMatrix();
 	}
 }

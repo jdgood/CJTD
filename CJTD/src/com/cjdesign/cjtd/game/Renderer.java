@@ -101,15 +101,15 @@ public class Renderer implements GLSurfaceView.Renderer {
 	}
     
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {		
-		//Load the texture for the cube once during Surface creation
-    	/*for(GameObject go : G.objs){
-    		((Grid)go).loadGLTexture(gl, G.gameContext);
-    	}*/
-    	
+    	//want to move the following to the constructor because this is called everytime the quit dialog is cancelled except not sure how to do get the FL10 gl thing...
     	G.textures = new GLTextures(gl, G.gameContext);
-    	Ground[][] gridArray = new Ground[5][5];
+    	
+    	int xSize = 5;
+    	int ySize = 5;
+    	
+    	Ground[][] gridArray = new Ground[xSize][ySize];
     	boolean grass = true;
-    	for(int i = 0; i < 5; i++){
+    	for(int i = 0; i < ySize; i++){
     		if(i%2==0){
     			grass = true;
     		}
@@ -117,20 +117,23 @@ public class Renderer implements GLSurfaceView.Renderer {
     			grass = false;
     		}
     		
-    		for(int j = 0; j < 5; j++){
+    		for(int j = 0; j < xSize; j++){
     			if(grass){
-    				gridArray[j][i] = new GroundGrass();
+    				gridArray[j][i] = new GroundGrass(j,i);
     			}
     			else{
-    				gridArray[j][i] = new GroundDirt();
+    				gridArray[j][i] = new GroundDirt(j,i);
     			}
     			grass = !grass;
     		}
     	}
-    	G.objs.add(new Grid(gridArray, 5, 5));
     	
-    	G.objs.add(new Tower(-G.gridSize,G.gridSize));
-    	G.objs.add(new Tower(G.gridSize,-G.gridSize));
+    	G.objs.add(new Grid(gridArray, xSize, ySize));
+    	
+    	gridArray[1][1].setTower(new Tower(gridArray[1][1]));
+    	gridArray[3][3].setTower(new Tower(gridArray[3][3]));
+    	
+    	G.objs.add(new AlphaObject(0,0));
     	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading

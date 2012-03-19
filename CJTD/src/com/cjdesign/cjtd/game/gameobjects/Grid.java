@@ -33,6 +33,11 @@ public class Grid extends GameObject {
 		if(zrot == 360){
 			zrot = 0;
 		}
+		for(int i = 0; i < ySize; i++){
+			for(int j = 0; j < xSize; j++){
+				GroundArray[j][i].update(dt);
+			}
+		}
 	}
 
 	/**
@@ -55,9 +60,7 @@ public class Grid extends GameObject {
 			for(int i = 0; i < ySize; i++){
 				gl.glPushMatrix();
 					for(int j = 0; j < xSize; j++){
-						gl.glPushMatrix();
-							GroundArray[j][i].draw(gl);
-						gl.glPopMatrix();
+						GroundArray[j][i].draw(gl);
 						gl.glTranslatef(G.gridSize, 0, 0);
 					}
 				gl.glPopMatrix();
