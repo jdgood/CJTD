@@ -1,4 +1,4 @@
-package com.cjdesign.cjtd.game;
+package com.cjdesign.cjtd.game.gameobjects;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,7 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.R;
+import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.globals.G;
 
 import android.content.Context;
@@ -29,7 +30,7 @@ public class Grid extends GameObject {
 	private ByteBuffer indexBuffer;
 	
 	/** Our texture pointer */
-	private int[] textures = new int[1];
+	private int textureID;
 
 	/** 
 	 * The initial vertex definition
@@ -124,6 +125,8 @@ public class Grid extends GameObject {
 	 */
 	public Grid() {
 		super(G.GRID_ID);
+		
+		textureID = G.textures.loadTexture(R.drawable.nehe);
 		//
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -167,7 +170,7 @@ public class Grid extends GameObject {
 					
 		
 			//Bind our only previously generated texture in this case
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);
 			
 			//Point to our buffers
 			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
@@ -188,48 +191,5 @@ public class Grid extends GameObject {
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		
 		gl.glPopMatrix();
-	}
-	
-	/**
-	 * Load the textures
-	 * 
-	 * @param gl - The GL Context
-	 * @param context - The Activity context
-	 */
-	public void loadGLTexture(GL10 gl, Context context) {
-		//Get the texture from the Android resource directory
-		InputStream is = context.getResources().openRawResource(R.drawable.nehe);
-		Bitmap bitmap = null;
-		try {
-			//BitmapFactory is an Android graphics utility for images
-			bitmap = BitmapFactory.decodeStream(is);
-
-		} finally {
-			//Always clear and close
-			try {
-				is.close();
-				is = null;
-			} catch (IOException e) {
-			}
-		}
-
-		//Generate one texture pointer...
-		gl.glGenTextures(1, textures, 0);
-		//...and bind it to our array
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
-		
-		//Create Nearest Filtered Texture
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
-
-		//Different possible texture parameters, e.g. GL10.GL_CLAMP_TO_EDGE
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
-		gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_REPEAT);
-		
-		//Use the Android GLUtils to specify a two-dimensional texture image from our bitmap
-		GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
-		
-		//Clean up
-		bitmap.recycle();
 	}
 }

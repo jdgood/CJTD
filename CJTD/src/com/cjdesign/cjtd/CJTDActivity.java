@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 public class CJTDActivity extends Activity {
@@ -107,6 +108,15 @@ public class CJTDActivity extends Activity {
         
         
     }
+    
+    @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_MENU) {
+	    	showDialog(DIALOG_QUIT_ID);
+	    	return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
     
     public void quit(View view) {
     	this.view = view;

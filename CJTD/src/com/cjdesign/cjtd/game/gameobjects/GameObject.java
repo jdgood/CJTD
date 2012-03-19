@@ -1,4 +1,4 @@
-package com.cjdesign.cjtd.game;
+package com.cjdesign.cjtd.game.gameobjects;
 
 import javax.microedition.khronos.opengles.GL10;
 

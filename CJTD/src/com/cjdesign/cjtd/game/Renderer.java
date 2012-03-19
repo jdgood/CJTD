@@ -7,6 +7,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+
+import com.cjdesign.cjtd.game.gameobjects.GameObject;
+import com.cjdesign.cjtd.game.gameobjects.Grid;
+import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.globals.*;
 
 import android.opengl.GLU;
@@ -17,15 +21,13 @@ import android.opengl.GLU;
 
 public class Renderer implements GLSurfaceView.Renderer {
     private long startTime, endTime;
-    private Context context;
     
 	public Renderer(Context context) {
-		this.context = context;
+		G.gameContext = context;
 		G.viewX = 0;
 		G.viewY = 0;
 		G.viewZ = -10;
 		G.objs = new ArrayList<GameObject>();
-		G.objs.add(new Grid());
 	    startTime = System.currentTimeMillis();
 	}
     
@@ -101,10 +103,13 @@ public class Renderer implements GLSurfaceView.Renderer {
     
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {		
 		//Load the texture for the cube once during Surface creation
-    	for(GameObject go : G.objs){
-    		((Grid)go).loadGLTexture(gl, this.context);
-    	}
-		
+    	/*for(GameObject go : G.objs){
+    		((Grid)go).loadGLTexture(gl, G.gameContext);
+    	}*/
+    	
+    	G.textures = new GLTextures(gl, G.gameContext);
+    	G.objs.add(new Grid());
+    	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); 	//Black Background
