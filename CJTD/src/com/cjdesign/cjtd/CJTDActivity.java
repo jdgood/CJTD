@@ -1,5 +1,9 @@
 package com.cjdesign.cjtd;
 
+import com.cjtd.gamestate.GameState;
+import com.cjtd.gamestate.UpdateState;
+import com.cjtd.globals.G;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,8 +19,7 @@ public class CJTDActivity extends Activity {
 	private static final int DIALOG_NEW_HARD_GAME_ID = 2;
 	private static final int DIALOG_QUIT_ID = 3;
 	
-	View view;
-	MediaPlayer mpMenu;
+	private View view;
 	
     /** Called when the activity is first created. */
     @Override
@@ -24,30 +27,30 @@ public class CJTDActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        mpMenu = MediaPlayer.create(this, R.raw.menu);
-        mpMenu.setLooping(true);
-        mpMenu.start();
+        G.mpMenu = MediaPlayer.create(this, R.raw.menu);
+        G.mpMenu.setLooping(true);
+        G.mpMenu.start();
     }
     
     @Override
     public void onDestroy() {
     	super.onDestroy();
-    	mpMenu.release();
-		mpMenu = null;
+    	G.mpMenu.release();
+    	G.mpMenu = null;
     }
     
     @Override
     public void onResume() {
     	super.onResume();
-    	if(mpMenu!=null)
-    		mpMenu.start();
+    	if(G.mpMenu!=null)
+    		G.mpMenu.start();
     }
     
     @Override
     public void onPause() {
     	super.onPause();
-    	if(mpMenu!=null)
-        	mpMenu.pause();
+    	if(G.mpMenu!=null)
+    		G.mpMenu.pause();
     }
     
     @Override
@@ -130,43 +133,51 @@ public class CJTDActivity extends Activity {
 		if(mode.equals("Easy")){
 			System.out.println("Creating new easy game save");
 			//set difficulty to easy
+			G.gamestate = new GameState(G.DIFFICULTY_EASY, G.MODE_OVERWATCH);
+			//overwrite old easy save game
+			UpdateState.saveGame();
 		}
 		else if(mode.equals("Normal")){
 			System.out.println("Creating new normal game save");
 			//set difficulty to normal
+			G.gamestate = new GameState(G.DIFFICULTY_NORMAL, G.MODE_OVERWATCH);
+			//overwrite old normal save game
+			UpdateState.saveGame();
 		}
 		else if(mode.equals("Hard")){
 			System.out.println("Creating new hard game save");
 			//set difficulty to hard
+			G.gamestate = new GameState(G.DIFFICULTY_HARD, G.MODE_OVERWATCH);
+			//overwrite old hard save game
+			UpdateState.saveGame();
 		}
-		//load game using current gamestate
 		runGame();
 	}
 	
 	public void continueEasy(View view) {
 		System.out.println("Continuing Easy Game");
 		this.view = view;
-		//load game using current gamestate
+		UpdateState.continueGame(G.DIFFICULTY_EASY, G.MODE_OVERWATCH);
 		runGame();
     }
     
     public void continueNormal(View view) {
     	System.out.println("Continuing Normal Game");
     	this.view = view;
-    	//load game using current gamestate
+    	UpdateState.continueGame(G.DIFFICULTY_NORMAL, G.MODE_OVERWATCH);
     	runGame();
     }
 
 	public void continueHard(View view) {
 		System.out.println("Continuing Hard Game");
 		this.view = view;
-		//load game using current gamestate
+		UpdateState.continueGame(G.DIFFICULTY_HARD, G.MODE_OVERWATCH);
 		runGame();
 	}
 	
 	private void runGame(){
-		mpMenu.pause();
-		Intent myIntent = new Intent(view.getContext(), MainGame.class);
+		//G.mpMenu.pause();
+		Intent myIntent = new Intent(view.getContext(), GameMenu.class);
         startActivityForResult(myIntent, 0);
 	}
 }

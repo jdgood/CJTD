@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/ic_launcher"
+    android:keepScreenOn="true" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <Button
+        android:id="@+id/Button01"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="27dp"
+        android:onClick="playGame"
+        android:text="@string/Play" />
+
+
+    <Button
+        android:id="@+id/Button02"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/Button01"
+        android:layout_alignBottom="@+id/Button01"
+        android:layout_marginLeft="24dp"
+        android:layout_toRightOf="@+id/Button01"
+        android:text="@string/SkillTree" />
+
+
+
+
+    <Button
+        android:id="@+id/ContinueEasy"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/Button01"
+        android:layout_below="@+id/Button01"
+        android:layout_marginTop="22dp"
+        android:text="@string/Medals" />
+
+
+    <Button
+        android:id="@+id/Button03"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ContinueEasy"
+        android:layout_alignBottom="@+id/ContinueEasy"
+        android:layout_alignLeft="@+id/Button02"
+        android:text="@string/Store" />
+
+</RelativeLayout>

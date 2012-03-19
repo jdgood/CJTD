@@ -29,8 +29,6 @@ public class MainGame extends Activity{
     private static final int ZOOM = 1;
 	private int mode = NONE;
 	
-	MediaPlayer mpGame;
-	
 	float p2wx(float xp) {
 		//return 2 * ((float)(2*G.W*xp) / (G.H*(G.W-1)) - ((float)G.W / G.H));
 		return 2 * (2*G.W*xp) / (G.H*(G.W-1) - G.W / G.H);
@@ -116,33 +114,33 @@ public class MainGame extends Activity{
 	    mGLSurfaceView.setRenderer(new Renderer(this));
 	    setContentView(mGLSurfaceView);
 	    
-	    mpGame = MediaPlayer.create(this, R.raw.game);
-        mpGame.setLooping(true);
-        mpGame.start();
+	    G.mpGame = MediaPlayer.create(this, R.raw.game);
+	    G.mpGame.setLooping(true);
+	    G.mpGame.start();
 	}
 	
 	@Override
 	protected void onResume() {
 	    super.onResume();
 	    mGLSurfaceView.onResume();
-	    if(mpGame!=null)
-	    	mpGame.start();
+	    if(G.mpGame!=null)
+	    	G.mpGame.start();
 	}
 	
 	@Override
 	protected void onPause() {
 	    super.onPause();
 	    mGLSurfaceView.onPause();
-	    if(mpGame!=null)
-	    	mpGame.pause();
+	    if(G.mpGame!=null)
+	    	G.mpGame.pause();
 	}
 	
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
 	    mGLSurfaceView.onPause();
-	    mpGame.release();
-	    mpGame = null;
+	    G.mpGame.release();
+	    G.mpGame = null;
 	}
 	
 	@Override

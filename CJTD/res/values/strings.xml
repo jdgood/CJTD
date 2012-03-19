@@ -8,5 +8,9 @@
     <string name="Easy">Easy</string>
     <string name="New">New</string>
     <string name="quit">Quit</string>
+    <string name="Play">Play</string>
+    <string name="SkillTree">Skill Tree</string>
+    <string name="Medals">Medals</string>
+    <string name="Store">Store</string>
 
 </resources>
