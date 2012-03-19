@@ -10,15 +10,20 @@ public class Grid extends GameObject {
 	
 	private Ground GroundArray[][];
 	private int xSize, ySize;  
-
+	int startX, startY, endX, endY;
 
 	/**
 	 * The Grid constructor.
 	 * 
 	 * Initiate the buffers.
 	 */
-	public Grid(Ground[][] groundArray, int xSize, int ySize) {
+	public Grid(Ground[][] groundArray, int xSize, int ySize, int startX, int startY, int endX, int endY) {
 		super(G.GRID_ID);
+		
+		this.startX = startX;
+		this.startY = startY;
+		this.endX = endX;
+		this.endY = endY;
 		
 		this.GroundArray = groundArray;
 		this.xSize = xSize;
@@ -81,5 +86,9 @@ public class Grid extends GameObject {
 				}
 			}
 		gl.glPopMatrix();
+	}
+	
+	public Ground getStart(){
+		return GroundArray[startY][startX];
 	}
 }

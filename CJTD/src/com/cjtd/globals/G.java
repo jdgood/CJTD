@@ -43,6 +43,8 @@ public class G {
 	public static final int CREEP_ID = 2;
 	public static final int BULLET_ID = 3;
 	
+	public static final float ANDROID_CREEP_SIZE = .5f;
+	
 	public static final int DIFFICULTY_EASY = 0;
 	public static final int DIFFICULTY_NORMAL = 1;
 	public static final int DIFFICULTY_HARD = 2;

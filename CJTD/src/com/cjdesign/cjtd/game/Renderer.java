@@ -40,6 +40,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     	float startx = -xSize*G.gridSize/2+G.gridSize/2;
     	float starty = ySize*G.gridSize/2-G.gridSize/2;
     	
+    	G.viewXlimit = xSize*G.gridSize/2+G.gridSize;
+    	G.viewYlimit = ySize*G.gridSize/2-G.gridSize;
+    	
     	for(int i = 0; i < ySize; i++){
     		if(i%2==0){
     			grass = true;
@@ -59,7 +62,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     		}
     	}
     	
-    	G.level = new Grid(gridArray, xSize, ySize);
+    	G.level = new Grid(gridArray, xSize, ySize, 0, 4, 9, 4);
     	
     	//adding towers for sanity checks and to test ai in a bit
     	gridArray[1][1].setTower(new Tower(gridArray[1][1]));
@@ -87,6 +90,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     	new AlphaObject(gridArray[1][9]);
     	new AlphaObject(gridArray[2][9]);
     	new AlphaObject(gridArray[3][9]);
+    	
+    	G.objs.add(new Creep());
+    	
     	//setup game start time
 	    startTime = System.currentTimeMillis();
 	}
@@ -132,9 +138,12 @@ public class Renderer implements GLSurfaceView.Renderer {
 				G.viewX, G.viewY, -1, //reference point
 				0, 1, 0); //normal
 		
+		gl.glEnable(GL10.GL_BLEND);
+		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 		for(GameObject go : G.objs){
 			go.draw(gl);
 		}
+		gl.glDisable(GL10.GL_BLEND);
 		
 		G.level.draw(gl);
 		
