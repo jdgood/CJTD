@@ -27,6 +27,41 @@ public class Renderer implements GLSurfaceView.Renderer {
 		G.viewY = 0;
 		G.viewZ = 10;
 		G.objs = new ArrayList<GameObject>();
+		
+    	//doing this is superhacks!
+    	G.textures = new GLTextures(G.gameContext);
+    	
+    	int xSize = 5;
+    	int ySize = 5;
+    	
+    	Ground[][] gridArray = new Ground[xSize][ySize];
+    	boolean grass = true;
+    	for(int i = 0; i < ySize; i++){
+    		if(i%2==0){
+    			grass = true;
+    		}
+    		else{
+    			grass = false;
+    		}
+    		
+    		for(int j = 0; j < xSize; j++){
+    			if(grass){
+    				gridArray[j][i] = new GroundGrass(j,i);
+    			}
+    			else{
+    				gridArray[j][i] = new GroundDirt(j,i);
+    			}
+    			grass = !grass;
+    		}
+    	}
+    	
+    	G.objs.add(new Grid(gridArray, xSize, ySize));
+    	
+    	gridArray[1][1].setTower(new Tower(gridArray[1][1]));
+    	gridArray[3][3].setTower(new Tower(gridArray[3][3]));
+    	
+    	G.objs.add(new AlphaObject(0,0));
+    	
 	    startTime = System.currentTimeMillis();
 	}
     
@@ -100,41 +135,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 		gl.glLoadIdentity();
 	}
     
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {		
-    	//want to move the following to the constructor because this is called everytime the quit dialog is cancelled except not sure how to do get the FL10 gl thing...
-    	G.textures = new GLTextures(gl, G.gameContext);
-    	
-    	int xSize = 5;
-    	int ySize = 5;
-    	
-    	Ground[][] gridArray = new Ground[xSize][ySize];
-    	boolean grass = true;
-    	for(int i = 0; i < ySize; i++){
-    		if(i%2==0){
-    			grass = true;
-    		}
-    		else{
-    			grass = false;
-    		}
-    		
-    		for(int j = 0; j < xSize; j++){
-    			if(grass){
-    				gridArray[j][i] = new GroundGrass(j,i);
-    			}
-    			else{
-    				gridArray[j][i] = new GroundDirt(j,i);
-    			}
-    			grass = !grass;
-    		}
-    	}
-    	
-    	G.objs.add(new Grid(gridArray, xSize, ySize));
-    	
-    	gridArray[1][1].setTower(new Tower(gridArray[1][1]));
-    	gridArray[3][3].setTower(new Tower(gridArray[3][3]));
-    	
-    	G.objs.add(new AlphaObject(0,0));
-    	
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {		    	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); 	//Black Background

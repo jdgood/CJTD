@@ -8,7 +8,8 @@ import com.cjdesign.cjtd.R;
 import com.cjtd.globals.G;
 
 public class AlphaObject extends GameObject{
-	public int textureID;
+	public int textureID = -1;
+	public int textureResource = -1;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -37,11 +38,11 @@ public class AlphaObject extends GameObject{
 	public AlphaObject(float x, float y) {
 		super(G.TOWER_ID);
 		
+		textureResource = R.drawable.lightsource;
+		
 		this.x = x; 
 		this.y = y;
 		this.z = G.gridDepth+.1f;
-		
-		textureID = G.textures.loadTexture(R.drawable.lightsource);
 		
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -71,6 +72,9 @@ public class AlphaObject extends GameObject{
 	 * @param gl - The GL Context
 	 */
 	public void draw(GL10 gl) {
+		if(textureID == -1){
+			textureID = G.textures.loadTexture(textureResource, gl);
+		}
 		gl.glPushMatrix();
 			gl.glTranslatef(x, y, z);
 			

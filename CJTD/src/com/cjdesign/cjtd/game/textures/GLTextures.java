@@ -15,23 +15,21 @@ import java.util.HashMap;
 
 public class GLTextures {
 	
-	private GL10 gl;
 	private Context context;
 	private HashMap<Integer, Integer> textureMap;
 
-	public GLTextures(GL10 gl,Context context) {
-		this.gl = gl;
+	public GLTextures(Context context) {
 		this.context = context;
 		this.textureMap = new java.util.HashMap<Integer, Integer>();
 	}
 	
-	public int loadTexture(int resourceID) {
+	public int loadTexture(int resourceID, GL10 gl) {
 		if(textureMap.containsKey(resourceID)){
 			//System.out.println("Accessed old texture");
 			return textureMap.get(resourceID);
 		}
 		//System.out.println("Created new texture");
-		int newTex = loadGLTexture(resourceID);
+		int newTex = loadGLTexture(resourceID, gl);
 		textureMap.put(resourceID, newTex);
 		return newTex;
 	}
@@ -43,7 +41,7 @@ public class GLTextures {
 	 * @param gl - The GL Context
 	 * @param context - The Activity context
 	 */
-	public int loadGLTexture(int resourceID) {
+	private int loadGLTexture(int resourceID, GL10 gl) {
 		//Get the texture from the Android resource directory
 		InputStream is = context.getResources().openRawResource(resourceID);
 		Bitmap bitmap = null;

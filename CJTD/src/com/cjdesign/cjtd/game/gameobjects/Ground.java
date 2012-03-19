@@ -8,11 +8,12 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.cjtd.globals.G;
 
-public class Ground {
+public abstract class Ground {
 	public boolean occupied = false;
 	public Tower occupiedBy = null;
 	public int xPos,yPos;
-	public int textureID;
+	public int textureID = -1;
+	public int textureResource = -1;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -73,6 +74,10 @@ public class Ground {
 	}
 
 	public void draw(GL10 gl) {
+		if(textureID == -1){
+			textureID = G.textures.loadTexture(textureResource, gl); 
+		}
+		
 		gl.glPushMatrix();
 			//Bind our only previously generated texture in this case
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);

@@ -48,7 +48,7 @@ public class Tower extends GameObject {
 		this.y = g.yPos;
 		this.z = G.gridDepth+.1f;
 		
-		textureID = G.textures.loadTexture(R.drawable.tower);
+		textureResource = R.drawable.tower;
 
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -84,6 +84,10 @@ public class Tower extends GameObject {
 	 * @param gl - The GL Context
 	 */
 	public void draw(GL10 gl) {
+		if(textureID == -1){
+			textureID = G.textures.loadTexture(textureResource, gl); 
+		}
+		
 		gl.glPushMatrix();
 			//gl.glTranslatef(x, y, z);
 			gl.glTranslatef(0, 0, .1f);
