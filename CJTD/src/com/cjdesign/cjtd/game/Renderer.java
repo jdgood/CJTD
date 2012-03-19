@@ -8,8 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
-import com.cjdesign.cjtd.game.gameobjects.GameObject;
-import com.cjdesign.cjtd.game.gameobjects.Grid;
+import com.cjdesign.cjtd.game.gameobjects.*;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.globals.*;
 
@@ -109,7 +108,8 @@ public class Renderer implements GLSurfaceView.Renderer {
     	
     	G.textures = new GLTextures(gl, G.gameContext);
     	G.objs.add(new Grid());
-    	G.objs.add(new Grid());
+    	G.objs.add(new Tower(2,2,5));
+    	G.objs.add(new Tower(-2,-2,5));
     	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading

@@ -4,6 +4,10 @@ import javax.microedition.khronos.opengles.GL10;
 
 public abstract class GameObject {
 	public int Type;
+	public int textureID;
+	
+	public float x, y, z;
+	
 	public GameObject(int type){
 		Type = type;
 	}
