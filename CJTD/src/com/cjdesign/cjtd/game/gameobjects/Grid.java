@@ -54,22 +54,8 @@ public class Grid extends GameObject {
 	 * @param gl - The GL Context
 	 */
 	public void draw(GL10 gl) {
-		gl.glPushMatrix();
-			//gl.glScalef(15, 15, 1);
-			
-			//Rotate around the axis based on the rotation matrix (rotation, x, y, z)
-			//gl.glRotatef(xrot, 1.0f, 0.0f, 0.0f);	//X
-			//gl.glRotatef(yrot, 0.0f, 1.0f, 0.0f);	//Y
-			//gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);	//Z
-			
-			drawGrid(gl);
-			drawTowers(gl);//called separately for alpha purposes
-			
-		gl.glPopMatrix();
-	}
-	
-	private void drawGrid(GL10 gl){
-		gl.glPushMatrix();
+		gl.glPushMatrix();			
+			gl.glPushMatrix();
 			for(int i = 0; i < ySize; i++){
 				for(int j = 0; j < xSize; j++){
 					GroundArray[j][i].draw(gl);
@@ -78,7 +64,7 @@ public class Grid extends GameObject {
 		gl.glPopMatrix();
 	}
 	
-	private void drawTowers(GL10 gl){
+	public void drawTowers(GL10 gl){
 		gl.glPushMatrix();
 			for(int i = 0; i < ySize; i++){
 				for(int j = 0; j < xSize; j++){

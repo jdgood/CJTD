@@ -140,14 +140,16 @@ public class Renderer implements GLSurfaceView.Renderer {
 				G.viewX, G.viewY, -1, //reference point
 				0, 1, 0); //normal
 		
+		G.level.draw(gl); //draw grid first
+		
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 		for(GameObject go : G.objs){
-			go.draw(gl);
+			go.draw(gl); //draw creeps and bullets second
 		}
 		gl.glDisable(GL10.GL_BLEND);
 		
-		G.level.draw(gl);
+		G.level.drawTowers(gl); //draw towers last
 		
 		if(!G.paused){
 			for(GameObject go : G.objs){
@@ -179,7 +181,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {		    	
 		gl.glEnable(GL10.GL_TEXTURE_2D);			//Enable Texture Mapping ( NEW )
 		gl.glShadeModel(GL10.GL_SMOOTH); 			//Enable Smooth Shading
-		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); 	//Black Background
+		gl.glClearColor(0.53f, 0.81f, 0.92f, 1.0f); //Sky Blue Background
 		gl.glClearDepthf(1.0f); 					//Depth Buffer Setup
 		gl.glEnable(GL10.GL_DEPTH_TEST); 			//Enables Depth Testing
 		gl.glDepthFunc(GL10.GL_LEQUAL); 			//The Type Of Depth Testing To Do
