@@ -171,6 +171,11 @@ public class Path {
             }
             
             System.out.println("About to update tempGrid");
+            System.out.println("p.first: " + Integer.toString(p.first));
+            System.out.println("p.second: " + Integer.toString(p.second));
+            System.out.println("tempGrid.length: " + Integer.toString(tempGrid.length));
+            System.out.println("xSize: " + Integer.toString(xSize));
+            System.out.println("ySize: " + Integer.toString(ySize));
             tempGrid[p.first][p.second] = minvalue + 1;
             System.out.println("Updated tempGrid");
         }
