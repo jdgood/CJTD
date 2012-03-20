@@ -41,7 +41,7 @@ public class Grid extends GameObject {
 		}
 		for(int i = 0; i < ySize; i++){
 			for(int j = 0; j < xSize; j++){
-				GroundArray[i][j].update(dt);
+				GroundArray[j][i].update(dt);
 			}
 		}
 	}
@@ -72,7 +72,7 @@ public class Grid extends GameObject {
 		gl.glPushMatrix();
 			for(int i = 0; i < ySize; i++){
 				for(int j = 0; j < xSize; j++){
-					GroundArray[i][j].draw(gl);
+					GroundArray[j][i].draw(gl);
 				}
 			}
 		gl.glPopMatrix();
@@ -82,7 +82,7 @@ public class Grid extends GameObject {
 		gl.glPushMatrix();
 			for(int i = 0; i < ySize; i++){
 				for(int j = 0; j < xSize; j++){
-					GroundArray[i][j].drawTower(gl);
+					GroundArray[j][i].drawTower(gl);
 					gl.glTranslatef(0, 0, .01f);//to avoid z-fighting on blending
 				}
 			}
@@ -90,14 +90,14 @@ public class Grid extends GameObject {
 	}
     
     public Ground getStart(){
-        return GroundArray[startY][startX];
+        return GroundArray[startX][startY];
     }
     
     public Ground getEnd(){
-        return GroundArray[endY][endX];
+        return GroundArray[endX][endY];
     }
     
     public Ground getGround(int x, int y) throws IndexOutOfBoundsException {
-        return GroundArray[y][x];
+        return GroundArray[x][y];
     }
 }

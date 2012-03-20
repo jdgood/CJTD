@@ -37,7 +37,7 @@ public abstract class Ground extends GameObject {
 	private byte indices[] = {
 	    		0,1,3, 0,3,2};
 	
-	public Ground(int ypos, int xpos, float x, float y) {
+	public Ground(int xpos, int ypos, float x, float y) {
 		super(G.GRID_ID);
 		
 		this.x = x;

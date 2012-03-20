@@ -35,7 +35,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     	//create demo gameworld(create a level importer later)
     	int xSize = 10;
     	int ySize = 5;
-    	Ground[][] gridArray = new Ground[ySize][xSize];
+    	Ground[][] gridArray = new Ground[xSize][ySize];
     	boolean grass = true;
     	
     	float startx = -xSize*G.gridSize/2+G.gridSize/2;
@@ -54,10 +54,10 @@ public class Renderer implements GLSurfaceView.Renderer {
     		
     		for(int j = 0; j < xSize; j++){
     			if(grass){
-    				gridArray[i][j] = new GroundGrass(i,j,startx+G.gridSize*j,starty-G.gridSize*i);
+    				gridArray[j][i] = new GroundGrass(j,i,startx+G.gridSize*j,starty-G.gridSize*i);
     			}
     			else{
-    				gridArray[i][j] = new GroundDirt(i,j,startx+G.gridSize*j,starty-G.gridSize*i);
+    				gridArray[j][i] = new GroundDirt(j,i,startx+G.gridSize*j,starty-G.gridSize*i);
     			}
     			grass = !grass;
     		}
@@ -67,31 +67,31 @@ public class Renderer implements GLSurfaceView.Renderer {
     	G.path = new Path(xSize, ySize);
     	
     	//adding towers for sanity checks and to test ai in a bit
-        gridArray[1][1].setTower(new Tower(gridArray[1][1]));
-        gridArray[3][3].setTower(new Tower(gridArray[3][3]));
-        
     	new AlphaObject(gridArray[0][0]);
-    	new AlphaObject(gridArray[2][1]);
-    	new AlphaObject(gridArray[3][1]);
-    	
+    	gridArray[1][1].setTower(new Tower(gridArray[1][1]));
+    	new AlphaObject(gridArray[1][2]);
     	new AlphaObject(gridArray[1][3]);
-    	new AlphaObject(gridArray[2][3]);
-    	new AlphaObject(gridArray[4][3]);
     	
-    	new AlphaObject(gridArray[0][5]);
-    	new AlphaObject(gridArray[1][5]);
-    	new AlphaObject(gridArray[2][5]);
-    	new AlphaObject(gridArray[3][5]);
     	
-    	new AlphaObject(gridArray[1][7]);
-    	new AlphaObject(gridArray[2][7]);
-    	new AlphaObject(gridArray[3][7]);
-    	new AlphaObject(gridArray[4][7]);
+    	new AlphaObject(gridArray[3][1]);
+    	new AlphaObject(gridArray[3][2]);
+    	gridArray[3][3].setTower(new Tower(gridArray[3][3]));
+    	new AlphaObject(gridArray[3][4]);
     	
-    	new AlphaObject(gridArray[0][9]);
-    	new AlphaObject(gridArray[1][9]);
-    	new AlphaObject(gridArray[2][9]);
-    	new AlphaObject(gridArray[3][9]);
+    	new AlphaObject(gridArray[5][0]);
+    	new AlphaObject(gridArray[5][1]);
+    	new AlphaObject(gridArray[5][2]);
+    	new AlphaObject(gridArray[5][3]);
+    	
+    	new AlphaObject(gridArray[7][1]);
+    	new AlphaObject(gridArray[7][2]);
+    	new AlphaObject(gridArray[7][3]);
+    	new AlphaObject(gridArray[7][4]);
+    	
+    	new AlphaObject(gridArray[9][0]);
+    	new AlphaObject(gridArray[9][1]);
+    	new AlphaObject(gridArray[9][2]);
+    	new AlphaObject(gridArray[9][3]);
     	
     	G.objs.add(new Creep());
     	

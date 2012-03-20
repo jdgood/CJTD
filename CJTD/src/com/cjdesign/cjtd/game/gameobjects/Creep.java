@@ -52,7 +52,7 @@ public class Creep extends GameObject {
 		y = currentGoal.y - 2;
 		z = G.gridDepth+.1f;
 		
-		speed = 2;
+		speed = 5;
 		
 		dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
 		dir.normalize();//makes it so direction always implies a magnitude of 1
@@ -82,6 +82,10 @@ public class Creep extends GameObject {
         
 		x+=dx;
 		y+=dy;
+		
+		//if(within a certain radius of currentGoal){
+		//update next goal(adjacent path node with lowest number)
+		//update velocity vector
         
         if(1f >= FloatMath.sqrt((x-currentGoal.x)*(x-currentGoal.x)+(y-currentGoal.y)*(y-currentGoal.y)))
         {
@@ -90,10 +94,6 @@ public class Creep extends GameObject {
             dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
             dir.normalize();//makes it so direction always implies a magnitude of 1
         }
-        
-		//if(within a certain radius of currentGoal){
-		//update next goal(adjacent path node with lowest number)
-		//update velocity vector
 	}
 	
 	public void draw(GL10 gl){
