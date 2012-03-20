@@ -67,9 +67,9 @@ public class Renderer implements GLSurfaceView.Renderer {
     	G.path = new Path(xSize, ySize);
     	
     	//adding towers for sanity checks and to test ai in a bit
-    	gridArray[1][1].setTower(new Tower(gridArray[1][1]));
-    	gridArray[3][3].setTower(new Tower(gridArray[3][3]));
-    	
+        gridArray[1][1].setTower(new Tower(gridArray[1][1]));
+        gridArray[3][3].setTower(new Tower(gridArray[3][3]));
+        
     	new AlphaObject(gridArray[0][0]);
     	new AlphaObject(gridArray[2][1]);
     	new AlphaObject(gridArray[3][1]);

@@ -6,6 +6,8 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.FloatMath;
+
 import com.cjdesign.cjtd.R;
 import com.cjdesign.cjtd.utils.Vector2D;
 import com.cjtd.globals.G;
@@ -77,23 +79,17 @@ public class Creep extends GameObject {
 		//until implemented android will go off to space!!
 	    float dx = dir.x * dt * speed;
 	    float dy = dir.y * dt * speed;
-        float xCurDiff = currentGoal.x - x;
-        float xNextDiff = currentGoal.x - (x + dx);
-        float yCurDiff = currentGoal.y - y;
-        float yNextDiff = currentGoal.y - (y + dy);
         
 		x+=dx;
 		y+=dy;
         
-		/*
-        if(xCurDiff * xNextDiff < 0 && yCurDiff * yNextDiff < 0)
+        if(1f >= FloatMath.sqrt((x-currentGoal.x)*(x-currentGoal.x)+(y-currentGoal.y)*(y-currentGoal.y)))
         {
-            currentGoal = G.level.path.getNextGoal(currentGoal);
+            currentGoal = G.path.getNextGoal(currentGoal);
         
             dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
             dir.normalize();//makes it so direction always implies a magnitude of 1
         }
-        */
         
 		//if(within a certain radius of currentGoal){
 		//update next goal(adjacent path node with lowest number)

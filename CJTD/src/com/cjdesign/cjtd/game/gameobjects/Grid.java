@@ -97,7 +97,7 @@ public class Grid extends GameObject {
         return GroundArray[endY][endX];
     }
     
-    public Ground getGround(int y, int x) throws IndexOutOfBoundsException {
+    public Ground getGround(int x, int y) throws IndexOutOfBoundsException {
         return GroundArray[y][x];
     }
 }

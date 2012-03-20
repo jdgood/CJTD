@@ -1,8 +1,9 @@
 package com.cjdesign.cjtd.game.ai;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
 
 import android.util.Pair;
 
@@ -29,6 +30,20 @@ public class Path {
 	int[][] grid;
 	int xSize, ySize;
 	
+	class PairComparator implements Comparator<Pair<Integer,Integer>>{
+
+        public int compare(Pair<Integer, Integer> lhs,
+                Pair<Integer, Integer> rhs) {
+            if(lhs.first < rhs.first || lhs.second < rhs.second)
+                return -1;
+            if(lhs.first > rhs.first || lhs.second > rhs.second)
+                return 1;
+            else
+                return 0;
+        }
+	    
+	}
+	
 	public Path(int xsize, int ysize){
 	    xSize = xsize;
 	    ySize = ysize;
@@ -37,26 +52,25 @@ public class Path {
 		    Arrays.fill(g, -1);
 //		    for(int i = 0; i < g.length; i++)
 //		        g[i] = -1;
-		System.out.println("is it traverable?");
-		if(!isTraversable())
-		    System.out.println("Not Traversable!");
-		else
-		    System.out.println("Is Traversable!");
+		isTraversable();
 	}
 	
 	//use when adding a tower
 	public boolean addTower(Ground g){
-		return isTraversable();
+	    g.occupied = true;
+	    g.occupied = isTraversable();
+	    return g.occupied;
 	}
 	
 	public boolean isTraversable(){
+        //System.out.println("is it traverable?");
 	    int[][] tempGrid = new int[xSize][ySize];
         for(int[] g : tempGrid)
             Arrays.fill(g, -1);
 //            for(int i = 0; i < g.length; i++)
 //                g[i] = -1;
 	    Pair<Integer,Integer> endPoint = new Pair<Integer,Integer>(G.level.getEnd().xPos,G.level.getEnd().yPos);
-	    List<Pair<Integer,Integer>> unprocessed = new ArrayList<Pair<Integer,Integer>>();
+	    Set<Pair<Integer,Integer>> unprocessed = new TreeSet<Pair<Integer,Integer>>(new PairComparator());
 	    unprocessed.add(endPoint);
 		return updateGrid(tempGrid,unprocessed);
 	}
@@ -116,8 +130,8 @@ public class Path {
 	 Hope this helped, Randomman159*/
 	
 	//use at beginning of round so creeps find quickest path
-	private boolean updateGrid(int[][] tempGrid, List<Pair<Integer,Integer>> unprocessed){
-	    List<Pair<Integer,Integer>> nextUnprocessed = new ArrayList<Pair<Integer,Integer>>();
+	private boolean updateGrid(int[][] tempGrid, Set<Pair<Integer,Integer>> unprocessed){
+	    Set<Pair<Integer,Integer>> nextUnprocessed = new TreeSet<Pair<Integer,Integer>>(new PairComparator());
         for (Pair<Integer,Integer> p : unprocessed)
         {
             int minvalue = -1;
@@ -127,9 +141,10 @@ public class Path {
                         (tempGrid[p.first][p.second-1] != -1 && // visited and
                         tempGrid[p.first][p.second-1] < minvalue)) { // less than minvalue
                     minvalue = tempGrid[p.first][p.second-1];
-                    if (!G.level.getGround(p.first, p.second-1).occupied)
-                        nextUnprocessed.add(new Pair<Integer,Integer>(p.first, p.second-1));
                 }
+                if (tempGrid[p.first][p.second-1] == -1 &&
+                        !G.level.getGround(p.first, p.second-1).occupied)
+                    nextUnprocessed.add(new Pair<Integer,Integer>(p.first, p.second-1));
             } catch ( ArrayIndexOutOfBoundsException e ){
                 // do nothing
             }
@@ -139,9 +154,10 @@ public class Path {
                         (tempGrid[p.first][p.second+1] != -1 && // visited and
                         tempGrid[p.first][p.second+1] < minvalue)) { // less than minvalue
                     minvalue = tempGrid[p.first][p.second+1];
-                    if (!G.level.getGround(p.first,p.second+1).occupied)
-                        nextUnprocessed.add(new Pair<Integer,Integer>(p.first,p.second+1));
                 }
+                if (tempGrid[p.first][p.second+1] == -1 && 
+                        !G.level.getGround(p.first,p.second+1).occupied)
+                    nextUnprocessed.add(new Pair<Integer,Integer>(p.first,p.second+1));
             } catch ( ArrayIndexOutOfBoundsException e ){
                 // do nothing
             }
@@ -151,9 +167,10 @@ public class Path {
                         (tempGrid[p.first-1][p.second] != -1 && // visited and
                         tempGrid[p.first-1][p.second] < minvalue)) { // less than minvalue
                     minvalue = tempGrid[p.first-1][p.second];
-                    if (!G.level.getGround(p.first-1, p.second).occupied)
-                        nextUnprocessed.add(new Pair<Integer,Integer>(p.first-1, p.second));
                 }
+                if (tempGrid[p.first-1][p.second] == -1 && 
+                        !G.level.getGround(p.first-1, p.second).occupied)
+                    nextUnprocessed.add(new Pair<Integer,Integer>(p.first-1, p.second));
             } catch ( ArrayIndexOutOfBoundsException e ){
                 // do nothing
             }
@@ -163,21 +180,23 @@ public class Path {
                         (tempGrid[p.first+1][p.second] != -1 && // visited and
                         tempGrid[p.first+1][p.second] < minvalue)) { // less than minvalue
                     minvalue = tempGrid[p.first+1][p.second];
-                    if (!G.level.getGround(p.first+1, p.second).occupied)
-                        nextUnprocessed.add(new Pair<Integer,Integer>(p.first+1, p.second));
                 }
+                if (tempGrid[p.first+1][p.second] == -1 &&
+                        !G.level.getGround(p.first+1, p.second).occupied)
+                    nextUnprocessed.add(new Pair<Integer,Integer>(p.first+1, p.second));
             } catch ( ArrayIndexOutOfBoundsException e ){
                 // do nothing
             }
             
-            System.out.println("About to update tempGrid");
-            System.out.println("p.first: " + Integer.toString(p.first));
-            System.out.println("p.second: " + Integer.toString(p.second));
-            System.out.println("tempGrid.length: " + Integer.toString(tempGrid.length));
-            System.out.println("xSize: " + Integer.toString(xSize));
-            System.out.println("ySize: " + Integer.toString(ySize));
-            tempGrid[p.first][p.second] = minvalue + 1;
-            System.out.println("Updated tempGrid");
+            if(G.level.getGround(p.first, p.second).occupied){
+                //System.out.println("tempGrid[" + Integer.toString(p.first) + "][" + Integer.toString(p.second) + "] = -1");
+                tempGrid[p.first][p.second] = -1;
+            }
+            else
+            {
+                //System.out.println("tempGrid[" + Integer.toString(p.first) + "][" + Integer.toString(p.second) + "] = " + Integer.toString(minvalue + 1));
+                tempGrid[p.first][p.second] = minvalue + 1;
+            }
         }
         
         if (!nextUnprocessed.isEmpty())
@@ -187,21 +206,23 @@ public class Path {
         else
         {
             // TODO look for cut off creeps
+//            for(int j = 0; j < grid.length; j++)
+//                for(int k = 0; k < grid[0].length; k++)
+//                    System.out.println("tempGrid[" + Integer.toString(j) + "][" + Integer.toString(k) + "] = " + Integer.toString(grid[j][k]));
             grid = tempGrid;
             return true;
         }
 	}
 	
 	public Ground getNextGoal(Ground currentGoal){
-	    Pair<Integer,Integer> p = new Pair<Integer,Integer>(currentGoal.yPos,currentGoal.xPos);
+	    Pair<Integer,Integer> p = new Pair<Integer,Integer>(currentGoal.xPos,currentGoal.yPos);
 	    Ground nextGoal = currentGoal;
 	    int minvalue = grid[p.first][p.second];
 	    
         // find minimum visited adjacent
         try {
-            if(minvalue == -1 || // minvalue unset
-                    (grid[p.first][p.second-1] != -1 && // not blocked and
-                    grid[p.first][p.second-1] < minvalue)) { // less than minvalue
+            if(grid[p.first][p.second-1] != -1 && // not blocked and
+                    grid[p.first][p.second-1] < minvalue) { // less than minvalue
                 minvalue = grid[p.first][p.second-1];
                 nextGoal = G.level.getGround(p.first,p.second-1);
             }
@@ -210,9 +231,8 @@ public class Path {
         }
         
         try {
-            if(minvalue == -1 || // minvalue unset
-                    (grid[p.first][p.second+1] != -1 && // not blocked and
-                    grid[p.first][p.second+1] < minvalue)) { // less than minvalue
+            if(grid[p.first][p.second+1] != -1 && // not blocked and
+                    grid[p.first][p.second+1] < minvalue) { // less than minvalue
                 minvalue = grid[p.first][p.second+1];
                 nextGoal = G.level.getGround(p.first,p.second+1);
             }
@@ -221,9 +241,8 @@ public class Path {
         }
         
         try {
-            if(minvalue == -1 || // minvalue unset
-                    (grid[p.first-1][p.second] != -1 && // not blocked and
-                    grid[p.first-1][p.second] < minvalue)) { // less than minvalue
+            if(grid[p.first-1][p.second] != -1 && // not blocked and
+                    grid[p.first-1][p.second] < minvalue) { // less than minvalue
                 minvalue = grid[p.first-1][p.second];
                 nextGoal = G.level.getGround(p.first-1,p.second);
             }
@@ -232,15 +251,16 @@ public class Path {
         }
         
         try {
-            if(minvalue == -1 || // minvalue unset
-                    (grid[p.first+1][p.second] != -1 && // not blocked and
-                    grid[p.first+1][p.second] < minvalue)) { // less than minvalue
+            if(grid[p.first+1][p.second] != -1 && // not blocked and
+                    grid[p.first+1][p.second] < minvalue) { // less than minvalue
                 minvalue = grid[p.first+1][p.second];
                 nextGoal = G.level.getGround(p.first+1,p.second);
             }
         } catch ( ArrayIndexOutOfBoundsException e ){
             // do nothing
         }
+        
+//        System.out.println("nextGoal: (" + Integer.toString(nextGoal.xPos) + ", " + Integer.toString(nextGoal.yPos) + ") : " + Integer.toString(grid[nextGoal.xPos][nextGoal.yPos]));
 	    return nextGoal;
 	}
 }
