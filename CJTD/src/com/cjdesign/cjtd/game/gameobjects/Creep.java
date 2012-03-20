@@ -7,10 +7,13 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.R;
+import com.cjdesign.cjtd.utils.Vector2D;
 import com.cjtd.globals.G;
 
 public class Creep extends GameObject {
-	Ground current;
+	public Ground currentGoal;
+	public Vector2D dir;
+	public float speed;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -41,11 +44,16 @@ public class Creep extends GameObject {
 		
 		textureResource = R.drawable.android_sh;
 		
-		current = G.level.getStart();
+		currentGoal = G.level.getStart();
 		
-		x = current.x;
-		y = current.y;
+		x = currentGoal.x - 2;
+		y = currentGoal.y - 2;
 		z = G.gridDepth+.1f;
+		
+		speed = 2;
+		
+		dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
+		dir.normalize();//makes it so direction always implies a magnitude of 1
 		
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -65,7 +73,13 @@ public class Creep extends GameObject {
 	}
 	
 	public void update(float dt){
-		//update based on shortest path and current position on path
+		//update based on shortest path and current position on path 
+		//until implemented android will go off to space!!
+		x+=dir.x * dt * speed;
+		y+=dir.y * dt * speed;
+		//if(within a certain radius of currentGoal){
+		//update next goal(adjacent path node with lowest number)
+		//update velocity vector
 	}
 	
 	public void draw(GL10 gl){
