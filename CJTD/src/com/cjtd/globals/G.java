@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.media.MediaPlayer;
 
+import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.*;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.gamestate.CJAccount;
@@ -31,6 +32,7 @@ public class G {
 	
 	public static ArrayList<GameObject> objs;
 	public static Grid level;
+	public static Path path;
 	
 	public static Context gameContext;
 	public static GLTextures textures;

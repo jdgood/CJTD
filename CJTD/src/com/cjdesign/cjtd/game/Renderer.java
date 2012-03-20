@@ -8,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
+import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.*;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.globals.*;
@@ -63,6 +64,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     	}
     	
     	G.level = new Grid(gridArray, xSize, ySize, 0, 4, 9, 4);
+    	G.path = new Path(xSize, ySize);
     	
     	//adding towers for sanity checks and to test ai in a bit
     	gridArray[1][1].setTower(new Tower(gridArray[1][1]));

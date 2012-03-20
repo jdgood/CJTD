@@ -20,5 +20,4 @@ public class Vector2D {
 			  x/=mag;
 			  y/=mag;
 		  }
-
 }

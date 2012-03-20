@@ -1,6 +1,7 @@
 package com.cjdesign.cjtd.game.gameobjects;
 
 import javax.microedition.khronos.opengles.GL10;
+
 import com.cjtd.globals.G;
 
 public class Grid extends GameObject {
@@ -87,8 +88,16 @@ public class Grid extends GameObject {
 			}
 		gl.glPopMatrix();
 	}
-	
-	public Ground getStart(){
-		return GroundArray[startY][startX];
-	}
+    
+    public Ground getStart(){
+        return GroundArray[startY][startX];
+    }
+    
+    public Ground getEnd(){
+        return GroundArray[endY][endX];
+    }
+    
+    public Ground getGround(int y, int x) throws IndexOutOfBoundsException {
+        return GroundArray[y][x];
+    }
 }
