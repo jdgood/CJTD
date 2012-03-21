@@ -1,7 +1,8 @@
-package com.cjdesign.cjtd.game.gameobjects;
+package com.cjdesign.cjtd.game.gameobjects.grid;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.cjdesign.cjtd.game.gameobjects.GameObject;
 import com.cjtd.globals.G;
 
 public class Grid extends GameObject {
@@ -69,6 +70,17 @@ public class Grid extends GameObject {
 			for(int i = 0; i < ySize; i++){
 				for(int j = 0; j < xSize; j++){
 					GroundArray[j][i].drawTower(gl);
+					gl.glTranslatef(0, 0, .01f);//to avoid z-fighting on blending
+				}
+			}
+		gl.glPopMatrix();
+	}
+	
+	public void drawShots(GL10 gl){
+		gl.glPushMatrix();
+			for(int i = 0; i < ySize; i++){
+				for(int j = 0; j < xSize; j++){
+					GroundArray[j][i].drawShots(gl);
 					gl.glTranslatef(0, 0, .01f);//to avoid z-fighting on blending
 				}
 			}

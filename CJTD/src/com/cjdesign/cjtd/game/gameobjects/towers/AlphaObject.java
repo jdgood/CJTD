@@ -1,20 +1,14 @@
-package com.cjdesign.cjtd.game.gameobjects;
+package com.cjdesign.cjtd.game.gameobjects.towers;
 
 import java.nio.*;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.R;
+import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
 import com.cjtd.globals.G;
 
 public class AlphaObject extends Tower{	
-	/** The buffer holding the vertices */
-	private FloatBuffer vertexBuffer;
-	/** The buffer holding the texture coordinates */
-	private FloatBuffer textureBuffer;
-	/** The buffer holding the indices */
-	private ByteBuffer indexBuffer;
-	
 	private float vertices[] = {
     		G.gridSize/2, -G.gridSize/2, -G.gridSize/2f,
     		-G.gridSize/2, -G.gridSize/2, -G.gridSize/2,    		
@@ -35,6 +29,10 @@ public class AlphaObject extends Tower{
 	public AlphaObject(Ground g) {
 		super(g);
 		textureResource = R.drawable.lightsource;
+		
+		range = 5;
+		frequency = .25f;
+		bulletSpeed = 25;
 		
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());

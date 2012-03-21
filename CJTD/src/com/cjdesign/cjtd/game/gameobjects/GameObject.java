@@ -12,6 +12,6 @@ public abstract class GameObject {
 	public GameObject(int type){
 		Type = type;
 	}
-	public void draw(GL10 gl){}
-	public void update(float dt){}
+	public abstract void draw(GL10 gl);
+	public abstract void update(float dt);
 }

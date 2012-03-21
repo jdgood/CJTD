@@ -1,4 +1,4 @@
-package com.cjdesign.cjtd.game.gameobjects;
+package com.cjdesign.cjtd.game.gameobjects.grid;
 
 import com.cjdesign.cjtd.R;
 

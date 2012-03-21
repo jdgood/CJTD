@@ -1,4 +1,4 @@
-package com.cjdesign.cjtd.game.gameobjects;
+package com.cjdesign.cjtd.game.gameobjects.grid;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -6,6 +6,8 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import com.cjdesign.cjtd.game.gameobjects.GameObject;
+import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
 import com.cjtd.globals.G;
 
 public abstract class Ground extends GameObject {
@@ -109,6 +111,12 @@ public abstract class Ground extends GameObject {
 	public void drawTower(GL10 gl){
 		if(occupied){
 			occupiedBy.draw(gl);
+		}
+	}
+	
+	public void drawShots(GL10 gl){
+		if(occupied){
+			occupiedBy.drawShots(gl);
 		}
 	}
 }

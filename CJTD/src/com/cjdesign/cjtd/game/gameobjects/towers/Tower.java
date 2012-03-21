@@ -1,26 +1,42 @@
-package com.cjdesign.cjtd.game.gameobjects;
+package com.cjdesign.cjtd.game.gameobjects.towers;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.util.FloatMath;
+
 import com.cjdesign.cjtd.R;
+import com.cjdesign.cjtd.game.gameobjects.GameObject;
+import com.cjdesign.cjtd.game.gameobjects.Shot;
+import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
+import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
+import com.cjdesign.cjtd.utils.Vector2D;
 import com.cjtd.globals.G;
 
 public class Tower extends GameObject {
 	
 	private float zrot;
+	public float damage;
+	public float range;
+	public float lastShot;//time since last shot
+	public float frequency;//seconds between shots
+	public float bulletSpeed;
+	public Vector2D dir;
+	public Creep target;
+	public ArrayList<Shot> shots;
 	
 	public Ground location;
 
 	/** The buffer holding the vertices */
-	private FloatBuffer vertexBuffer;
+	protected FloatBuffer vertexBuffer;
 	/** The buffer holding the texture coordinates */
-	private FloatBuffer textureBuffer;
+	protected FloatBuffer textureBuffer;
 	/** The buffer holding the indices */
-	private ByteBuffer indexBuffer;
+	protected ByteBuffer indexBuffer;
 
 	private float vertices[] = {
     		G.gridSize/2, -G.gridSize/2, -G.gridSize/2f,
@@ -42,12 +58,20 @@ public class Tower extends GameObject {
 	public Tower(Ground g) {
 		super(G.TOWER_ID);
 		
+		dir = new Vector2D(1,0);
+		
 		location = g;
 		location.setTower(this);
 		
 		this.x = g.x; 
 		this.y = g.y;
 		this.z = G.gridDepth+.1f;
+		
+		bulletSpeed = 50;
+		frequency = 2;
+		range = 15;
+		
+		shots = new ArrayList<Shot>();
 		
 		textureResource = R.drawable.tower;
 
@@ -71,9 +95,45 @@ public class Tower extends GameObject {
 		
 		
 	public void update(float dt) {
-		zrot -= 1;
-		if(zrot == -360){
-			zrot = 0;
+		if(target != null && FloatMath.sqrt((float)Math.pow(target.x - x, 2) + (float)Math.pow(target.y - y, 2)) > range){//if target no longer in range
+			target = null;
+		}
+		if(target == null){//if no current target
+			//probably optimize this to grab enemies with a currentGoal within the radius
+			for(Creep c : G.Creeps){
+				if(FloatMath.sqrt((float)Math.pow(c.x - x, 2) + (float)Math.pow(c.y - y, 2)) < range){//checks for enemy farthest along path (probably allow to change this to closest enemy or fastest enemy)
+					target = c;
+					break;
+				}
+			}
+		}
+		if(target != null && lastShot - frequency > 0){
+			lastShot = 0;
+			float n = .25f;
+			dir = new Vector2D(target.x + target.dir.x * target.speed * n - x, target.y + target.dir.y * target.speed * n - y);//update direction of target(adds an n second prediction by checking creeps location in n seconds)
+			dir.normalize();
+			//update zrot here to point towards an enemy
+			/*zrot -= 1;
+			if(zrot == -360){
+				zrot = 0;
+			}*/
+			shots.add(new Shot(dir, this));
+		}
+		else{
+			
+			lastShot += dt;
+		}
+		
+		ArrayList<Shot> delThese = new ArrayList<Shot>();
+		//updates a shot and checks if a shot needs to be deleted(because of a hit or out of range
+		for(Shot s : shots){
+			s.update(dt);
+			if(s.hit() || s.range()){
+				delThese.add(s);
+			}
+		}
+		for(Shot s : delThese){
+			shots.remove(s);
 		}
 	}
 
@@ -114,5 +174,11 @@ public class Tower extends GameObject {
 			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glPopMatrix();
+	}
+	
+	public void drawShots(GL10 gl){
+		for(Shot s : shots){
+			s.draw(gl);
+		}
 	}
 }

@@ -7,6 +7,8 @@ import android.media.MediaPlayer;
 
 import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.*;
+import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
+import com.cjdesign.cjtd.game.gameobjects.grid.Grid;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.gamestate.CJAccount;
 import com.cjtd.gamestate.GameState;
@@ -30,7 +32,7 @@ public class G {
 	public static GameState gamestate;
 	public static CJAccount acc;
 	
-	public static ArrayList<GameObject> objs;
+	public static ArrayList<Creep> Creeps;
 	public static Grid level;
 	public static Path path;
 	

@@ -10,6 +10,13 @@ import android.opengl.GLSurfaceView;
 
 import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.*;
+import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
+import com.cjdesign.cjtd.game.gameobjects.grid.Grid;
+import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
+import com.cjdesign.cjtd.game.gameobjects.grid.GroundDirt;
+import com.cjdesign.cjtd.game.gameobjects.grid.GroundGrass;
+import com.cjdesign.cjtd.game.gameobjects.towers.AlphaObject;
+import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjtd.globals.*;
 
@@ -27,7 +34,7 @@ public class Renderer implements GLSurfaceView.Renderer {
 		G.viewX = 0;
 		G.viewY = 0;
 		G.viewZ = 10;
-		G.objs = new ArrayList<GameObject>();
+		G.Creeps = new ArrayList<Creep>();
 		
     	//doing this is superhacks! create texture container
     	G.textures = new GLTextures(G.gameContext);
@@ -93,7 +100,7 @@ public class Renderer implements GLSurfaceView.Renderer {
     	new AlphaObject(gridArray[9][2]);
     	new AlphaObject(gridArray[9][3]);
     	
-    	G.objs.add(new Creep());
+    	G.Creeps.add(new Creep());
     	
     	//setup game start time
 	    startTime = System.currentTimeMillis();
@@ -142,18 +149,20 @@ public class Renderer implements GLSurfaceView.Renderer {
 		
 		G.level.draw(gl); //draw grid first
 		
+		G.level.drawTowers(gl); //draw towers
+		
+		G.level.drawShots(gl); //draw bullets
+		
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
-		for(GameObject go : G.objs){
-			go.draw(gl); //draw creeps and bullets second
+		for(Creep c : G.Creeps){
+			c.draw(gl); //draw creeps last
 		}
 		gl.glDisable(GL10.GL_BLEND);
 		
-		G.level.drawTowers(gl); //draw towers last
-		
 		if(!G.paused){
-			for(GameObject go : G.objs){
-				go.update(dt);
+			for(Creep c : G.Creeps){
+				c.update(dt);
 			}
 			update(dt);
 		}
