@@ -111,10 +111,12 @@ public class GameView extends GLSurfaceView {
 		setRenderer(G.renderer);
 		
 		//create updater thread
-		G.updater = new com.cjdesign.cjtd.game.Updater();//Initially paused
-		G.updaterThread = new Thread(G.updater);
-		G.updater.running = true;
-		G.paused = false;
-		G.updaterThread.start();
+		if(G.updater==null){
+			G.updater = new com.cjdesign.cjtd.game.Updater();//Initially paused
+			G.updaterThread = new Thread(G.updater);
+			G.updater.running = true;
+			G.paused = false;
+			G.updaterThread.start();
+		}
      }
 }

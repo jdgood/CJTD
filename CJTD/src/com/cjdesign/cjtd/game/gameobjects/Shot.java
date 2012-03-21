@@ -3,7 +3,6 @@ package com.cjdesign.cjtd.game.gameobjects;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -84,9 +83,7 @@ public class Shot extends GameObject {
 	
 	//returns true if it hits
 	public boolean hit(){
-		ArrayList<Creep> clist = new ArrayList<Creep>(G.Creeps);//this should avoid concurrent exception
-		for(Creep c : clist){
-			//TODO this if check can give a nullpointer exception
+		for(Creep c : G.Creeps){
 			if(FloatMath.sqrt((float)Math.pow(c.x - x, 2) + (float)Math.pow(c.y - y, 2)) < G.ANDROID_CREEP_SIZE){//checks for hits putting a hit radius of the creep size around a creep
 				c.takeDamage(damage);
 				return true;
