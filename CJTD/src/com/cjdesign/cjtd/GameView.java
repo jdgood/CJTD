@@ -2,7 +2,6 @@ package com.cjdesign.cjtd;
 
 import java.util.ArrayList;
 
-import com.cjdesign.cjtd.game.Updater;
 import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Grid;
@@ -18,9 +17,6 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 
 public class GameView extends GLSurfaceView {
-	 //private Renderer renderer;//Game's Renderer
-     private Updater updater;//Game's Updater   
-
      public GameView(Context context)
      {
     	super(context);
@@ -96,17 +92,18 @@ public class GameView extends GLSurfaceView {
 		new AlphaObject(gridArray[9][2]);
 		new AlphaObject(gridArray[9][3]);
 		
+		//adding an enemy to check stuff out
 		G.Creeps.add(new Creep());
-		        
-		//Renderer r = new com.cjdesign.cjtd.game.Renderer();
-		setRenderer(new com.cjdesign.cjtd.game.Renderer());
-		//renderer.addListener(new GameListener());
 		
-		updater = new com.cjdesign.cjtd.game.Updater();
-		//updater.pauseThread();//Initially paused
-		Thread update = new Thread(updater);
-		updater.running = true;
+		//create renderer
+		G.renderer = new com.cjdesign.cjtd.game.Renderer();
+		setRenderer(G.renderer);
+		
+		//create updater thread
+		G.updater = new com.cjdesign.cjtd.game.Updater();//Initially paused
+		G.updaterThread = new Thread(G.updater);
+		G.updater.running = true;
 		G.paused = false;
-		update.start();
+		G.updaterThread.start();
      }
 }

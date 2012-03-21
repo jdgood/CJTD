@@ -31,8 +31,8 @@ public class AlphaObject extends Tower{
 		textureResource = R.drawable.lightsource;
 		
 		range = 5;
-		frequency = .25f;
-		bulletSpeed = 25;
+		frequency = 1;
+		bulletSpeed = 15;
 		
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());

@@ -54,7 +54,7 @@ public class Creep extends GameObject {
 		y = currentGoal.y - 2;
 		z = G.gridDepth+.1f;
 		
-		speed = 5;
+		speed = 3;
 		health = 100;
 		
 		dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);

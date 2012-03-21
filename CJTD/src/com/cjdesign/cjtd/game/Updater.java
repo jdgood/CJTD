@@ -12,13 +12,12 @@ public class Updater implements Runnable {
 		startTime = System.currentTimeMillis();
 		
 		while(running){
-
 	    	endTime = startTime;
 	    	startTime = System.currentTimeMillis();
 	    	float dt = (float)(startTime - endTime)/1000f;
 	    	
 	    	if(!G.paused){
-    			doLogic(dt);//speeds up everything a little bit superhacks!
+    			doLogic(dt);
 	    	}
 	    	try{//forces fps
 				Thread.currentThread();

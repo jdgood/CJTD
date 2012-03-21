@@ -67,7 +67,7 @@ public class Tower extends GameObject {
 		this.y = g.y;
 		this.z = G.gridDepth+.1f;
 		
-		bulletSpeed = 50;
+		bulletSpeed = 25;
 		frequency = 2;
 		range = 15;
 		

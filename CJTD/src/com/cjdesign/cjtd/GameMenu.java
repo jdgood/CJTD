@@ -21,8 +21,6 @@ public class GameMenu extends Activity {
     @Override
     public void onDestroy() {
     	super.onDestroy();
-    	//G.mpMenu.release();
-		//G.mpMenu = null;
     }
     
     @Override

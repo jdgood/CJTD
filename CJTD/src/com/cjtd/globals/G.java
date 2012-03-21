@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.media.MediaPlayer;
 
+import com.cjdesign.cjtd.game.Renderer;
+import com.cjdesign.cjtd.game.Updater;
 import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Grid;
@@ -38,6 +40,9 @@ public class G {
 	public static Context gameContext;
 	public static GLTextures textures;
 	
+	public static Updater updater;
+	public static Thread updaterThread;
+	public static Renderer renderer;
 	public static MediaPlayer mpMenu;
 	public static MediaPlayer mpGame;
 	

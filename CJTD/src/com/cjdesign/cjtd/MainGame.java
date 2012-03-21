@@ -117,6 +117,13 @@ public class MainGame extends Activity{
 	@Override
 	protected void onResume() {
 	    super.onResume();
+	    
+	    G.updater = new com.cjdesign.cjtd.game.Updater();//Initially paused
+		G.updaterThread = new Thread(G.updater);
+		G.updater.running = true;
+		G.paused = false;
+		G.updaterThread.start();
+		
 	    G.paused = false;
 	    mGLSurfaceView.onResume();
 	    if(G.mpGame!=null)
@@ -126,6 +133,17 @@ public class MainGame extends Activity{
 	@Override
 	protected void onPause() {
 	    super.onPause();
+	    
+	    G.updater.running = false;
+	    Thread.currentThread();
+		try {
+			Thread.sleep(100);//make sure the updater's current iteration of run is finished
+		} catch (InterruptedException e) {
+			
+		}
+		G.updaterThread = null;
+		G.updater = null;
+		
 	    G.paused = true;
 	    mGLSurfaceView.onPause();
 	    if(G.mpGame!=null)
@@ -135,8 +153,24 @@ public class MainGame extends Activity{
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    G.mpGame.release();
-	    G.mpGame = null;
+	    
+	    if(G.updater!=null){
+	    	G.updater.running = false;
+	    	
+		    Thread.currentThread();
+			try {
+				Thread.sleep(100);//make sure the updater's current iteration of run is finished
+			} catch (InterruptedException e) {
+				
+			}
+			G.updaterThread = null;
+			G.updater = null;
+	    }
+	    
+	    if(G.mpGame!=null){
+	    	G.mpGame.release();
+	    	G.mpGame = null;
+	    }
 	}
 	
 	@Override
