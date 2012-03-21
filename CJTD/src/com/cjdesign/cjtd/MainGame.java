@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.cjdesign.cjtd.game.*;
 import com.cjtd.globals.G;
 
 public class MainGame extends Activity{
@@ -107,21 +105,19 @@ public class MainGame extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
-	    // Create our Preview view and set it as the content of our
-	    // Activity
-	    mGLSurfaceView = new GLSurfaceView(this);
+	    // Create our Preview view and set it as the content of our Activity
+	    mGLSurfaceView = new GameView(this);
 	    mGLSurfaceView.setKeepScreenOn(true);
-	    mGLSurfaceView.setRenderer(new Renderer(this));
 	    setContentView(mGLSurfaceView);
 	    
-	    G.mpGame = MediaPlayer.create(this, R.raw.game);
-	    G.mpGame.setLooping(true);
-	    G.mpGame.start();
+	    
+	    //mGLSurfaceView.startGame();
 	}
 	
 	@Override
 	protected void onResume() {
 	    super.onResume();
+	    G.paused = false;
 	    mGLSurfaceView.onResume();
 	    if(G.mpGame!=null)
 	    	G.mpGame.start();
@@ -130,6 +126,7 @@ public class MainGame extends Activity{
 	@Override
 	protected void onPause() {
 	    super.onPause();
+	    G.paused = true;
 	    mGLSurfaceView.onPause();
 	    if(G.mpGame!=null)
 	    	G.mpGame.pause();
@@ -138,7 +135,6 @@ public class MainGame extends Activity{
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    mGLSurfaceView.onPause();
 	    G.mpGame.release();
 	    G.mpGame = null;
 	}
@@ -146,6 +142,7 @@ public class MainGame extends Activity{
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_MENU) {
+	    	G.paused = true;
 	    	mGLSurfaceView.onPause();
 	    	showDialog(DIALOG_PAUSE_ID);
 	    	return true;
@@ -175,6 +172,7 @@ public class MainGame extends Activity{
 	        	       .setNegativeButton("Resume", new DialogInterface.OnClickListener() {
 	        	           public void onClick(DialogInterface dialog, int id) {
 	        	                dialog.cancel();
+	        	                G.paused = false;
 	        	                mGLSurfaceView.onResume();
 	        	           }
 	        	       });

@@ -145,16 +145,13 @@ public class Tower extends GameObject {
 	 * @param gl - The GL Context
 	 */
 	public void draw(GL10 gl) {
-		if(textureID == -1){
-			textureID = G.textures.loadTexture(textureResource, gl); 
-		}
 		gl.glPushMatrix();
 			gl.glTranslatef(x, y, z);
 			//gl.glTranslatef(0, 0, .1f);
 			gl.glRotatef(zrot, 0.0f, 0.0f, 1.0f);
 		
 			//Bind our only previously generated texture in this case
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
 			
 			//Point to our buffers
 			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 import com.cjdesign.cjtd.game.ai.Path;
-import com.cjdesign.cjtd.game.gameobjects.*;
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Grid;
 import com.cjdesign.cjtd.game.textures.GLTextures;

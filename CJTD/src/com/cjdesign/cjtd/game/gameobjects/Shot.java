@@ -97,16 +97,13 @@ public class Shot extends GameObject {
 	}
 	
 	public void draw(GL10 gl){
-		if(textureID == -1){
-			textureID = G.textures.loadTexture(textureResource, gl); 
-		}
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 		gl.glPushMatrix();
 			gl.glTranslatef(x, y, z);
 		
 			//Bind our only previously generated texture in this case
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, textureID);
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
 			
 			//Point to our buffers
 			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
