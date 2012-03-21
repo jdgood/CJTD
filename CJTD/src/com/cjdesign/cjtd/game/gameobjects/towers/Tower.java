@@ -118,9 +118,7 @@ public class Tower extends GameObject {
 				zrot = 0;
 			}*/
 			shots.add(new Shot(dir, this));
-		}
-		else{
-			
+		}else{
 			lastShot += dt;
 		}
 		
