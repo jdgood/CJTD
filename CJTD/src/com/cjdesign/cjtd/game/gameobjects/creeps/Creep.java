@@ -6,8 +6,6 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.util.FloatMath;
-
 import com.cjdesign.cjtd.R;
 import com.cjdesign.cjtd.game.gameobjects.GameObject;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
@@ -18,6 +16,8 @@ public class Creep extends GameObject {
 	public Ground currentGoal;
 	public Vector2D dir;
 	public float speed;
+	
+	private int health;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -55,6 +55,7 @@ public class Creep extends GameObject {
 		z = G.gridDepth+.1f;
 		
 		speed = 5;
+		health = 100;
 		
 		dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
 		dir.normalize();//makes it so direction always implies a magnitude of 1
@@ -76,26 +77,40 @@ public class Creep extends GameObject {
 		indexBuffer.position(0);
 	}
 	
+	private void die(){
+	    G.Creeps.remove(this);
+	}
+	
+	public void takeDamage(int damage){
+	    health -= damage;
+	    if(health <= 0)
+	        die();
+	}
+	
+	public boolean isAlive(){
+	    return (health > 0);
+	}
+	
 	public void update(float dt){
-		//update based on shortest path and current position on path 
-		//until implemented android will go off to space!!
 	    float dx = dir.x * dt * speed;
 	    float dy = dir.y * dt * speed;
-        
-		x+=dx;
-		y+=dy;
-		
-		//if(within a certain radius of currentGoal){
-		//update next goal(adjacent path node with lowest number)
-		//update velocity vector
-        
-        if(1f >= FloatMath.sqrt((x-currentGoal.x)*(x-currentGoal.x)+(y-currentGoal.y)*(y-currentGoal.y)))
+
+	    // Change targets when the Manhattan distance will increase with the next delta.
+        if(Math.abs(x-currentGoal.x)+Math.abs(y-currentGoal.y) < Math.abs(x+dx-currentGoal.x)+Math.abs(y+dy-currentGoal.y))
+        //if(G.ANDROID_CREEP_SIZE >= FloatMath.sqrt((x-currentGoal.x)*(x-currentGoal.x)+(y-currentGoal.y)*(y-currentGoal.y)))
         {
             currentGoal = G.path.getNextGoal(currentGoal);
         
             dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
             dir.normalize();//makes it so direction always implies a magnitude of 1
+
+            dx = dir.x * dt * speed;
+            dy = dir.y * dt * speed;
         }
+        
+		x+=dx;
+		y+=dy;
+        
 	}
 	
 	public void draw(GL10 gl){

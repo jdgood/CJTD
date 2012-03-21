@@ -91,11 +91,9 @@ public class Tower extends GameObject {
 		indexBuffer.put(indices);
 		indexBuffer.position(0);
 	}
-
-		
-		
+	
 	public void update(float dt) {
-		if(target != null && FloatMath.sqrt((float)Math.pow(target.x - x, 2) + (float)Math.pow(target.y - y, 2)) > range){//if target no longer in range
+		if(target != null && (!target.isAlive() || FloatMath.sqrt((float)Math.pow(target.x - x, 2) + (float)Math.pow(target.y - y, 2)) > range)){//if target no longer in range
 			target = null;
 		}
 		if(target == null){//if no current target
@@ -118,9 +116,7 @@ public class Tower extends GameObject {
 				zrot = 0;
 			}*/
 			shots.add(new Shot(dir, this));
-		}
-		else{
-			
+		}else{
 			lastShot += dt;
 		}
 		

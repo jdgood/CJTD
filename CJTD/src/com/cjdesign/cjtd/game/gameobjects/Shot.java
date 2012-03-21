@@ -43,10 +43,14 @@ public class Shot extends GameObject {
 	public Tower owner;
 	public float traveled;
 	
+	private int damage;
+	
 	public Shot(Vector2D dir, Tower owner) {
 		super(G.BULLET_ID);
 		this.dir = dir;
 		this.owner = owner;
+		
+		damage = 5;
 		
 		x = owner.x;
 		y = owner.y;
@@ -81,7 +85,7 @@ public class Shot extends GameObject {
 	public boolean hit(){
 		for(Creep c : G.Creeps){
 			if(FloatMath.sqrt((float)Math.pow(c.x - x, 2) + (float)Math.pow(c.y - y, 2)) < G.ANDROID_CREEP_SIZE){//checks for hits putting a hit radius of the creep size around a creep
-				//apply damage to creep
+				c.takeDamage(damage);
 				return true;
 			}
 		}

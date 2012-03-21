@@ -9,6 +9,7 @@ import java.util.TreeSet;
 
 import android.util.Pair;
 
+import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
 import com.cjtd.globals.G;
 
@@ -86,6 +87,7 @@ public class Path {
 	    unprocessed.add(endPoint);
 		return updateGrid(tempGrid,unprocessed);
 	}
+	
 	 /*Description of path algorithm from some forum
 	  * 
 	  * I actually wrote a game once which did this sort of thing perfectly.
@@ -141,7 +143,6 @@ public class Path {
 	 know whether it is a legal or illegal build.
 	
 	 Hope this helped, Randomman159*/
-	
 	private boolean updateGrid(int[][] tempGrid, Set<Pair<Integer,Integer>> unprocessed){
 	    Set<Pair<Integer,Integer>> nextUnprocessed = new TreeSet<Pair<Integer,Integer>>(new PairComparator());
         for (Pair<Integer,Integer> p : unprocessed)
@@ -188,12 +189,11 @@ public class Path {
             return false;
         else
         {
-            // TODO look for cut off creeps
-            /* How can we loop through all creeps?
-             * for(Creep c : all_creeps)
-             *     if(tempGrid[c.currentGoal.xPos][c.currentGoal.yPos] == -1)
-             *         return false;
-             */
+            // Look for cut off creeps
+            for(Creep c : G.Creeps)
+                if(tempGrid[c.currentGoal.xPos][c.currentGoal.yPos] == -1)
+                    return false;
+            
             grid = tempGrid;
             return true;
         }
