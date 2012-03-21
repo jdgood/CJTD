@@ -6,7 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.R;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 public class AlphaObject extends Tower{	
 	private float vertices[] = {

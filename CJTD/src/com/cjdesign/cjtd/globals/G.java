@@ -1,4 +1,4 @@
-package com.cjtd.globals;
+package com.cjdesign.cjtd.globals;
 
 import java.util.ArrayList;
 
@@ -11,8 +11,8 @@ import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Grid;
 import com.cjdesign.cjtd.game.textures.GLTextures;
-import com.cjtd.gamestate.CJAccount;
-import com.cjtd.gamestate.GameState;
+import com.cjdesign.cjtd.gamestate.CJAccount;
+import com.cjdesign.cjtd.gamestate.GameState;
 
 public class G {
 	public static boolean paused = false;

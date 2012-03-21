@@ -1,8 +1,8 @@
 package com.cjdesign.cjtd;
 
-import com.cjtd.gamestate.GameState;
-import com.cjtd.gamestate.UpdateState;
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.gamestate.GameState;
+import com.cjdesign.cjtd.gamestate.UpdateState;
+import com.cjdesign.cjtd.globals.G;
 
 import android.app.Activity;
 import android.app.AlertDialog;

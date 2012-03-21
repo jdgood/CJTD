@@ -1,4 +1,4 @@
-package com.cjtd.gamestate;
+package com.cjdesign.cjtd.gamestate;
 
 public class UpdateState {
 	public static void continueGame(int diff, int mode){

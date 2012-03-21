@@ -11,7 +11,7 @@ import com.cjdesign.cjtd.game.gameobjects.grid.GroundGrass;
 import com.cjdesign.cjtd.game.gameobjects.towers.AlphaObject;
 import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
 import com.cjdesign.cjtd.game.textures.GLTextures;
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
@@ -93,7 +93,18 @@ public class GameView extends GLSurfaceView {
 		new AlphaObject(gridArray[9][3]);
 		
 		//adding an enemy to check stuff out
-		G.Creeps.add(new Creep());
+		G.Creeps.add(new Creep(0));
+		G.Creeps.add(new Creep(3));
+		G.Creeps.add(new Creep(6));
+		G.Creeps.add(new Creep(9));
+		G.Creeps.add(new Creep(12));
+		G.Creeps.add(new Creep(15));
+		G.Creeps.add(new Creep(16));
+		G.Creeps.add(new Creep(17));
+		G.Creeps.add(new Creep(18));
+		G.Creeps.add(new Creep(19));
+		G.Creeps.add(new Creep(20));
+		G.Creeps.add(new Creep(21));
 		
 		//create renderer
 		G.renderer = new com.cjdesign.cjtd.game.Renderer();

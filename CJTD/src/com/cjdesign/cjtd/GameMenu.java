@@ -1,6 +1,6 @@
 package com.cjdesign.cjtd;
 
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,7 +39,8 @@ public class GameMenu extends Activity {
     
     public void playGame(View view){
     	//this.view = view;
-		G.mpMenu.pause();
+    	if(G.mpMenu!=null)
+    		G.mpMenu.pause();
 		Intent myIntent = new Intent(view.getContext(), MainGame.class);
         startActivityForResult(myIntent, 0);
 	}

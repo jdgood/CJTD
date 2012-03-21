@@ -1,4 +1,4 @@
-package com.cjtd.gamestate;
+package com.cjdesign.cjtd.gamestate;
 
 public class CJAccount {
 	public String email;

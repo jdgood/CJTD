@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 public class MainGame extends Activity{
 	private static final int DIALOG_PAUSE_ID = 0;
@@ -110,7 +111,9 @@ public class MainGame extends Activity{
 	    mGLSurfaceView.setKeepScreenOn(true);
 	    setContentView(mGLSurfaceView);
 	    
-	    
+	    G.mpGame = MediaPlayer.create(this, R.raw.game);
+        G.mpGame.setLooping(true);
+        G.mpGame.start();
 	    //mGLSurfaceView.startGame();
 	}
 	

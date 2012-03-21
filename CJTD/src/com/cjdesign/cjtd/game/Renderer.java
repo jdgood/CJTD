@@ -1,5 +1,7 @@
 package com.cjdesign.cjtd.game;
 
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -7,7 +9,7 @@ import android.opengl.GLSurfaceView;
 
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.textures.GLTextures;
-import com.cjtd.globals.*;
+import com.cjdesign.cjtd.globals.*;
 
 import android.opengl.GLU;
 
@@ -33,7 +35,9 @@ public class Renderer implements GLSurfaceView.Renderer {
 		
 		gl.glEnable(GL10.GL_BLEND);
 		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
-		for(Creep c : G.Creeps){
+		
+		ArrayList<Creep> clist = new ArrayList<Creep>(G.Creeps);//this should avoid concurrent exception
+		for(Creep c : clist){
 			c.draw(gl); //draw creeps last
 		}
 		gl.glDisable(GL10.GL_BLEND);

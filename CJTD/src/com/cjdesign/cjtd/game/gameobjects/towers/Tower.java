@@ -14,8 +14,8 @@ import com.cjdesign.cjtd.game.gameobjects.GameObject;
 import com.cjdesign.cjtd.game.gameobjects.Shot;
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
+import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.Vector2D;
-import com.cjtd.globals.G;
 
 public class Tower extends GameObject {
 	
@@ -93,12 +93,16 @@ public class Tower extends GameObject {
 	}
 	
 	public void update(float dt) {
-		if(target != null && (!target.isAlive() || FloatMath.sqrt((float)Math.pow(target.x - x, 2) + (float)Math.pow(target.y - y, 2)) > range)){//if target no longer in range
-			target = null;
+		if(target != null){
+			//TODO this if check can give a nullpointer exception 
+			if(!target.isAlive() || FloatMath.sqrt((float)Math.pow(target.x - x, 2) + (float)Math.pow(target.y - y, 2)) > range){//if target no longer in range or dead
+				target = null;
+			}
 		}
 		if(target == null){//if no current target
 			//probably optimize this to grab enemies with a currentGoal within the radius
-			for(Creep c : G.Creeps){
+			ArrayList<Creep> clist = new ArrayList<Creep>(G.Creeps);//this should avoid concurrent exception
+			for(Creep c : clist){
 				if(FloatMath.sqrt((float)Math.pow(c.x - x, 2) + (float)Math.pow(c.y - y, 2)) < range){//checks for enemy farthest along path (probably allow to change this to closest enemy or fastest enemy)
 					target = c;
 					break;
@@ -121,8 +125,8 @@ public class Tower extends GameObject {
 		}
 		
 		ArrayList<Shot> delThese = new ArrayList<Shot>();
-		//updates a shot and checks if a shot needs to be deleted(because of a hit or out of range
-		for(Shot s : shots){
+		//updates a shot and checks if a shot needs to be deleted(because of a hit or out of range)
+		for(Shot s : shots){//TODO this somehow gave me an indexoutofbounds exception with -1 as the index
 			s.update(dt);
 			if(s.hit() || s.range()){
 				delThese.add(s);
@@ -170,7 +174,8 @@ public class Tower extends GameObject {
 	}
 	
 	public void drawShots(GL10 gl){
-		for(Shot s : shots){
+		ArrayList<Shot> slist = new ArrayList<Shot>(shots);//this should avoid concurrent exception
+		for(Shot s : slist){
 			s.draw(gl);
 		}
 	}

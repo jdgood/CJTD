@@ -8,7 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.game.gameobjects.GameObject;
 import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 public abstract class Ground extends GameObject {
 	public boolean occupied = false;

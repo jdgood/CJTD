@@ -3,7 +3,7 @@ package com.cjdesign.cjtd.game.gameobjects.grid;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.game.gameobjects.GameObject;
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 public class Grid extends GameObject {
 	//private float xrot;

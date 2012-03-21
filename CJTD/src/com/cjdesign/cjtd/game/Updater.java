@@ -1,7 +1,7 @@
 package com.cjdesign.cjtd.game;
 
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 public class Updater implements Runnable {
 	private long startTime, endTime;

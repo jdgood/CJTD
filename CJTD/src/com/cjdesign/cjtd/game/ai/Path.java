@@ -11,7 +11,7 @@ import android.util.Pair;
 
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
-import com.cjtd.globals.G;
+import com.cjdesign.cjtd.globals.G;
 
 /*
  Path in demo level 
