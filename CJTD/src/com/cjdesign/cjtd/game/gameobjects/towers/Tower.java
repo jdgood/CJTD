@@ -20,13 +20,13 @@ import com.cjdesign.cjtd.utils.Vector2D;
 public class Tower extends GameObject {
 	
 	private float zrot;
-	protected int damage;
-	protected float range;
+	protected int damage = 5;
+	protected float range = 15f;
 	/** time since last shot */
 	protected float lastShot;
 	/** seconds between shots */
-	protected float frequency;
-	protected float bulletSpeed;
+	protected float frequency = 2f;
+	protected float bulletSpeed = 25f;
 	protected Vector2D dir;
 	protected Creep target;
 	protected ArrayList<Shot> shots;
@@ -68,10 +68,6 @@ public class Tower extends GameObject {
 		this.x = g.x; 
 		this.y = g.y;
 		this.z = G.gridDepth+.1f;
-		
-		setBulletSpeed(25);
-		frequency = 2;
-		setRange(15);
 		
 		shots = new ArrayList<Shot>();
 		
