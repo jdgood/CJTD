@@ -55,7 +55,7 @@ public abstract class Trap extends GameObject {
         
         this.x = g.x;
         this.y = g.y;
-        z = G.gridDepth+0.1f;
+        z = G.gridDepth;
         
         g.setTrap(this);
 

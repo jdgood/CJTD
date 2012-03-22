@@ -13,10 +13,6 @@ import com.cjdesign.cjtd.globals.*;
 
 import android.opengl.GLU;
 
-/**
- * Render a pair of tumbling cubes.
- */
-
 public class Renderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl) {
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);	

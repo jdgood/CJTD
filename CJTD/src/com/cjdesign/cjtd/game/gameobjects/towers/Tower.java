@@ -67,7 +67,7 @@ public class Tower extends GameObject {
 		
 		this.x = g.x; 
 		this.y = g.y;
-		this.z = G.gridDepth+.1f;
+		this.z = G.gridDepth;
 		
 		shots = new ArrayList<Shot>();
 		

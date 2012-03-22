@@ -27,8 +27,11 @@ public class GameView extends GLSurfaceView {
 		G.viewX = 0;
 		G.viewY = 0;
 		G.viewZ = 10;
+		G.Waves = new ArrayList<ArrayList<Creep>>();
 		G.Creeps = new ArrayList<Creep>();
 		G.deadCreeps = new ArrayList<Creep>();
+		G.state = G.STATE_PREPARATION;
+		G.health = 2;
 		
 		//doing this is superhacks! create texture container
 		G.textures = new GLTextures(G.gameContext);
@@ -96,18 +99,37 @@ public class GameView extends GLSurfaceView {
 		new AlphaObject(gridArray[9][3]);
 		
 		//adding an enemy to check stuff out
-		G.Creeps.add(new Creep(0));
-		G.Creeps.add(new Creep(3));
-		G.Creeps.add(new Creep(6));
-		G.Creeps.add(new Creep(9));
-		G.Creeps.add(new Creep(12));
-		G.Creeps.add(new Creep(15));
-		G.Creeps.add(new Creep(16));
-		G.Creeps.add(new Creep(17));
-		G.Creeps.add(new Creep(18));
-		G.Creeps.add(new Creep(19));
-		G.Creeps.add(new Creep(20));
-		G.Creeps.add(new Creep(21));
+		ArrayList<Creep> temp = new ArrayList<Creep>();
+		temp.add(new Creep(0));
+		temp.add(new Creep(3));
+		temp.add(new Creep(6));
+		temp.add(new Creep(9));
+		temp.add(new Creep(12));
+		temp.add(new Creep(15));
+		temp.add(new Creep(16));
+		temp.add(new Creep(17));
+		temp.add(new Creep(18));
+		temp.add(new Creep(19));
+		temp.add(new Creep(20));
+		temp.add(new Creep(21));
+		
+		G.Waves.add(temp);
+		
+		temp = new ArrayList<Creep>();
+		temp.add(new Creep(0));
+		temp.add(new Creep(.5f));
+		temp.add(new Creep(1));
+		temp.add(new Creep(1.5f));
+		temp.add(new Creep(2));
+		temp.add(new Creep(2.5f));
+		temp.add(new Creep(3));
+		temp.add(new Creep(3.5f));
+		temp.add(new Creep(4));
+		temp.add(new Creep(4.5f));
+		temp.add(new Creep(5));
+		temp.add(new Creep(5.5f));
+		
+		G.Waves.add(temp);
 		
 		//create renderer
 		G.renderer = new com.cjdesign.cjtd.game.Renderer();

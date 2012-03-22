@@ -33,10 +33,12 @@ public class G {
 	public static GameState gamestate;
 	public static CJAccount acc;
 	
+	public static ArrayList<ArrayList<Creep>> Waves;
 	public static ArrayList<Creep> Creeps;
     public static ArrayList<Creep> deadCreeps;
 	public static Grid level;
 	public static Path path;
+	public static int health;
 	
 	public static Context gameContext;
 	public static GLTextures textures;
@@ -46,6 +48,8 @@ public class G {
 	public static Renderer renderer;
 	public static MediaPlayer mpMenu;
 	public static MediaPlayer mpGame;
+	
+	public static int state;
 	
 	public static final int GRID_ID = 0;
 	public static final int TOWER_ID = 1;
@@ -61,4 +65,9 @@ public class G {
 	
 	public static final int MODE_OVERWATCH = 0;
 	public static final int MODE_SIEGE = 1;
+	
+	public static final int STATE_PREPARATION = 0;
+	public static final int STATE_BATTLE = 1;
+	public static final int STATE_VICTORY = 2;
+	public static final int STATE_DEFEAT = 3;
 }

@@ -211,16 +211,20 @@ public class MainGame extends Activity{
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-	    if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_MENU) {
+	    if(keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_HOME) {
 	    	G.paused = true;
 	    	mGLSurfaceView.onPause();
 	    	showDialog(DIALOG_PAUSE_ID);
 	    	return true;
 	    }
-	    /*else if (keyCode == KeyEvent.KEYCODE_HOME || keyCode == KeyEvent.KEYCODE_APP_SWITCH) {
-	    	mGLSurfaceView.onPause();
-	    	//moveTaskToBack(true);
-	    }*/
+	    else if(keyCode == KeyEvent.KEYCODE_MENU) {
+	    	if(!G.Waves.isEmpty() && G.Creeps.isEmpty()){//still waves to go for this level and current wave is finished
+	    		G.state = G.STATE_BATTLE;
+	    		G.Creeps = G.Waves.get(0);
+	    		G.Waves.remove(0);
+	    	}
+	    	return true;
+    	}
 	    return super.onKeyDown(keyCode, event);
 	}
 	

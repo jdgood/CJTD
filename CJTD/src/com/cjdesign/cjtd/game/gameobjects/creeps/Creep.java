@@ -191,6 +191,10 @@ public class Creep extends GameObject {
      * @param currentGoal the currentGoal to set
      */
     public void setCurrentGoal(Ground currentGoal) {
+    	if(this.currentGoal == currentGoal){
+    		G.health--;
+    		die();
+    	}
         this.currentGoal = currentGoal;
     }
 

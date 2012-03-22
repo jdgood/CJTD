@@ -17,15 +17,21 @@ public class Updater implements Runnable {
 	    	float dt = (float)(startTime - endTime)/1000f;
 	    	
 	    	if(!G.paused){
-	    		if(true && G.Creeps.isEmpty()){//true will become a boolean that represents the last wave of the level launched so this means the last wave is finished
-	    			//bring up level over screen
+	    		if(G.health <= 0){//ran out of health or whatever set somewhere within update method
+	    			G.state = G.STATE_DEFEAT;//indicates death/game over screen in renderer
+	    			break;//updates no longer needed at this point
 	    		}
-	    		else if(G.Creeps.isEmpty()){//current wave over, change state to waiting for next wave(in between wave tower building) either a counter or user controlled
-	    			//wait for launch of next wave(G.Creeps will be populated again)
-	    		}
-	    		else{
+	    		else if(!G.Creeps.isEmpty()){//current wave still going. this implies state == state_battle, which is set when a wave is launched
 	    			doLogic(dt);
 	    		}
+	    		else if(G.Waves.isEmpty() && G.Creeps.isEmpty()){//last wave of the level launched and current/last wave is finished
+	    			G.state = G.STATE_VICTORY;//indicates victory/level over screen in renderer
+	    			break;//updates no longer needed at this point
+	    		}
+	    		else{//waiting for next wave to launch
+	    			G.state = G.STATE_PREPARATION;
+	    		}
+	    		updateCamera(dt);
 	    	}
 	    	try{//forces fps
 				Thread.currentThread();
@@ -45,12 +51,11 @@ public class Updater implements Runnable {
 		    G.Creeps.removeAll(G.deadCreeps);
 		    G.deadCreeps.clear();
 		}
-		update(dt);
 		G.level.update(dt);
 	}
 	
 	/** dt : time in sec */
-    private void update(float dt){
+    private void updateCamera(float dt){
         if(G.viewX + G.velX * dt < G.viewXlimit && G.viewX + G.velX * dt > -G.viewXlimit){
             G.viewX += G.velX * dt;
         } else {
