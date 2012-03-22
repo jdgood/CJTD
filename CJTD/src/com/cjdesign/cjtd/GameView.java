@@ -28,6 +28,7 @@ public class GameView extends GLSurfaceView {
 		G.viewY = 0;
 		G.viewZ = 10;
 		G.Creeps = new ArrayList<Creep>();
+		G.deadCreeps = new ArrayList<Creep>();
 		
 		//doing this is superhacks! create texture container
 		G.textures = new GLTextures(G.gameContext);

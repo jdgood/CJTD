@@ -41,6 +41,10 @@ public class Updater implements Runnable {
 		for(Creep c : G.Creeps){
 			c.update(dt);
 		}
+		if(!G.deadCreeps.isEmpty()) {
+		    G.Creeps.removeAll(G.deadCreeps);
+		    G.deadCreeps.clear();
+		}
 		update(dt);
 		G.level.update(dt);
 	}

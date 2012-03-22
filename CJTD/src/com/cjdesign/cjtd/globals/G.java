@@ -34,6 +34,7 @@ public class G {
 	public static CJAccount acc;
 	
 	public static ArrayList<Creep> Creeps;
+    public static ArrayList<Creep> deadCreeps;
 	public static Grid level;
 	public static Path path;
 	

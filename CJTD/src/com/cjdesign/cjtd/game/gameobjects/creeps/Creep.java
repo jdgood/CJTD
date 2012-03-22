@@ -83,13 +83,13 @@ public class Creep extends GameObject {
 	}
 	
 	private void die(){
-	    G.Creeps.remove(this);
+	    G.deadCreeps.add(this);
 	}
 	
 	public void takeDamage(int damage){
 	    health -= damage;
-	    if(health <= 0)
-	        die();
+        if(health <= 0)
+            die();
 	}
 	
 	public boolean isAlive(){
