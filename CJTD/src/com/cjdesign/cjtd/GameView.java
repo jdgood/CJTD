@@ -11,6 +11,7 @@ import com.cjdesign.cjtd.game.gameobjects.grid.GroundGrass;
 import com.cjdesign.cjtd.game.gameobjects.towers.AlphaObject;
 import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
 import com.cjdesign.cjtd.game.gameobjects.traps.SpikeTrap;
+import com.cjdesign.cjtd.game.hud.HUD;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjdesign.cjtd.globals.G;
 
@@ -27,6 +28,7 @@ public class GameView extends GLSurfaceView {
 		G.viewX = 0;
 		G.viewY = 0;
 		G.viewZ = 10;
+		G.hud = new HUD();
 		G.Waves = new ArrayList<ArrayList<Creep>>();
 		G.Creeps = new ArrayList<Creep>();
 		G.deadCreeps = new ArrayList<Creep>();

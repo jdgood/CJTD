@@ -39,6 +39,9 @@ public class Renderer implements GLSurfaceView.Renderer {
 			c.draw(gl); //draw creeps last
 		}
 		gl.glDisable(GL10.GL_BLEND);
+		
+		if(G.state == G.STATE_DEFEAT || G.state == G.STATE_VICTORY)
+			G.hud.draw(gl);//this is really messing up everything else so I will make it only be used for victory or defeat for now
     }
 
     public void onSurfaceChanged(GL10 gl, int width, int height) {

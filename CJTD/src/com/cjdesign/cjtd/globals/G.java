@@ -10,6 +10,7 @@ import com.cjdesign.cjtd.game.Updater;
 import com.cjdesign.cjtd.game.ai.Path;
 import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Grid;
+import com.cjdesign.cjtd.game.hud.HUD;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjdesign.cjtd.gamestate.CJAccount;
 import com.cjdesign.cjtd.gamestate.GameState;
@@ -46,6 +47,8 @@ public class G {
 	public static Updater updater;
 	public static Thread updaterThread;
 	public static Renderer renderer;
+	public static HUD hud;
+	
 	public static MediaPlayer mpMenu;
 	public static MediaPlayer mpGame;
 	

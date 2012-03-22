@@ -2,7 +2,6 @@ package com.cjdesign.cjtd.game.gameobjects;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -15,29 +14,11 @@ import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.Vector2D;
 
 public class Shot extends GameObject {
-	/** The buffer holding the vertices */
-	private FloatBuffer vertexBuffer;
-	/** The buffer holding the texture coordinates */
-	private FloatBuffer textureBuffer;
-	/** The buffer holding the indices */
-	private ByteBuffer indexBuffer;
-	
 	private float vertices[] = {
     		G.gridSize/4, -G.gridSize/4, -G.gridSize/4f,
     		-G.gridSize/4, -G.gridSize/4, -G.gridSize/4,    		
     		G.gridSize/4, G.gridSize/4, -G.gridSize/4,
     		-G.gridSize/4, G.gridSize/4, -G.gridSize/4};
-
-	/** The initial texture coordinates (u, v) */	
-	private float texture[] = {
-	    		0.0f, 0.0f,
-	    		0.0f, 1.0f,
-	    		1.0f, 0.0f,
-	    		1.0f, 1.0f};
-	
-	/** The initial indices definition */	
-	private byte indices[] = {
-	    		0,1,3, 0,3,2};
 	
 	protected Vector2D dir;
 	protected Tower owner;
@@ -59,16 +40,6 @@ public class Shot extends GameObject {
 		vertexBuffer = byteBuf.asFloatBuffer();
 		vertexBuffer.put(vertices);
 		vertexBuffer.position(0);
-
-		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
-		byteBuf.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuf.asFloatBuffer();
-		textureBuffer.put(texture);
-		textureBuffer.position(0);
-
-		indexBuffer = ByteBuffer.allocateDirect(indices.length);
-		indexBuffer.put(indices);
-		indexBuffer.position(0);
 	}
 	
 	public void update(float dt){

@@ -5,7 +5,6 @@ package com.cjdesign.cjtd.game.gameobjects.traps;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -21,29 +20,11 @@ public abstract class Trap extends GameObject {
     
     private Ground location;
 
-    /** The buffer holding the vertices */
-    protected FloatBuffer vertexBuffer;
-    /** The buffer holding the texture coordinates */
-    protected FloatBuffer textureBuffer;
-    /** The buffer holding the indices */
-    protected ByteBuffer indexBuffer;
-
     private float vertices[] = {
             G.gridSize/2, -G.gridSize/2, -G.gridSize/2f,
             -G.gridSize/2, -G.gridSize/2, -G.gridSize/2,            
             G.gridSize/2, G.gridSize/2, -G.gridSize/2,
             -G.gridSize/2, G.gridSize/2, -G.gridSize/2};
-
-    /** The initial texture coordinates (u, v) */   
-    private float texture[] = {
-                0.0f, 0.0f,
-                0.0f, 1.0f,
-                1.0f, 0.0f,
-                1.0f, 1.0f};
-    
-    /** The initial indices definition */   
-    private byte indices[] = {
-                0,1,3, 0,3,2};
 
     /**
      * @param g Ground to be summoned on
@@ -64,16 +45,6 @@ public abstract class Trap extends GameObject {
         vertexBuffer = byteBuf.asFloatBuffer();
         vertexBuffer.put(vertices);
         vertexBuffer.position(0);
-
-        byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
-        byteBuf.order(ByteOrder.nativeOrder());
-        textureBuffer = byteBuf.asFloatBuffer();
-        textureBuffer.put(texture);
-        textureBuffer.position(0);
-
-        indexBuffer = ByteBuffer.allocateDirect(indices.length);
-        indexBuffer.put(indices);
-        indexBuffer.position(0);
     }
 
     /**
