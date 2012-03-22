@@ -8,11 +8,16 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.game.gameobjects.GameObject;
 import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
+import com.cjdesign.cjtd.game.gameobjects.traps.Trap;
 import com.cjdesign.cjtd.globals.G;
 
 public abstract class Ground extends GameObject {
     protected boolean occupied = false;
 	protected Tower occupiedBy = null;
+	
+	protected boolean trapped = false;
+	protected Trap trap = null;
+	
 	protected int xPos;
 	protected int yPos;
 	
@@ -70,6 +75,8 @@ public abstract class Ground extends GameObject {
 	public void update(float dt){
 		if(isOccupied()){ 
 			getTower().update(dt);
+		} else if(isTrapped()) {
+		    getTrap().update(dt);
 		}
 	}
 
@@ -105,6 +112,12 @@ public abstract class Ground extends GameObject {
 			getTower().draw(gl);
 		}
 	}
+
+    public void drawTrap(GL10 gl) {
+        if(isTrapped()) {
+            getTrap().draw(gl);
+        }
+    }
 	
 	public void drawShots(GL10 gl){
 		if(isOccupied()){
@@ -165,5 +178,32 @@ public abstract class Ground extends GameObject {
      */
     public int getyPos() {
         return yPos;
+    }
+
+    /**
+     * @return if ground is trapped
+     */
+    public boolean isTrapped() {
+        return trapped;
+    }
+
+    /**
+     * @return the trap
+     */
+    public Trap getTrap() {
+        return trap;
+    }
+
+    /**
+     * @param trap the trap to set
+     * 
+     * @return {@code trapped}
+     */
+    public boolean setTrap(Trap trap) {
+        if(!isOccupied()) {
+            this.trapped = true;
+            this.trap = trap;
+        }
+        return trapped;
     }
 }

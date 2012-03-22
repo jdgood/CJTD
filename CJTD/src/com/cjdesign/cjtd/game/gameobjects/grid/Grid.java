@@ -98,4 +98,15 @@ public class Grid extends GameObject {
     public Ground getGround(int x, int y) throws IndexOutOfBoundsException {
         return GroundArray[x][y];
     }
+
+    public void drawTraps(GL10 gl) {
+        gl.glPushMatrix();
+            for(int i = 0; i < ySize; i++){
+                for(int j = 0; j < xSize; j++){
+                    GroundArray[j][i].drawTrap(gl);
+                    gl.glTranslatef(0, 0, .01f);//to avoid z-fighting on blending
+                }
+            }
+        gl.glPopMatrix();
+    }
 }

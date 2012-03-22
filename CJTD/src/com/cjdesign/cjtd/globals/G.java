@@ -50,6 +50,7 @@ public class G {
 	public static final int TOWER_ID = 1;
 	public static final int CREEP_ID = 2;
 	public static final int BULLET_ID = 3;
+	public static final int TRAP_ID = 4;
 	
 	public static final float ANDROID_CREEP_SIZE = .5f;
 	

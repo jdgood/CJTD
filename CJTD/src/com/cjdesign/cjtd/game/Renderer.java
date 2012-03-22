@@ -31,6 +31,8 @@ public class Renderer implements GLSurfaceView.Renderer {
 		
 		G.level.drawTowers(gl); //draw towers
 		
+		G.level.drawTraps(gl); // draw traps
+		
 		G.level.drawShots(gl); //draw bullets
 		
 		gl.glEnable(GL10.GL_BLEND);
