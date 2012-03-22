@@ -23,22 +23,26 @@ public final class R {
         public static final int victory=0x7f020009;
     }
     public static final class id {
-        public static final int Button01=0x7f060009;
-        public static final int Button02=0x7f06000a;
-        public static final int Button03=0x7f06000b;
-        public static final int ContinueEasy=0x7f060003;
-        public static final int ContinueHard=0x7f060007;
-        public static final int ContinueNormal=0x7f060005;
-        public static final int NewEasy=0x7f060004;
-        public static final int NewHard=0x7f060008;
-        public static final int NewNormal=0x7f060006;
-        public static final int RelativeLayout1=0x7f060000;
-        public static final int button1=0x7f060002;
-        public static final int textView1=0x7f060001;
+        public static final int Button01=0x7f06000c;
+        public static final int Button02=0x7f06000d;
+        public static final int Button03=0x7f06000e;
+        public static final int ContinueEasy=0x7f060006;
+        public static final int ContinueHard=0x7f06000a;
+        public static final int ContinueNormal=0x7f060008;
+        public static final int LinearLayout1=0x7f060000;
+        public static final int NewEasy=0x7f060007;
+        public static final int NewHard=0x7f06000b;
+        public static final int NewNormal=0x7f060009;
+        public static final int RelativeLayout1=0x7f060005;
+        public static final int button1=0x7f060001;
+        public static final int button2=0x7f060002;
+        public static final int button3=0x7f060003;
+        public static final int textView1=0x7f060004;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int mainmenu=0x7f030001;
+        public static final int levelselect=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int mainmenu=0x7f030002;
     }
     public static final class raw {
         public static final int game=0x7f040000;
@@ -54,7 +58,11 @@ public final class R {
         public static final int SkillTree=0x7f050008;
         public static final int Store=0x7f05000a;
         public static final int app_name=0x7f050001;
+        public static final int defeat=0x7f05000c;
         public static final int hello=0x7f050000;
+        public static final int multiwave=0x7f05000d;
         public static final int quit=0x7f050006;
+        public static final int victory=0x7f05000b;
+        public static final int wavetip=0x7f05000e;
     }
 }

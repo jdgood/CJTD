@@ -11,6 +11,7 @@ import android.util.FloatMath;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import com.cjdesign.cjtd.game.GameView;
 import com.cjdesign.cjtd.globals.G;
 
 public class MainGame extends Activity{

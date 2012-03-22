@@ -7,15 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class GameMenu extends Activity {
-
-	//private View view;
+public class LevelSelect extends Activity {
+//private View view;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainmenu);
+        setContentView(R.layout.levelselect);
     }
     
     @Override
@@ -37,9 +36,26 @@ public class GameMenu extends Activity {
     		G.mpMenu.pause();
     }
     
-    public void playGame(View view){
-    	//this.view = view;
-		Intent myIntent = new Intent(view.getContext(), LevelSelect.class);
-        startActivityForResult(myIntent, 0);
+    public void playVictory(View view){
+    	G.levelName = "V";
+    	startGame(view);
 	}
+    
+    public void playDefeat(View view){
+    	G.levelName = "D";
+    	startGame(view);
+	}
+    
+    public void playMultiWave(View view){
+    	G.levelName = "M";
+    	startGame(view);
+	}
+    
+    public void startGame(View view){
+    	//this.view = view;
+    	if(G.mpMenu!=null)
+    		G.mpMenu.pause();
+		Intent myIntent = new Intent(view.getContext(), MainGame.class);
+        startActivityForResult(myIntent, 0);
+    }
 }
