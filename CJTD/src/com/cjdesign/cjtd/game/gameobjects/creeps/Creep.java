@@ -19,7 +19,7 @@ public class Creep extends GameObject {
 	
 	private int health;
 	
-	private float delay;//temporary to space out creeps for testing
+	private float delay;//spawn delay in seconds after the creep is added to the G.Creeps array(current wave)
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -122,6 +122,9 @@ public class Creep extends GameObject {
 	}
 	
 	public void draw(GL10 gl){
+		if(delay > 0){//delay
+			return;
+		}
 		gl.glPushMatrix();
 			gl.glTranslatef(x, y, z);
 			

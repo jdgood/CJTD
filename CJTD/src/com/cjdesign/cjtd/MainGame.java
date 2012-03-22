@@ -26,6 +26,8 @@ public class MainGame extends Activity{
 	
 	private static final int NONE = 0;
     private static final int ZOOM = 1;
+    private static final int TARGET = 2;
+    private static final int MOVE = 3;
 	private int mode = NONE;
 	
 	float p2wx(float xp) {
@@ -36,6 +38,14 @@ public class MainGame extends Activity{
 	float p2wy(float yp) {
 		//return 2 * (((float)(2*yp) / (G.H-1)) - 1);
 		return 2 * (2*yp / (G.H-1) - 1);
+	}
+	
+	float xCon(float xp) {
+		return 2 * (2*G.W*xp) / (G.H*(G.W-1) - G.W / G.H) / G.viewZ + G.viewX;
+	}
+	
+	float yCon(float yp) {
+		return 2 * (2*yp / (G.H-1) - 1) / G.viewZ + G.viewY;
 	}
 	
 	float g2py(float yp) {
@@ -50,7 +60,7 @@ public class MainGame extends Activity{
         float x = p2wx(e.getX());
         float y = p2wy(e.getY());
         switch (e.getAction() & MotionEvent.ACTION_MASK) {
-	        case MotionEvent.ACTION_POINTER_DOWN:
+	        case MotionEvent.ACTION_POINTER_DOWN://second finger detected
 	            oldDist = spacing(e);
 	            //System.out.println("oldDist=" + oldDist);
 	            if (oldDist > 10f) {
@@ -59,18 +69,37 @@ public class MainGame extends Activity{
 	            }
 	            break;
 	            
-	        case MotionEvent.ACTION_POINTER_UP:
+	        case MotionEvent.ACTION_POINTER_UP://second finger removed
 	            mode = NONE;
 	            //System.out.println("mode=NONE");
 	            break;
 	            
+	        case MotionEvent.ACTION_UP://single finger up
+	        	if(mode == TARGET){//if no movement was detected
+	        		//pixel space 0,0 top left corner G.W, G.H bottom right corner
+	        		//Pixel G.W/2 == World G.viewX
+	        		//Pixel G.H/2 == World G.viewY
+	        		//Use viewZ to calculate the limits of the world coordinates on screen
+	        		//Using proportions calculate World targetX and targetY
+	        		System.out.println("selected x: " + e.getX() + " y: " + e.getY());
+	        	}
+	        	mode = NONE;
+	            break;
+	            
+	        case MotionEvent.ACTION_DOWN://single finger down
+	        	mode = TARGET;//default case is that you want to target something
+	        	break;
+	            
 	        case MotionEvent.ACTION_MOVE:
                 G.velX = G.velY = 0;
-	        	if(mode == NONE){
+                if(mode == TARGET && (x - prevX > .1 || x - prevX < -.1 || y - prevY > .1 || y - prevY < -.1)){//change default case of targeting to movement if significant movement was detected
+                	mode = MOVE;
+                }
+	        	if(mode == MOVE){//single finger move
                     G.velX = -(x - prevX)/dt;
                     G.velY = (y - prevY)/dt;
 	        	}
-	        	else if(mode == ZOOM){
+	        	else if(mode == ZOOM){//two finger movement
 	        		float newDist = spacing(e);
 	        		//System.out.println("newDist=" + newDist);
 					if (newDist > 10f) {
@@ -81,7 +110,7 @@ public class MainGame extends Activity{
 								G.viewZ++;
 						}
 						else if(scale > 1){//zoom in
-							if(G.viewZ - 1 >= 0)
+							if(G.viewZ - 1 >= 1)
 								G.viewZ--;
 						}
 						oldDist = newDist;

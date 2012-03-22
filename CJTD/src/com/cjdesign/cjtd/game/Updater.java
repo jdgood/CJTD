@@ -17,7 +17,15 @@ public class Updater implements Runnable {
 	    	float dt = (float)(startTime - endTime)/1000f;
 	    	
 	    	if(!G.paused){
-    			doLogic(dt);
+	    		if(true && G.Creeps.isEmpty()){//true will become a boolean that represents the last wave of the level launched so this means the last wave is finished
+	    			//bring up level over screen
+	    		}
+	    		else if(G.Creeps.isEmpty()){//current wave over, change state to waiting for next wave(in between wave tower building) either a counter or user controlled
+	    			//wait for launch of next wave(G.Creeps will be populated again)
+	    		}
+	    		else{
+	    			doLogic(dt);
+	    		}
 	    	}
 	    	try{//forces fps
 				Thread.currentThread();
