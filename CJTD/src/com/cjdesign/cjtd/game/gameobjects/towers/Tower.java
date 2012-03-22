@@ -20,16 +20,18 @@ import com.cjdesign.cjtd.utils.Vector2D;
 public class Tower extends GameObject {
 	
 	private float zrot;
-	public float damage;
-	public float range;
-	public float lastShot;//time since last shot
-	public float frequency;//seconds between shots
-	public float bulletSpeed;
-	public Vector2D dir;
-	public Creep target;
-	public ArrayList<Shot> shots;
+	protected int damage;
+	protected float range;
+	/** time since last shot */
+	protected float lastShot;
+	/** seconds between shots */
+	protected float frequency;
+	protected float bulletSpeed;
+	protected Vector2D dir;
+	protected Creep target;
+	protected ArrayList<Shot> shots;
 	
-	public Ground location;
+	private Ground location;
 
 	/** The buffer holding the vertices */
 	protected FloatBuffer vertexBuffer;
@@ -61,15 +63,15 @@ public class Tower extends GameObject {
 		dir = new Vector2D(1,0);
 		
 		location = g;
-		location.setTower(this);
+		getLocation().setTower(this);
 		
 		this.x = g.x; 
 		this.y = g.y;
 		this.z = G.gridDepth+.1f;
 		
-		bulletSpeed = 25;
+		setBulletSpeed(25);
 		frequency = 2;
-		range = 15;
+		setRange(15);
 		
 		shots = new ArrayList<Shot>();
 		
@@ -94,14 +96,14 @@ public class Tower extends GameObject {
 	
 	public void update(float dt) {
 		if(target != null){
-			if(!target.isAlive() || FloatMath.sqrt((float)Math.pow(target.x - x, 2) + (float)Math.pow(target.y - y, 2)) > range){//if target no longer in range or dead
+			if(!target.isAlive() || FloatMath.sqrt((float)Math.pow(target.x - x, 2) + (float)Math.pow(target.y - y, 2)) > getRange()){//if target no longer in range or dead
 				target = null;
 			}
 		}
 		if(target == null){//if no current target
 			//probably optimize this to grab enemies with a currentGoal within the radius
 			for(Creep c : G.Creeps){
-				if(FloatMath.sqrt((float)Math.pow(c.x - x, 2) + (float)Math.pow(c.y - y, 2)) < range){//checks for enemy farthest along path (probably allow to change this to closest enemy or fastest enemy)
+				if(FloatMath.sqrt((float)Math.pow(c.x - x, 2) + (float)Math.pow(c.y - y, 2)) < getRange()){//checks for enemy farthest along path (probably allow to change this to closest enemy or fastest enemy)
 					target = c;
 					break;
 				}
@@ -110,7 +112,7 @@ public class Tower extends GameObject {
 		if(target != null && lastShot - frequency > 0){
 			lastShot = 0;
 			float n = .25f;
-			dir = new Vector2D(target.x + target.dir.x * target.speed * n - x, target.y + target.dir.y * target.speed * n - y);//update direction of target(adds an n second prediction by checking creeps location in n seconds)
+			dir = new Vector2D(target.x + target.getDir().x * target.getSpeed() * n - x, target.y + target.getDir().y * target.getSpeed() * n - y);//update direction of target(adds an n second prediction by checking creeps location in n seconds)
 			dir.normalize();
 			//update zrot here to point towards an enemy
 			/*zrot -= 1;
@@ -176,4 +178,53 @@ public class Tower extends GameObject {
 			s.draw(gl);
 		}
 	}
+
+    /**
+     * @return the damage
+     */
+    public int getDamage() {
+        return damage;
+    }
+
+    /**
+     * @param damage the damage to set
+     */
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    /**
+     * @return the range
+     */
+    public float getRange() {
+        return range;
+    }
+
+    /**
+     * @param range the range to set
+     */
+    public void setRange(float range) {
+        this.range = range;
+    }
+
+    /**
+     * @return the bulletSpeed
+     */
+    public float getBulletSpeed() {
+        return bulletSpeed;
+    }
+
+    /**
+     * @param bulletSpeed the bulletSpeed to set
+     */
+    public void setBulletSpeed(float bulletSpeed) {
+        this.bulletSpeed = bulletSpeed;
+    }
+
+    /**
+     * @return the Ground the Tower is on
+     */
+    public Ground getLocation() {
+        return location;
+    }
 }

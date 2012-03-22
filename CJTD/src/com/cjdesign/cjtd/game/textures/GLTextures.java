@@ -36,10 +36,8 @@ public class GLTextures {
 	
 	/**
 	 * Load the textures
-	 * @param resourceid 
-	 * 
-	 * @param gl - The GL Context
-	 * @param context - The Activity context
+	 * @param resourceID 
+	 * @param gl The GL Context
 	 */
 	private int loadGLTexture(int resourceID, GL10 gl) {
 		//Get the texture from the Android resource directory

@@ -13,13 +13,14 @@ import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.Vector2D;
 
 public class Creep extends GameObject {
-	public Ground currentGoal;
-	public Vector2D dir;
-	public float speed;
+    private Ground currentGoal;
+    private Vector2D dir;
+	private float speed;
 	
 	private int health;
 	
-	private float delay;//spawn delay in seconds after the creep is added to the G.Creeps array(current wave)
+	/** spawn delay in seconds after the creep is added to the G.Creeps array(current wave) */
+	private float delay;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -52,17 +53,17 @@ public class Creep extends GameObject {
 		
 		textureResource = R.drawable.android_sh;
 		
-		currentGoal = G.level.getStart();
+		setCurrentGoal(G.level.getStart());
 		
-		x = currentGoal.x - 2;
-		y = currentGoal.y - 2;
+		x = getCurrentGoal().x - 2;
+		y = getCurrentGoal().y - 2;
 		z = G.gridDepth+.1f;
 		
-		speed = 3;
+		setSpeed(3);
 		health = 100;
 		
-		dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
-		dir.normalize();//makes it so direction always implies a magnitude of 1
+		setDir(new Vector2D(getCurrentGoal().x - x, getCurrentGoal().y - y));
+		getDir().normalize();//makes it so direction always implies a magnitude of 1
 		
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -100,20 +101,20 @@ public class Creep extends GameObject {
 			delay-=dt;
 			return;
 		}
-	    float dx = dir.x * dt * speed;
-	    float dy = dir.y * dt * speed;
+	    float dx = getDir().x * dt * getSpeed();
+	    float dy = getDir().y * dt * getSpeed();
 
 	    // Change targets when the Manhattan distance will increase with the next delta.
-        if(Math.abs(x-currentGoal.x)+Math.abs(y-currentGoal.y) < Math.abs(x+dx-currentGoal.x)+Math.abs(y+dy-currentGoal.y))
+        if(Math.abs(x-getCurrentGoal().x)+Math.abs(y-getCurrentGoal().y) < Math.abs(x+dx-getCurrentGoal().x)+Math.abs(y+dy-getCurrentGoal().y))
         //if(G.ANDROID_CREEP_SIZE >= FloatMath.sqrt((x-currentGoal.x)*(x-currentGoal.x)+(y-currentGoal.y)*(y-currentGoal.y)))
         {
-            currentGoal = G.path.getNextGoal(currentGoal);
+            setCurrentGoal(G.path.getNextGoal(getCurrentGoal()));
         
-            dir = new Vector2D(currentGoal.x - x, currentGoal.y - y);
-            dir.normalize();//makes it so direction always implies a magnitude of 1
+            setDir(new Vector2D(getCurrentGoal().x - x, getCurrentGoal().y - y));
+            getDir().normalize();//makes it so direction always implies a magnitude of 1
 
-            dx = dir.x * dt * speed;
-            dy = dir.y * dt * speed;
+            dx = getDir().x * dt * getSpeed();
+            dy = getDir().y * dt * getSpeed();
         }
         
 		x+=dx;
@@ -150,5 +151,47 @@ public class Creep extends GameObject {
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glPopMatrix();
 	}
+
+    /**
+     * @return the speed
+     */
+    public float getSpeed() {
+        return speed;
+    }
+
+    /**
+     * @param speed the speed to set
+     */
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    /**
+     * @return the dir
+     */
+    public Vector2D getDir() {
+        return dir;
+    }
+
+    /**
+     * @param dir the dir to set
+     */
+    public void setDir(Vector2D dir) {
+        this.dir = dir;
+    }
+
+    /**
+     * @return the currentGoal
+     */
+    public Ground getCurrentGoal() {
+        return currentGoal;
+    }
+
+    /**
+     * @param currentGoal the currentGoal to set
+     */
+    public void setCurrentGoal(Ground currentGoal) {
+        this.currentGoal = currentGoal;
+    }
 
 }

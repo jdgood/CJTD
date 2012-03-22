@@ -39,18 +39,14 @@ public class Shot extends GameObject {
 	private byte indices[] = {
 	    		0,1,3, 0,3,2};
 	
-	public Vector2D dir;
-	public Tower owner;
-	public float traveled;
-	
-	private int damage;
+	protected Vector2D dir;
+	protected Tower owner;
+	protected float traveled;
 	
 	public Shot(Vector2D dir, Tower owner) {
 		super(G.BULLET_ID);
 		this.dir = dir;
 		this.owner = owner;
-		
-		damage = 5;
 		
 		x = owner.x;
 		y = owner.y;
@@ -76,16 +72,16 @@ public class Shot extends GameObject {
 	}
 	
 	public void update(float dt){
-		x += dir.x * owner.bulletSpeed * dt;
-		y += dir.y * owner.bulletSpeed * dt;
-		traveled += owner.bulletSpeed * dt;
+		x += dir.x * owner.getBulletSpeed() * dt;
+		y += dir.y * owner.getBulletSpeed() * dt;
+		traveled += owner.getBulletSpeed() * dt;
 	}
 	
 	//returns true if it hits
 	public boolean hit(){
 		for(Creep c : G.Creeps){
 			if(FloatMath.sqrt((float)Math.pow(c.x - x, 2) + (float)Math.pow(c.y - y, 2)) < G.ANDROID_CREEP_SIZE){//checks for hits putting a hit radius of the creep size around a creep
-				c.takeDamage(damage);
+				c.takeDamage(owner.getDamage());
 				return true;
 			}
 		}
@@ -94,7 +90,7 @@ public class Shot extends GameObject {
 	
 	//returns true if it reaches range
 	public boolean range(){
-		if(traveled > owner.range){
+		if(traveled > owner.getRange()){
 			return true;
 		}
 		return false;

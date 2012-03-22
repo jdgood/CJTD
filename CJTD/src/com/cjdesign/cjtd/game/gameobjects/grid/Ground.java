@@ -11,9 +11,10 @@ import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
 import com.cjdesign.cjtd.globals.G;
 
 public abstract class Ground extends GameObject {
-	public boolean occupied = false;
-	public Tower occupiedBy = null;
-	public int xPos,yPos;
+    protected boolean occupied = false;
+	protected Tower occupiedBy = null;
+	protected int xPos;
+	protected int yPos;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -66,14 +67,9 @@ public abstract class Ground extends GameObject {
 		indexBuffer.position(0);
 	}
 	
-	public void setTower(Tower temp){
-	    if(G.path.addTower(this))
-	        occupiedBy = temp;
-	}
-	
 	public void update(float dt){
-		if(occupied){ 
-			occupiedBy.update(dt);
+		if(isOccupied()){ 
+			getTower().update(dt);
 		}
 	}
 
@@ -105,14 +101,69 @@ public abstract class Ground extends GameObject {
 	}
 	
 	public void drawTower(GL10 gl){
-		if(occupied){
-			occupiedBy.draw(gl);
+		if(isOccupied()){
+			getTower().draw(gl);
 		}
 	}
 	
 	public void drawShots(GL10 gl){
-		if(occupied){
-			occupiedBy.drawShots(gl);
+		if(isOccupied()){
+			getTower().drawShots(gl);
 		}
 	}
+
+	/**
+	 * Make sure this will not block before adding a tower
+	 * @param tower the Tower to occupy this Ground
+	 * 
+	 * @return was it successful
+	 */
+    public boolean setTower(Tower tower){
+        if(G.path.addTower(this))
+            this.occupiedBy = tower;
+        return isOccupied();
+    }
+    
+    /**
+     * @return the Tower occupying this
+     */
+    public Tower getTower() {
+        return occupiedBy;
+    }
+
+    /**
+     * @return if this is occupied by a tower
+     */
+    public boolean isOccupied() {
+        return occupied;
+    }
+    
+    /**
+     * remove tower from this Ground
+     */
+    public void removeTower() {
+        this.occupied = false;
+        this.occupiedBy = null;
+    }
+    
+    /**
+     * @param occupied
+     */
+    public void setOccupied(boolean occupied) {
+        this.occupied = occupied;
+    }
+
+    /**
+     * @return the xPos
+     */
+    public int getxPos() {
+        return xPos;
+    }
+
+    /**
+     * @return the yPos
+     */
+    public int getyPos() {
+        return yPos;
+    }
 }

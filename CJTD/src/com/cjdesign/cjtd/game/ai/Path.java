@@ -72,9 +72,9 @@ public class Path {
 	 * @return true if it's OK to add the tower, false otherwise.
 	 */
 	public boolean addTower(Ground g){
-	    g.occupied = true;
-	    g.occupied = isTraversable();
-	    return g.occupied;
+	    g.setOccupied(true);
+	    g.setOccupied(isTraversable());
+	    return g.isOccupied();
 	}
 
     //use at beginning of round so creeps find quickest path
@@ -82,7 +82,7 @@ public class Path {
 	    int[][] tempGrid = new int[xSize][ySize];
         for(int[] g : tempGrid)
             Arrays.fill(g, -1);
-	    Pair<Integer,Integer> endPoint = new Pair<Integer,Integer>(G.level.getEnd().xPos,G.level.getEnd().yPos);
+	    Pair<Integer,Integer> endPoint = new Pair<Integer,Integer>(G.level.getEnd().getxPos(),G.level.getEnd().getyPos());
 	    Set<Pair<Integer,Integer>> unprocessed = new TreeSet<Pair<Integer,Integer>>(new PairComparator());
 	    unprocessed.add(endPoint);
 		return updateGrid(tempGrid,unprocessed);
@@ -150,7 +150,7 @@ public class Path {
             int minvalue = -1;
             
             // If the current ground is occupied, then make sure it's -1 and continue.
-            if(G.level.getGround(p.first, p.second).occupied){
+            if(G.level.getGround(p.first, p.second).isOccupied()){
                 tempGrid[p.first][p.second] = minvalue;
                 continue;
             }
@@ -173,7 +173,7 @@ public class Path {
                         minvalue = tempGrid[n.first][n.second];
                     }
                     if (tempGrid[n.first][n.second] == -1 && // neighbor unvisited AND
-                            !G.level.getGround(n.first, n.second).occupied) // unoccupied
+                            !G.level.getGround(n.first, n.second).isOccupied()) // unoccupied
                         nextUnprocessed.add(new Pair<Integer,Integer>(n.first, n.second));
                 } catch ( ArrayIndexOutOfBoundsException e ){
                     // do nothing
@@ -185,13 +185,13 @@ public class Path {
         
         if (!nextUnprocessed.isEmpty()) // recursive base case
             return updateGrid(tempGrid,nextUnprocessed);
-        else if (tempGrid[G.level.getStart().xPos][G.level.getStart().yPos] == -1)
+        else if (tempGrid[G.level.getStart().getxPos()][G.level.getStart().getyPos()] == -1)
             return false;
         else
         {
             // Look for cut off creeps
             for(Creep c : G.Creeps)
-                if(tempGrid[c.currentGoal.xPos][c.currentGoal.yPos] == -1)
+                if(tempGrid[c.getCurrentGoal().getxPos()][c.getCurrentGoal().getyPos()] == -1)
                     return false;
             
             grid = tempGrid;
@@ -200,7 +200,7 @@ public class Path {
 	}
 	
 	public Ground getNextGoal(Ground currentGoal){
-	    Pair<Integer,Integer> p = new Pair<Integer,Integer>(currentGoal.xPos,currentGoal.yPos);
+	    Pair<Integer,Integer> p = new Pair<Integer,Integer>(currentGoal.getxPos(),currentGoal.getyPos());
 	    
 	    // Initialize to current goal.
 	    Ground nextGoal = currentGoal;
