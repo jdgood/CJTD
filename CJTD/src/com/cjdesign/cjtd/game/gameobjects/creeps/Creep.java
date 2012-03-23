@@ -99,6 +99,8 @@ public class Creep extends GameObject {
                 y+dy < currentGoal.y + halfGridSize && y+dy > currentGoal.y - halfGridSize) {
             previousGoal.onExit(this);
             currentGoal.onEnter(this);
+            this.onExit(previousGoal);
+            this.onEnter(currentGoal);
         }
         
 		x+=dx;
@@ -134,6 +136,13 @@ public class Creep extends GameObject {
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 		gl.glPopMatrix();
 	}
+	
+    /* 
+     * I just thought maybe we can have creeps that do things like lay "traps" 
+     * that help other creeps or something that requires them to be aware of the Ground.
+     */
+	public void onEnter(Ground g) {}
+	public void onExit(Ground g) {}
 
     /**
      * @return the speed
