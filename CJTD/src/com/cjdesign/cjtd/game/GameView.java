@@ -10,6 +10,7 @@ import com.cjdesign.cjtd.game.gameobjects.grid.GroundDirt;
 import com.cjdesign.cjtd.game.gameobjects.grid.GroundGrass;
 import com.cjdesign.cjtd.game.gameobjects.towers.AlphaObject;
 import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
+import com.cjdesign.cjtd.game.gameobjects.traps.MudTrap;
 import com.cjdesign.cjtd.game.gameobjects.traps.SpikeTrap;
 import com.cjdesign.cjtd.game.hud.HUD;
 import com.cjdesign.cjtd.game.textures.GLTextures;
@@ -79,6 +80,7 @@ public class GameView extends GLSurfaceView {
 		new AlphaObject(gridArray[1][3]);
 		
 		new SpikeTrap(gridArray[2][2]);
+		new MudTrap(gridArray[2][1]);
 		
 		new AlphaObject(gridArray[3][1]);
 		new AlphaObject(gridArray[3][2]);

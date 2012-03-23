@@ -12,9 +12,11 @@ import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.Vector2D;
 
 public class Creep extends GameObject {
+    private Ground previousGoal = null;
     private Ground currentGoal;
     private Vector2D dir;
 	private float speed;
+	private float normalSpeed;
 	
 	private int health;
 	
@@ -41,6 +43,7 @@ public class Creep extends GameObject {
 		z = G.gridDepth+.1f;
 		
 		setSpeed(3);
+		setNormalSpeed(3);
 		health = 100;
 		
 		setDir(new Vector2D(getCurrentGoal().x - x, getCurrentGoal().y - y));
@@ -87,10 +90,19 @@ public class Creep extends GameObject {
             dx = getDir().x * dt * getSpeed();
             dy = getDir().y * dt * getSpeed();
         }
+    
+        float halfGridSize = G.gridSize/2;
+        if(previousGoal != null &&
+                x < previousGoal.x + halfGridSize && x > previousGoal.x - halfGridSize &&
+                y < previousGoal.y + halfGridSize && y > previousGoal.y - halfGridSize &&
+                x+dx < currentGoal.x + halfGridSize && x+dx > currentGoal.x - halfGridSize &&
+                y+dy < currentGoal.y + halfGridSize && y+dy > currentGoal.y - halfGridSize) {
+            previousGoal.onExit(this);
+            currentGoal.onEnter(this);
+        }
         
 		x+=dx;
 		y+=dy;
-        
 	}
 	
 	public void draw(GL10 gl){
@@ -159,14 +171,29 @@ public class Creep extends GameObject {
     }
 
     /**
-     * @param currentGoal the currentGoal to set
+     * @param newGoal the currentGoal to set
      */
-    public void setCurrentGoal(Ground currentGoal) {
-    	if(this.currentGoal == currentGoal){
+    public void setCurrentGoal(Ground newGoal) {
+    	if(this.currentGoal == newGoal){
     		G.health--;
     		die();
     	}
-        this.currentGoal = currentGoal;
+    	this.previousGoal = this.currentGoal;
+        this.currentGoal = newGoal;
+    }
+
+    /**
+     * @return the normalSpeed
+     */
+    public float getNormalSpeed() {
+        return normalSpeed;
+    }
+
+    /**
+     * @param normalSpeed the normalSpeed to set
+     */
+    protected void setNormalSpeed(float normalSpeed) {
+        this.normalSpeed = normalSpeed;
     }
 
 }

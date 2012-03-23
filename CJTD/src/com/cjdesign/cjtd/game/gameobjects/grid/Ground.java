@@ -6,6 +6,7 @@ import java.nio.ByteOrder;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.game.gameobjects.GameObject;
+import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
 import com.cjdesign.cjtd.game.gameobjects.traps.Trap;
 import com.cjdesign.cjtd.globals.G;
@@ -94,6 +95,16 @@ public abstract class Ground extends GameObject {
 		if(isOccupied()){
 			getTower().drawShots(gl);
 		}
+	}
+	
+	public void onEnter(Creep c) {
+	    if(isTrapped())
+	        getTrap().onEnter(c);
+	}
+	
+	public void onExit(Creep c) {
+	    if(isTrapped())
+	        getTrap().onExit(c);
 	}
 
 	/**

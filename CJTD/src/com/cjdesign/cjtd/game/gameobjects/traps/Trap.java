@@ -9,6 +9,7 @@ import java.nio.ByteOrder;
 import javax.microedition.khronos.opengles.GL10;
 
 import com.cjdesign.cjtd.game.gameobjects.GameObject;
+import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
 import com.cjdesign.cjtd.globals.G;
 
@@ -82,6 +83,10 @@ public abstract class Trap extends GameObject {
             gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
         gl.glPopMatrix();
     }
+    
+    public abstract void onEnter(Creep c);
+    
+    public abstract void onExit(Creep c);
 
     /**
      * @return the location
