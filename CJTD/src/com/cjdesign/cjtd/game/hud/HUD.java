@@ -82,6 +82,15 @@ public class HUD {
 		//gl.glTranslatef((Preferences.Get().mapWidth*3f/G.W)*G.W/2f-Preferences.Get().mapWidth,(Preferences.Get().mapWidth*3f/G.W)*G.H/2f-Preferences.Get().mapHeight,-minz-2f);
 		
 		//Bind our only previously generated texture in this case
+		if(G.state == G.STATE_DEFEAT){
+			textureResource = R.drawable.defeat;
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
+		}
+		/*else if(G.state == G.STATE_VICTORY){
+			textureResource = R.drawable.victory;
+			gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
+		}*/
+		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
 		
 		//Point to our buffers
