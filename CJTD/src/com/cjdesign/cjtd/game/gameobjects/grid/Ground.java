@@ -21,6 +21,8 @@ public abstract class Ground extends GameObject {
 	protected int xPos;
 	protected int yPos;
 	
+	private int creepCount = 0;
+	
 	private float vertices[] = {
     		G.gridSize/2, -G.gridSize/2, 0,
     		-G.gridSize/2, -G.gridSize/2, 0,    		
@@ -98,11 +100,13 @@ public abstract class Ground extends GameObject {
 	}
 	
 	public void onEnter(Creep c) {
+	    creepCount++;
 	    if(isTrapped())
 	        getTrap().onEnter(c);
 	}
 	
 	public void onExit(Creep c) {
+	    creepCount--;
 	    if(isTrapped())
 	        getTrap().onExit(c);
 	}
@@ -114,6 +118,9 @@ public abstract class Ground extends GameObject {
 	 * @return was it successful
 	 */
     public boolean setTower(Tower tower){
+        if(isOccupied() || isTrapped() || 
+                creepCount > 0 || G.level.getStart() == this)
+            return false;
         if(G.path.addTower(this))
             this.occupiedBy = tower;
         return isOccupied();
