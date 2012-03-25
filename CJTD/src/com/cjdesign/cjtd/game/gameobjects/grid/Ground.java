@@ -82,32 +82,32 @@ public abstract class Ground extends GameObject {
 	}
 	
 	public void drawTower(GL10 gl){
-		if(isOccupied()){
+		if(isOccupied() && getTower() != null){
 			getTower().draw(gl);
 		}
 	}
 
     public void drawTrap(GL10 gl) {
-        if(isTrapped()) {
+        if(isTrapped() && getTrap() != null) {
             getTrap().draw(gl);
         }
     }
 	
 	public void drawShots(GL10 gl){
-		if(isOccupied()){
+		if(isOccupied() && getTower() != null){
 			getTower().drawShots(gl);
 		}
 	}
 	
 	public void onEnter(Creep c) {
 	    creepCount++;
-	    if(isTrapped())
+	    if(isTrapped() && getTrap() != null)
 	        getTrap().onEnter(c);
 	}
 	
 	public void onExit(Creep c) {
 	    creepCount--;
-	    if(isTrapped())
+	    if(isTrapped() && getTrap() != null)
 	        getTrap().onExit(c);
 	}
 
