@@ -67,17 +67,14 @@ public class HUD {
 				return;
 			}
 			
-			float minz = .1f;
-			float maxz = 100;
-			
 			//Change to orthogonal projection
 			gl.glMatrixMode(GL10.GL_PROJECTION);
 			gl.glLoadIdentity();
 			gl.glViewport(0,0,(int)G.W,(int)G.H);
 
-			gl.glOrthof(-G.W/2, G.W/2, -G.H/2, G.H/2, minz, maxz);
+			gl.glOrthof(-G.W/2, G.W/2, -G.H/2, G.H/2, G.fNear, G.fFar);
 
-			//Draw the minimap
+			//Draw the HUD
 			gl.glMatrixMode(GL10.GL_MODELVIEW);
 			gl.glLoadIdentity();
 
@@ -110,13 +107,7 @@ public class HUD {
 			gl.glLoadIdentity();
 			gl.glViewport(0,0,(int)G.W,(int)G.H);
 
-			GLU.gluPerspective(gl, 45.0f, G.W/G.H, minz, maxz);
-			
-			
-		
-		
-		//gl.glEnable(GL10.GL_DEPTH_TEST);
-		//gl.glDepthMask(true);
+			GLU.gluPerspective(gl, 45.0f, G.W/G.H, G.fNear, G.fFar);
 		gl.glPopMatrix();
 	}
 

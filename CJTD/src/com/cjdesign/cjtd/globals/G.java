@@ -14,6 +14,7 @@ import com.cjdesign.cjtd.game.hud.HUD;
 import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjdesign.cjtd.gamestate.CJAccount;
 import com.cjdesign.cjtd.gamestate.GameState;
+import com.cjdesign.cjtd.utils.MatrixGrabber;
 
 public class G {
 	public static boolean paused = false;
@@ -31,6 +32,9 @@ public class G {
 	public static float gridDepth = -15;
 	public static float gridSize = 4;
 	
+	public static float fNear = .1f;
+	public static float fFar = 100;
+	
 	public static GameState gamestate;
 	public static CJAccount acc;
 	
@@ -45,8 +49,8 @@ public class G {
 	public static Context gameContext;
 	public static GLTextures textures;
 	
-	public static float[] lastProjectionMat = null;
-	public static float[] lastModelViewMat = null;
+	public static int[] viewport = null;
+	public static MatrixGrabber mg = null;
 	
 	public static Updater updater;
 	public static Thread updaterThread;

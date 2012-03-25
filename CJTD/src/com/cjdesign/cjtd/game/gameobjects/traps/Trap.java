@@ -58,8 +58,6 @@ public abstract class Trap extends GameObject {
     public void draw(GL10 gl) {
         gl.glPushMatrix();
             gl.glTranslatef(x, y, z);
-            //gl.glTranslatef(0, 0, .1f);
-            gl.glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
         
             //Bind our only previously generated texture in this case
             gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));

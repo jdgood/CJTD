@@ -54,15 +54,12 @@ public class Grid extends GameObject {
 	 * 
 	 * @param gl - The GL Context
 	 */
-	public void draw(GL10 gl) {
-		gl.glPushMatrix();			
-			gl.glPushMatrix();
-			for(int i = 0; i < ySize; i++){
-				for(int j = 0; j < xSize; j++){
-					GroundArray[j][i].draw(gl);
-				}
+	public void draw(GL10 gl) {			
+		for(int i = 0; i < ySize; i++){
+			for(int j = 0; j < xSize; j++){
+				GroundArray[j][i].draw(gl);
 			}
-		gl.glPopMatrix();
+		}
 	}
 	
 	public void drawTowers(GL10 gl){
@@ -97,6 +94,24 @@ public class Grid extends GameObject {
     
     public Ground getGround(int x, int y) throws IndexOutOfBoundsException {
         return GroundArray[x][y];
+    }
+    
+    public Ground getGround(float x, float y) {
+    	for(int i = 0; i < ySize; i++){
+			for(int j = 0; j < xSize; j++){
+				if(inBounds(x, y, getGround(j, i))){
+					return getGround(j, i);
+				}
+			}
+		}
+        
+        return null;
+    }
+    private boolean inBounds(float x, float y, Ground g){
+    	return x <= g.x + G.gridSize/2 && //x less than its max x bound
+    		   x >= g.x - G.gridSize/2 && //x greater than its min x bound
+    		   y <= g.y + G.gridSize/2 && //y less than its max y bound
+    		   y >= g.y - G.gridSize/2;   //y greater than its min y bound
     }
 
     public void drawTraps(GL10 gl) {

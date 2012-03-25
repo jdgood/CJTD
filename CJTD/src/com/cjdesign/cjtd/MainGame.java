@@ -1,21 +1,23 @@
 package com.cjdesign.cjtd;
 
+import javax.microedition.khronos.opengles.GL;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
+import android.opengl.GLU;
 import android.os.Bundle;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.cjdesign.cjtd.game.GameView;
+import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
 import com.cjdesign.cjtd.globals.G;
-import com.cjdesign.cjtd.utils.Vector2D;
+import com.cjdesign.cjtd.utils.*;
 
 public class MainGame extends Activity{
 	private static final int DIALOG_PAUSE_ID = 0;
@@ -41,18 +43,6 @@ public class MainGame extends Activity{
 	float p2wy(float y) {
 		return 2 * (2*y / (G.H-1) - 1);
 	}
-	
-	float xCon(float x) {
-		return 2 * (2*G.W*x) / (G.H*(G.W-1) - G.W / G.H) / G.viewZ + G.viewX;
-	}
-	
-	float yCon(float y) {
-		return 2 * (2*y / (G.H-1) - 1) / G.viewZ + G.viewY;
-	}
-	
-	float g2py(float y) {
-		return (G.H-1) - y;
-	}
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
@@ -77,22 +67,22 @@ public class MainGame extends Activity{
 	            
 	        case MotionEvent.ACTION_UP://single finger up
 	        	if(mode == TARGET){//if no movement was detected
-	        		//pixel space 0,0 top left corner G.W, G.H bottom right corner
-	        		//Pixel G.W/2 == World G.viewX
-	        		//Pixel G.H/2 == World G.viewY
-	        		//Use viewZ to calculate the limits of the world coordinates on screen
-	        		//Using proportions calculate World targetX and targetY
-	        		//System.out.println("selected x: " + e.getX() + " y: " + e.getY());
-	        		//Vector2D out = GetWorldCoords(new Vector2D(e.getX(), e.getY()));
-	        		
-	        		Vector2D out = GetWorldCoords(new Vector2D(0, 0));
-	        		System.out.println("world xmin: " + out.x + " ymin: " + out.y);
-	        		
-	        		out = GetWorldCoords(new Vector2D(G.W, G.H));
-	        		System.out.println("world xmax: " + out.x + " ymax: " + out.y);
-	        		
-	        		out = GetWorldCoords(new Vector2D(G.W/2, G.H/2));
-	        		System.out.println("world xcenter: " + out.x + " ycenter: " + out.y);
+	        		float[] out = unproject(e.getX(), G.viewport[3] - e.getY(), distanceToDepth(G.viewZ - G.gridDepth));//gets the x,y coordinate
+		        	if(G.state == G.STATE_PREPARATION){
+	        			Ground g = G.level.getGround(out[0], out[1]);//gets the ground piece associated with the x,y found above
+		        		if(g == null){//pressed outside of grid
+		        			System.out.println("No ground chosen");
+		        		}
+		        		else if(g.isOccupied() || g.isTrapped()){//pressed on an occupied ground
+		        			System.out.println("g.level.GroundArray[" + g.getxPos() + "][" + g.getyPos() + "] is occupied. Would you like to upgrade it?");
+		        		}
+		        		else{//pressed on an open ground
+		        			System.out.println("You may build on g.level.GroundArray[" + g.getxPos() + "][" + g.getyPos() + "]");
+		        		}
+		        	}
+		        	if(G.state == G.STATE_BATTLE && G.gamestate.Mode == G.MODE_OVERWATCH){//mid wave, time to pew pew the creeps
+		        		System.out.println("Pew, pew at " + out[0] + ", " + out[1]);
+		        	}
 	        	}
 	        	mode = NONE;
 	            break;
@@ -148,8 +138,19 @@ public class MainGame extends Activity{
 	
 	    // Create our view and set it as the content of our Activity
 	    mGLSurfaceView = new GameView(this);
+	    
+	   mGLSurfaceView.setGLWrapper(new GameView.GLWrapper(){  
+	        public GL wrap(GL gl)  
+	        {  
+	            System.out.println("Wrapping");
+	            return new MatrixTrackingGL(gl);  
+	        }  
+	    }); 
+	    
 	    mGLSurfaceView.setKeepScreenOn(true);
 	    setContentView(mGLSurfaceView);
+	    
+	    
 	    
 	    G.mpGame = MediaPlayer.create(this, R.raw.game);
         G.mpGame.setLooping(true);
@@ -267,44 +268,20 @@ public class MainGame extends Activity{
         }
     }
 	
-	public Vector2D GetWorldCoords(Vector2D touch){
-		   // Auxiliary matrix and vectors to deal with ogl.
-		   float[] invertedMatrix, transformMatrix, normalizedInPoint, outPoint;
-		   invertedMatrix = new float[16];
-		   transformMatrix = new float[16];
-		   normalizedInPoint = new float[4];
-		   outPoint = new float[4];
+	public float[] unproject(float rx, float ry, float rz) {
+		float[] xyzw = {0,0,0,0};
+		
+		GLU.gluUnProject(rx, ry, rz, G.mg.mModelView, 0, G.mg.mProjection, 0, G.viewport, 0, xyzw, 0);
+		
+		xyzw[0] /= xyzw[3];
+		xyzw[1] /= xyzw[3];
+		xyzw[2] /= xyzw[3];
+		xyzw[3] = 1;
+		
+		return xyzw;
+	}
 
-		   // Invert y coordinate, as android uses top-left, and ogl bottom-left.
-		   int oglTouchY = (int) (G.H - touch.y);
-
-		   /* Transform the screen point to clip space in ogl (-1,1) */
-		   normalizedInPoint[0] = (float) ((touch.x) * 2.0f / G.W - 1.0);
-		   normalizedInPoint[1] = (float) ((oglTouchY) * 2.0f / G.H - 1.0);
-		   normalizedInPoint[2] = - 1.0f;
-		   normalizedInPoint[3] = 1.0f;
-
-		   /* Obtain the transform matrix and then the inverse. */
-
-		   Matrix.multiplyMM(transformMatrix, 0, G.lastProjectionMat, 0, G.lastModelViewMat, 0);
-		   Matrix.invertM(invertedMatrix, 0, transformMatrix, 0);
-
-		   /* Apply the inverse to the point in clip space */
-		   Matrix.multiplyMV(outPoint, 0, invertedMatrix, 0, normalizedInPoint, 0);
-
-		   if (outPoint[3] == 0.0)
-		   {
-			   // Avoid /0 error.
-			   Log.e("World coords", "Could not calculate world coordinates");
-			   return new Vector2D(0,0);
-		   }
-		   
-		   System.out.println("World Z: "+ outPoint[2] / outPoint[3]);
-		   //float z = outPoint[2] / outPoint[3];
-		   //float scale = z/G.gridDepth;
-		   //System.out.println("World Z: "+ outPoint[2] / scale);
-
-		   //return new Vector2D(outPoint[0] / scale, outPoint[1] / scale);
-		   return new Vector2D(outPoint[0] / outPoint[3], outPoint[1] / outPoint[3]);
-	   }
+	public float distanceToDepth(float distance) {
+	    return ((1/G.fNear) - (1/distance))/((1/G.fNear) - (1/G.fFar));
+	}
 }
