@@ -40,7 +40,7 @@ public class Creep extends GameObject {
 		
 		x = getCurrentGoal().x - 2;
 		y = getCurrentGoal().y - 2;
-		z = G.gridDepth+1f;
+		z = G.gridDepth+.5f;
 		
 		setSpeed(3);
 		setNormalSpeed(3);

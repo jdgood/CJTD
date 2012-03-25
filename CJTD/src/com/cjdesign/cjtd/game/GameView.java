@@ -76,36 +76,36 @@ public class GameView extends GLSurfaceView {
 		G.level = new Grid(gridArray, xSize, ySize, 0, 4, 9, 4);
 		G.path = new Path(xSize, ySize);
 		
-		/*
 		//adding towers for sanity checks and to test ai in a bit
-		new AlphaObject(gridArray[0][0]);
-		new Tower(gridArray[1][1]);
-		new AlphaObject(gridArray[1][2]);
-		new AlphaObject(gridArray[1][3]);
+		if(!G.levelName.equals("M")){
+			new AlphaObject(gridArray[0][0]);
+			new Tower(gridArray[1][1]);
+			new AlphaObject(gridArray[1][2]);
+			new AlphaObject(gridArray[1][3]);
 		
-		new SpikeTrap(gridArray[2][2]);
-		new MudTrap(gridArray[2][1]);
+			new SpikeTrap(gridArray[2][2]);
+			new MudTrap(gridArray[2][1]);
 		
-		new AlphaObject(gridArray[3][1]);
-		new AlphaObject(gridArray[3][2]);
-		new Tower(gridArray[3][3]);
-		new AlphaObject(gridArray[3][4]);
-		
-		new AlphaObject(gridArray[5][0]);
-		new AlphaObject(gridArray[5][1]);
-		new AlphaObject(gridArray[5][2]);
-		new AlphaObject(gridArray[5][3]);
-		
-		new AlphaObject(gridArray[7][1]);
-		new AlphaObject(gridArray[7][2]);
-		new AlphaObject(gridArray[7][3]);
-		new AlphaObject(gridArray[7][4]);
-		
-		new AlphaObject(gridArray[9][0]);
-		new AlphaObject(gridArray[9][1]);
-		new AlphaObject(gridArray[9][2]);
-		new AlphaObject(gridArray[9][3]);
-		*/
+			new AlphaObject(gridArray[3][1]);
+			new AlphaObject(gridArray[3][2]);
+			new Tower(gridArray[3][3]);
+			new AlphaObject(gridArray[3][4]);
+			
+			new AlphaObject(gridArray[5][0]);
+			new AlphaObject(gridArray[5][1]);
+			new AlphaObject(gridArray[5][2]);
+			new AlphaObject(gridArray[5][3]);
+			
+			new AlphaObject(gridArray[7][1]);
+			new AlphaObject(gridArray[7][2]);
+			new AlphaObject(gridArray[7][3]);
+			new AlphaObject(gridArray[7][4]);
+			
+			new AlphaObject(gridArray[9][0]);
+			new AlphaObject(gridArray[9][1]);
+			new AlphaObject(gridArray[9][2]);
+			new AlphaObject(gridArray[9][3]);
+		}
 		
 		//adding an enemy to check stuff out
 		ArrayList<Creep> temp;

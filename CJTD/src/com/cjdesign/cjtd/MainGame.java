@@ -80,7 +80,7 @@ public class MainGame extends Activity{
 		        		else{//pressed on an open ground
 		        		    // TODO gui to select tower
 		        		    new Tower(g);
-		        			System.out.println("You may build on g.level.GroundArray[" + g.getxPos() + "][" + g.getyPos() + "]");
+		        			//System.out.println("You may build on g.level.GroundArray[" + g.getxPos() + "][" + g.getyPos() + "]");
 		        		}
 		        	}
 		        	if(G.state == G.STATE_BATTLE && G.gamestate.Mode == G.MODE_OVERWATCH){//mid wave, time to pew pew the creeps

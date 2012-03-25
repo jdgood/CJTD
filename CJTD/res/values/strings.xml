@@ -14,7 +14,7 @@
     <string name="Store">Store</string>
     <string name="victory">Victory Test</string>
     <string name="defeat">Defeat Test</string>
-    <string name="multiwave">Multiwave Test</string>
+    <string name="multiwave">Multiwave/Tower Building Test</string>
     <string name="wavetip">Hit the menu button to start a new wave (this needs to be done for the first wave in the game)</string>
 
 </resources>

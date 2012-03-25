@@ -5,7 +5,7 @@ import com.cjdesign.cjtd.globals.G;
 public class UpdateState {
 	public static void continueGame(int diff, int mode){
 		//set G.gamestate from a db, xml, or some kind of save file
-		G.gamestate = new GameState(G.DIFFICULTY_HARD, G.MODE_OVERWATCH);
+		G.gamestate = new GameState(diff, mode);
 	}
 	
 	public static void saveGame(){
