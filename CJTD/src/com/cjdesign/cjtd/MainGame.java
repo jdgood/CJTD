@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 
 import com.cjdesign.cjtd.game.GameView;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
+import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
 import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.*;
 
@@ -77,6 +78,8 @@ public class MainGame extends Activity{
 		        			System.out.println("g.level.GroundArray[" + g.getxPos() + "][" + g.getyPos() + "] is occupied. Would you like to upgrade it?");
 		        		}
 		        		else{//pressed on an open ground
+		        		    // TODO gui to select tower
+		        		    new Tower(g);
 		        			System.out.println("You may build on g.level.GroundArray[" + g.getxPos() + "][" + g.getyPos() + "]");
 		        		}
 		        	}
