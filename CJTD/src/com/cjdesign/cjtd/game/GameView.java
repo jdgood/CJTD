@@ -78,7 +78,7 @@ public class GameView extends GLSurfaceView {
 		
 		//adding towers for sanity checks and to test ai in a bit
 		new AlphaObject(gridArray[0][0]);
-		gridArray[1][1].setTower(new Tower(gridArray[1][1]));
+		new Tower(gridArray[1][1]);
 		new AlphaObject(gridArray[1][2]);
 		new AlphaObject(gridArray[1][3]);
 		
@@ -87,7 +87,7 @@ public class GameView extends GLSurfaceView {
 		
 		new AlphaObject(gridArray[3][1]);
 		new AlphaObject(gridArray[3][2]);
-		gridArray[3][3].setTower(new Tower(gridArray[3][3]));
+		new Tower(gridArray[3][3]);
 		new AlphaObject(gridArray[3][4]);
 		
 		new AlphaObject(gridArray[5][0]);
