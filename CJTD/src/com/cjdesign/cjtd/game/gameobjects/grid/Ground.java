@@ -22,10 +22,10 @@ public abstract class Ground extends GameObject {
 	protected int yPos;
 	
 	private float vertices[] = {
-    		G.gridSize/2, -G.gridSize/2, -G.gridSize/2f,
-    		-G.gridSize/2, -G.gridSize/2, -G.gridSize/2,    		
-    		G.gridSize/2, G.gridSize/2, -G.gridSize/2,
-    		-G.gridSize/2, G.gridSize/2, -G.gridSize/2};
+    		G.gridSize/2, -G.gridSize/2, 0,
+    		-G.gridSize/2, -G.gridSize/2, 0,    		
+    		G.gridSize/2, G.gridSize/2, 0,
+    		-G.gridSize/2, G.gridSize/2, 0};
 	
 	public Ground(int xpos, int ypos, float x, float y) {
 		super(G.GRID_ID);

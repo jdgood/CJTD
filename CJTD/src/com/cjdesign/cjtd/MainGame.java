@@ -6,13 +6,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.opengl.GLSurfaceView;
+import android.opengl.Matrix;
 import android.os.Bundle;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.cjdesign.cjtd.game.GameView;
 import com.cjdesign.cjtd.globals.G;
+import com.cjdesign.cjtd.utils.Vector2D;
 
 public class MainGame extends Activity{
 	private static final int DIALOG_PAUSE_ID = 0;
@@ -31,27 +34,24 @@ public class MainGame extends Activity{
     private static final int MOVE = 3;
 	private int mode = NONE;
 	
-	float p2wx(float xp) {
-		//return 2 * ((float)(2*G.W*xp) / (G.H*(G.W-1)) - ((float)G.W / G.H));
-		return 2 * (2*G.W*xp) / (G.H*(G.W-1) - G.W / G.H);
+	float p2wx(float x) {
+		return 2 * (2*G.W*x) / (G.H*(G.W-1) - G.W / G.H);
 	}
 	
-	float p2wy(float yp) {
-		//return 2 * (((float)(2*yp) / (G.H-1)) - 1);
-		return 2 * (2*yp / (G.H-1) - 1);
+	float p2wy(float y) {
+		return 2 * (2*y / (G.H-1) - 1);
 	}
 	
-	float xCon(float xp) {
-		return 2 * (2*G.W*xp) / (G.H*(G.W-1) - G.W / G.H) / G.viewZ + G.viewX;
+	float xCon(float x) {
+		return 2 * (2*G.W*x) / (G.H*(G.W-1) - G.W / G.H) / G.viewZ + G.viewX;
 	}
 	
-	float yCon(float yp) {
-		return 2 * (2*yp / (G.H-1) - 1) / G.viewZ + G.viewY;
+	float yCon(float y) {
+		return 2 * (2*y / (G.H-1) - 1) / G.viewZ + G.viewY;
 	}
 	
-	float g2py(float yp) {
-		//return (G.H-1) - yp;
-		return (G.H-1) - yp;
+	float g2py(float y) {
+		return (G.H-1) - y;
 	}
 
     @Override
@@ -82,7 +82,17 @@ public class MainGame extends Activity{
 	        		//Pixel G.H/2 == World G.viewY
 	        		//Use viewZ to calculate the limits of the world coordinates on screen
 	        		//Using proportions calculate World targetX and targetY
-	        		System.out.println("selected x: " + e.getX() + " y: " + e.getY());
+	        		//System.out.println("selected x: " + e.getX() + " y: " + e.getY());
+	        		//Vector2D out = GetWorldCoords(new Vector2D(e.getX(), e.getY()));
+	        		
+	        		Vector2D out = GetWorldCoords(new Vector2D(0, 0));
+	        		System.out.println("world xmin: " + out.x + " ymin: " + out.y);
+	        		
+	        		out = GetWorldCoords(new Vector2D(G.W, G.H));
+	        		System.out.println("world xmax: " + out.x + " ymax: " + out.y);
+	        		
+	        		out = GetWorldCoords(new Vector2D(G.W/2, G.H/2));
+	        		System.out.println("world xcenter: " + out.x + " ycenter: " + out.y);
 	        	}
 	        	mode = NONE;
 	            break;
@@ -136,7 +146,7 @@ public class MainGame extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	
-	    // Create our Preview view and set it as the content of our Activity
+	    // Create our view and set it as the content of our Activity
 	    mGLSurfaceView = new GameView(this);
 	    mGLSurfaceView.setKeepScreenOn(true);
 	    setContentView(mGLSurfaceView);
@@ -256,4 +266,45 @@ public class MainGame extends Activity{
 	            return null;
         }
     }
+	
+	public Vector2D GetWorldCoords(Vector2D touch){
+		   // Auxiliary matrix and vectors to deal with ogl.
+		   float[] invertedMatrix, transformMatrix, normalizedInPoint, outPoint;
+		   invertedMatrix = new float[16];
+		   transformMatrix = new float[16];
+		   normalizedInPoint = new float[4];
+		   outPoint = new float[4];
+
+		   // Invert y coordinate, as android uses top-left, and ogl bottom-left.
+		   int oglTouchY = (int) (G.H - touch.y);
+
+		   /* Transform the screen point to clip space in ogl (-1,1) */
+		   normalizedInPoint[0] = (float) ((touch.x) * 2.0f / G.W - 1.0);
+		   normalizedInPoint[1] = (float) ((oglTouchY) * 2.0f / G.H - 1.0);
+		   normalizedInPoint[2] = - 1.0f;
+		   normalizedInPoint[3] = 1.0f;
+
+		   /* Obtain the transform matrix and then the inverse. */
+
+		   Matrix.multiplyMM(transformMatrix, 0, G.lastProjectionMat, 0, G.lastModelViewMat, 0);
+		   Matrix.invertM(invertedMatrix, 0, transformMatrix, 0);
+
+		   /* Apply the inverse to the point in clip space */
+		   Matrix.multiplyMV(outPoint, 0, invertedMatrix, 0, normalizedInPoint, 0);
+
+		   if (outPoint[3] == 0.0)
+		   {
+			   // Avoid /0 error.
+			   Log.e("World coords", "Could not calculate world coordinates");
+			   return new Vector2D(0,0);
+		   }
+		   
+		   System.out.println("World Z: "+ outPoint[2] / outPoint[3]);
+		   //float z = outPoint[2] / outPoint[3];
+		   //float scale = z/G.gridDepth;
+		   //System.out.println("World Z: "+ outPoint[2] / scale);
+
+		   //return new Vector2D(outPoint[0] / scale, outPoint[1] / scale);
+		   return new Vector2D(outPoint[0] / outPoint[3], outPoint[1] / outPoint[3]);
+	   }
 }

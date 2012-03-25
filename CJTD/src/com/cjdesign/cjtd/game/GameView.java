@@ -36,6 +36,9 @@ public class GameView extends GLSurfaceView {
 		G.state = G.STATE_PREPARATION;
 		G.health = 2;
 		
+		G.lastProjectionMat = new float[16];
+		G.lastModelViewMat = new float[16];
+		
 		//doing this is superhacks! create texture container
 		G.textures = new GLTextures(G.gameContext);
 		
@@ -69,6 +72,11 @@ public class GameView extends GLSurfaceView {
 				grass = !grass;
 			}
 		}
+		
+		System.out.println("Grid bounds: xmin: " + (gridArray[0][0].x-G.gridSize/2) +
+				" xmax: " + (gridArray[xSize - 1][ySize - 1].x+G.gridSize/2) +
+				" ymin: " + (gridArray[xSize - 1][ySize - 1].y-G.gridSize/2) +
+				" ymax: " + (gridArray[0][0].y+G.gridSize/2));
 		
 		G.level = new Grid(gridArray, xSize, ySize, 0, 4, 9, 4);
 		G.path = new Path(xSize, ySize);

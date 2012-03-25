@@ -24,10 +24,10 @@ public class Creep extends GameObject {
 	private float delay;
 	
 	private float vertices[] = {
-			G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE,
-    		-G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE,    		
-    		G.ANDROID_CREEP_SIZE, G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE,
-    		-G.ANDROID_CREEP_SIZE, G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE};
+			G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE, 0,
+    		-G.ANDROID_CREEP_SIZE, -G.ANDROID_CREEP_SIZE, 0,    		
+    		G.ANDROID_CREEP_SIZE, G.ANDROID_CREEP_SIZE, 0,
+    		-G.ANDROID_CREEP_SIZE, G.ANDROID_CREEP_SIZE, 0};
 	
 	public Creep(float delay) {
 		super(G.CREEP_ID);
@@ -40,7 +40,7 @@ public class Creep extends GameObject {
 		
 		x = getCurrentGoal().x - 2;
 		y = getCurrentGoal().y - 2;
-		z = G.gridDepth+.1f;
+		z = G.gridDepth+1f;
 		
 		setSpeed(3);
 		setNormalSpeed(3);

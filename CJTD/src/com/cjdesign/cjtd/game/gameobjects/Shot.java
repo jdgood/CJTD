@@ -15,10 +15,10 @@ import com.cjdesign.cjtd.utils.Vector2D;
 
 public class Shot extends GameObject {
 	private float vertices[] = {
-    		G.gridSize/4, -G.gridSize/4, -G.gridSize/4f,
-    		-G.gridSize/4, -G.gridSize/4, -G.gridSize/4,    		
-    		G.gridSize/4, G.gridSize/4, -G.gridSize/4,
-    		-G.gridSize/4, G.gridSize/4, -G.gridSize/4};
+    		G.gridSize/4, -G.gridSize/4, 0,
+    		-G.gridSize/4, -G.gridSize/4, 0,    		
+    		G.gridSize/4, G.gridSize/4, 0,
+    		-G.gridSize/4, G.gridSize/4, 0};
 	
 	protected Vector2D dir;
 	protected Tower owner;
@@ -31,7 +31,7 @@ public class Shot extends GameObject {
 		
 		x = owner.x;
 		y = owner.y;
-		z = owner.z;
+		z = owner.z+.9f;
 		
 		textureResource = R.drawable.shot;
 

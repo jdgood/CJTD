@@ -56,15 +56,6 @@ public class HUD {
 	}
 
 	public void draw(GL10 gl) {
-		gl.glPushMatrix();
-		//gl.glDisable(GL10.GL_DEPTH_TEST);
-		//gl.glDepthMask(false);
-		
-			gl.glLoadIdentity();
-			GLU.gluLookAt(gl,
-					0, 0, 10, //camera.pos.px, camera.pos.py, camera.pos.pz, //eye position
-					0, 0, 0, //reference point
-					0, 1, 0); //normal
 			int textureResource = 0;
 			if(G.state == G.STATE_DEFEAT){
 				textureResource = R.drawable.defeat;
@@ -75,6 +66,24 @@ public class HUD {
 			else{
 				return;
 			}
+			
+			float minz = .1f;
+			float maxz = 100;
+			
+			//Change to orthogonal projection
+			gl.glMatrixMode(GL10.GL_PROJECTION);
+			gl.glLoadIdentity();
+			gl.glViewport(0,0,(int)G.W,(int)G.H);
+
+			gl.glOrthof(-G.W/2, G.W/2, -G.H/2, G.H/2, minz, maxz);
+
+			//Draw the minimap
+			gl.glMatrixMode(GL10.GL_MODELVIEW);
+			gl.glLoadIdentity();
+
+			//gl.glScalef(G.W/(Preferences.Get().mapWidth*3f), G.W/(Preferences.Get().mapWidth*3f), 1f);
+			//gl.glTranslatef((Preferences.Get().mapWidth*3f/G.W)*G.W/2f-Preferences.Get().mapWidth,(Preferences.Get().mapWidth*3f/G.W)*G.H/2f-Preferences.Get().mapHeight,-minz-2f);
+			
 			//Bind our only previously generated texture in this case
 			gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
 			
@@ -95,6 +104,15 @@ public class HUD {
 			//Disable the client state before leaving
 			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 			gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+
+			//Return to a perspective projection
+			gl.glMatrixMode(GL10.GL_PROJECTION);
+			gl.glLoadIdentity();
+			gl.glViewport(0,0,(int)G.W,(int)G.H);
+
+			GLU.gluPerspective(gl, 45.0f, G.W/G.H, minz, maxz);
+			
+			
 		
 		
 		//gl.glEnable(GL10.GL_DEPTH_TEST);

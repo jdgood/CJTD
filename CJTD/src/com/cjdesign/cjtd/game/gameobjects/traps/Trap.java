@@ -22,10 +22,10 @@ public abstract class Trap extends GameObject {
     private Ground location;
 
     private float vertices[] = {
-            G.gridSize/2, -G.gridSize/2, -G.gridSize/2f,
-            -G.gridSize/2, -G.gridSize/2, -G.gridSize/2,            
-            G.gridSize/2, G.gridSize/2, -G.gridSize/2,
-            -G.gridSize/2, G.gridSize/2, -G.gridSize/2};
+            G.gridSize/2, -G.gridSize/2, 0,
+            -G.gridSize/2, -G.gridSize/2, 0,            
+            G.gridSize/2, G.gridSize/2, 0,
+            -G.gridSize/2, G.gridSize/2, 0};
 
     /**
      * @param g Ground to be summoned on
@@ -37,7 +37,7 @@ public abstract class Trap extends GameObject {
         
         this.x = g.x;
         this.y = g.y;
-        z = G.gridDepth;
+        z = G.gridDepth+.01f;
         
         g.setTrap(this);
 

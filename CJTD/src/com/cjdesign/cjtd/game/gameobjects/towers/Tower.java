@@ -33,10 +33,10 @@ public class Tower extends GameObject {
 	private Ground location;
 
 	private float vertices[] = {
-    		G.gridSize/2, -G.gridSize/2, -G.gridSize/2f,
-    		-G.gridSize/2, -G.gridSize/2, -G.gridSize/2,    		
-    		G.gridSize/2, G.gridSize/2, -G.gridSize/2,
-    		-G.gridSize/2, G.gridSize/2, -G.gridSize/2};
+    		G.gridSize/2, -G.gridSize/2, 0,
+    		-G.gridSize/2, -G.gridSize/2, 0,    		
+    		G.gridSize/2, G.gridSize/2, 0,
+    		-G.gridSize/2, G.gridSize/2, 0};
 
 	public Tower(Ground g) {
 		super(G.TOWER_ID);
