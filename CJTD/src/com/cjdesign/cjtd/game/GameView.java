@@ -76,6 +76,7 @@ public class GameView extends GLSurfaceView {
 		G.level = new Grid(gridArray, xSize, ySize, 0, 4, 9, 4);
 		G.path = new Path(xSize, ySize);
 		
+		/*
 		//adding towers for sanity checks and to test ai in a bit
 		new AlphaObject(gridArray[0][0]);
 		new Tower(gridArray[1][1]);
@@ -104,6 +105,7 @@ public class GameView extends GLSurfaceView {
 		new AlphaObject(gridArray[9][1]);
 		new AlphaObject(gridArray[9][2]);
 		new AlphaObject(gridArray[9][3]);
+		*/
 		
 		//adding an enemy to check stuff out
 		ArrayList<Creep> temp;
