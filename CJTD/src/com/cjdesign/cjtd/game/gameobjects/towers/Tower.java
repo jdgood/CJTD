@@ -44,7 +44,8 @@ public class Tower extends GameObject {
 		dir = new Vector2D(1,0);
 		
 		location = g;
-		getLocation().setTower(this);
+		if(!g.setTower(this)) // Tower cannot be placed so we may as well stop
+		    return;
 		
 		this.x = g.x; 
 		this.y = g.y;
