@@ -20,8 +20,9 @@ public final class R {
         public static final int mud=0x7f020006;
         public static final int shot=0x7f020007;
         public static final int spikes=0x7f020008;
-        public static final int tower=0x7f020009;
-        public static final int victory=0x7f02000a;
+        public static final int tdicon=0x7f020009;
+        public static final int tower=0x7f02000a;
+        public static final int victory=0x7f02000b;
     }
     public static final class id {
         public static final int Button01=0x7f06000c;
