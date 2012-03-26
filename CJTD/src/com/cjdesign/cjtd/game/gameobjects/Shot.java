@@ -31,7 +31,7 @@ public class Shot extends GameObject {
 		
 		x = owner.x;
 		y = owner.y;
-		z = owner.z+.9f;
+		z = owner.z+.5f;
 		
 		textureResource = R.drawable.shot;
 

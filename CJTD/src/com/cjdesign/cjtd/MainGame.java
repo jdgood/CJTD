@@ -144,8 +144,7 @@ public class MainGame extends Activity{
 	    
 	   mGLSurfaceView.setGLWrapper(new GameView.GLWrapper(){  
 	        public GL wrap(GL gl)  
-	        {  
-	            System.out.println("Wrapping");
+	        {
 	            return new MatrixTrackingGL(gl);  
 	        }  
 	    }); 

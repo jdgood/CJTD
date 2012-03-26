@@ -37,17 +37,17 @@ public class LevelSelect extends Activity {
     }
     
     public void playVictory(View view){
-    	G.levelName = "V";
+    	G.levelNum = 1;
     	startGame(view);
 	}
     
     public void playDefeat(View view){
-    	G.levelName = "D";
+    	G.levelNum = 2;
     	startGame(view);
 	}
     
     public void playMultiWave(View view){
-    	G.levelName = "M";
+    	G.levelNum = 3;
     	startGame(view);
 	}
     

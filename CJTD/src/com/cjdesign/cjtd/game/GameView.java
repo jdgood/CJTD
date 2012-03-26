@@ -78,7 +78,7 @@ public class GameView extends GLSurfaceView {
 		G.path = new Path(xSize, ySize);
 		
 		//adding towers for sanity checks and to test ai in a bit
-		if(!G.levelName.equals("M")){
+		if(!(G.levelNum == 3)){
 			new AlphaObject(gridArray[0][0]);
 			new Tower(gridArray[1][1]);
 			new AlphaObject(gridArray[1][2]);
@@ -108,7 +108,7 @@ public class GameView extends GLSurfaceView {
 			new AlphaObject(gridArray[9][3]);
 		}
 		
-		WaveParser.parseWaves(1);
+		WaveParser.parseWaves(G.levelNum);
 		
 		//create renderer
 		G.renderer = new com.cjdesign.cjtd.game.Renderer();

@@ -38,7 +38,7 @@ public class G {
 	public static GameState gamestate;
 	public static CJAccount acc;
 	
-	public static String levelName; 
+	public static int levelNum; 
 	public static ArrayList<ArrayList<Creep>> Waves;
 	public static ArrayList<Creep> Creeps;
     public static ArrayList<Creep> deadCreeps;
