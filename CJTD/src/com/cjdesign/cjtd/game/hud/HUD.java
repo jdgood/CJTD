@@ -10,6 +10,8 @@ import com.cjdesign.cjtd.R;
 import com.cjdesign.cjtd.globals.G;
 
 public class HUD {
+    private BuildMenu buildMenu;
+    private UpgradeMenu upgradeMenu;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -36,6 +38,9 @@ public class HUD {
 	    		0,1,3, 0,3,2};
 	
 	public HUD(){
+	    buildMenu = new BuildMenu();
+	    upgradeMenu = new UpgradeMenu();
+	    
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
 		vertexBuffer = byteBuf.asFloatBuffer();
@@ -79,6 +84,9 @@ public class HUD {
 			G.tf.SetScale(2);
 			G.tf.PrintAt(gl, print, 10, 10);
 			
+			getBuildMenu().draw(gl);
+			getUpgradeMenu().draw(gl);
+			
 			gl.glDisable(GL10.GL_BLEND);
 			return;
 		}
@@ -103,5 +111,19 @@ public class HUD {
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}
+
+    /**
+     * @return the buildMenu
+     */
+    public BuildMenu getBuildMenu() {
+        return buildMenu;
+    }
+
+    /**
+     * @return the upgradeMenu
+     */
+    public UpgradeMenu getUpgradeMenu() {
+        return upgradeMenu;
+    }
 
 }

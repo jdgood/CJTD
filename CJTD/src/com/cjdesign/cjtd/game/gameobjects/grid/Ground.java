@@ -118,6 +118,10 @@ public abstract class Ground extends GameObject {
 	 * @return was it successful
 	 */
     public boolean setTower(Tower tower){
+        if(tower == null) {
+            removeTower();
+            return true;
+        }
         if(isOccupied() || isTrapped() || 
                 creepCount > 0 || G.level.getStart() == this)
             return false;
@@ -189,10 +193,19 @@ public abstract class Ground extends GameObject {
      * @return {@code trapped}
      */
     public boolean setTrap(Trap trap) {
+        if(trap == null) {
+            removeTrap();
+            return true;
+        }
         if(!isOccupied()) {
             this.trapped = true;
             this.trap = trap;
         }
         return trapped;
+    }
+    
+    public void removeTrap() {
+        this.trapped = false;
+        this.trap = null;
     }
 }
