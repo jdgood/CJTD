@@ -14,7 +14,6 @@ import com.cjdesign.cjtd.game.gameobjects.traps.MudTrap;
 import com.cjdesign.cjtd.game.gameobjects.traps.SpikeTrap;
 import com.cjdesign.cjtd.game.hud.HUD;
 import com.cjdesign.cjtd.game.loader.WaveParser;
-import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.MatrixGrabber;
 
@@ -39,9 +38,6 @@ public class GameView extends GLSurfaceView {
 		G.health = 2;
 		
 		G.mg = new MatrixGrabber();
-		
-		//doing this is superhacks! create texture container
-		G.textures = new GLTextures(G.gameContext);
 		
 		//create demo gameworld(create a level importer later)
 		int xSize = 10;
@@ -108,6 +104,7 @@ public class GameView extends GLSurfaceView {
 			new AlphaObject(gridArray[9][3]);
 		}
 		
+		//parse levels.xml using the selected level number
 		WaveParser.parseWaves(G.levelNum);
 		
 		//create renderer

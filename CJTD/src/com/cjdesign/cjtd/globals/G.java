@@ -15,6 +15,7 @@ import com.cjdesign.cjtd.game.textures.GLTextures;
 import com.cjdesign.cjtd.gamestate.CJAccount;
 import com.cjdesign.cjtd.gamestate.GameState;
 import com.cjdesign.cjtd.utils.MatrixGrabber;
+import com.cjdesign.cjtd.utils.TexFont;
 
 public class G {
 	public static boolean paused = false;
@@ -48,6 +49,7 @@ public class G {
 	
 	public static Context gameContext;
 	public static GLTextures textures;
+	public static TexFont tf;
 	
 	public static int[] viewport = null;
 	public static MatrixGrabber mg = null;

@@ -6,8 +6,6 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import android.opengl.GLU;
-
 import com.cjdesign.cjtd.R;
 import com.cjdesign.cjtd.globals.G;
 
@@ -21,17 +19,17 @@ public class HUD {
 	private ByteBuffer indexBuffer;
 	
 	private float vertices[] = {
-			10, -5, 0,
-    		-10, -5, 0,    		
-    		10, 5, 0,
-    		-10, 5, 0};
+			G.W, 0, 0,
+    		0, 0, 0,    		
+    		G.W, G.H, 0,
+    		0, G.H, 0};
 
 	/** The initial texture coordinates (u, v) */	
 	private float texture[] = {
-				1.0f, 1.0f,
-				0.0f, 1.0f,
 				1.0f, 0.0f,
-				0.0f, 0.0f};
+				0.0f, 0.0f,
+				1.0f, 1.0f,
+				0.0f, 1.0f};
 	
 	/** The initial indices definition */	
 	private byte indices[] = {
@@ -64,32 +62,15 @@ public class HUD {
 			textureResource = R.drawable.victory;
 		}
 		else{
+			gl.glEnable(GL10.GL_BLEND);
+			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			
+			G.tf.SetScale(2);
+			G.tf.PrintAt(gl, G.health + " health\t\t" + G.Waves.size() + (G.Waves.size()==1?" wave":" waves") + " remaining", 10, 10);
+			
+			gl.glDisable(GL10.GL_BLEND);
 			return;
 		}
-		
-		//Change to orthogonal projection
-		gl.glMatrixMode(GL10.GL_PROJECTION);
-		gl.glLoadIdentity();
-		gl.glViewport(0,0,(int)G.W,(int)G.H);
-
-		gl.glOrthof(-G.W/2, G.W/2, -G.H/2, G.H/2, G.fNear, G.fFar);
-
-		//Draw the HUD
-		gl.glMatrixMode(GL10.GL_MODELVIEW);
-		gl.glLoadIdentity();
-
-		//gl.glScalef(G.W/(Preferences.Get().mapWidth*3f), G.W/(Preferences.Get().mapWidth*3f), 1f);
-		//gl.glTranslatef((Preferences.Get().mapWidth*3f/G.W)*G.W/2f-Preferences.Get().mapWidth,(Preferences.Get().mapWidth*3f/G.W)*G.H/2f-Preferences.Get().mapHeight,-minz-2f);
-		
-		//Bind our only previously generated texture in this case
-		if(G.state == G.STATE_DEFEAT){
-			textureResource = R.drawable.defeat;
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
-		}
-		/*else if(G.state == G.STATE_VICTORY){
-			textureResource = R.drawable.victory;
-			gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
-		}*/
 		
 		gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
 		
@@ -110,13 +91,6 @@ public class HUD {
 		//Disable the client state before leaving
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-
-		//Return to a perspective projection
-		gl.glMatrixMode(GL10.GL_PROJECTION);
-		gl.glLoadIdentity();
-		gl.glViewport(0,0,(int)G.W,(int)G.H);
-
-		GLU.gluPerspective(gl, 45.0f, G.W/G.H, G.fNear, G.fFar);
 	}
 
 }
