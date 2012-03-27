@@ -34,6 +34,7 @@ public class GameView extends GLSurfaceView {
 		G.Waves = new ArrayList<ArrayList<Creep>>();
 		G.Creeps = new ArrayList<Creep>();
 		G.deadCreeps = new ArrayList<Creep>();
+		G.timeBetweenWaves = new ArrayList<Float>();
 		G.state = G.STATE_PREPARATION;
 		G.health = 2;
 		
@@ -111,6 +112,9 @@ public class GameView extends GLSurfaceView {
 		G.renderer = new com.cjdesign.cjtd.game.Renderer();
 		setRenderer(G.renderer);
 		
+		G.nextWave= G.timeBetweenWaves.get(0);
+		G.timeBetweenWaves.remove(0);
+		
 		//create updater thread
 		if(G.updater==null){
 			G.updater = new com.cjdesign.cjtd.game.Updater();//Initially paused
@@ -119,5 +123,7 @@ public class GameView extends GLSurfaceView {
 			G.paused = false;
 			G.updaterThread.start();
 		}
+		
+		
      }
 }

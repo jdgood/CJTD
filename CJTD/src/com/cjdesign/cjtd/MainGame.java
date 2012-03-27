@@ -232,10 +232,14 @@ public class MainGame extends Activity{
 	    	return true;
 	    }
 	    else if(keyCode == KeyEvent.KEYCODE_MENU) {
-	    	if(!G.Waves.isEmpty() && G.Creeps.isEmpty()){//still waves to go for this level and current wave is finished
-	    		G.state = G.STATE_BATTLE;
-	    		G.Creeps = G.Waves.get(0);
-	    		G.Waves.remove(0);
+	    	if(G.state == G.STATE_PREPARATION){
+	    		G.nextWave = 0;//quick start next wave
+	    	}
+	    	else if(G.state == G.STATE_BATTLE){//add a speed multiplier (1-4)
+	    		G.playSpeed++;
+	    		if(G.playSpeed == 5){
+	    			G.playSpeed = 1;
+	    		}
 	    	}
 	    	return true;
     	}

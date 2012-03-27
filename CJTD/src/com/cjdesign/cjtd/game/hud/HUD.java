@@ -65,8 +65,19 @@ public class HUD {
 			gl.glEnable(GL10.GL_BLEND);
 			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 			
+			String print = G.health + " health\t\t";
+			
+			print += G.Waves.size() + (G.Waves.size()==1?" wave":" waves") + " remaining\t\t";
+			
+			if(G.state == G.STATE_PREPARATION){
+				print += ((int)G.nextWave / 60) + (G.nextWave%60 < 10?":0":":") + ((int)G.nextWave % 60) + " till next wave\t\t";
+			}
+			else{
+				print += G.playSpeed + "X speed\t\t";
+			}
+			
 			G.tf.SetScale(2);
-			G.tf.PrintAt(gl, G.health + " health\t\t" + G.Waves.size() + (G.Waves.size()==1?" wave":" waves") + " remaining", 10, 10);
+			G.tf.PrintAt(gl, print, 10, 10);
 			
 			gl.glDisable(GL10.GL_BLEND);
 			return;

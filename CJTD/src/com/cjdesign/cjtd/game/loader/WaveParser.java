@@ -60,6 +60,7 @@ public class WaveParser {
 						}
 					}
 					G.Waves.add(wave);
+					G.timeBetweenWaves.add(new Float(waveNode.getAttributes().getNamedItem("delay").getNodeValue()));
 					wave = new ArrayList<Creep>();
 				}
 			}

@@ -39,12 +39,15 @@ public class G {
 	public static GameState gamestate;
 	public static CJAccount acc;
 	
-	public static int levelNum; 
+	public static int levelNum;
+	public static ArrayList<Float> timeBetweenWaves;
+	public static float nextWave;
 	public static ArrayList<ArrayList<Creep>> Waves;
 	public static ArrayList<Creep> Creeps;
     public static ArrayList<Creep> deadCreeps;
 	public static Grid level;
 	public static Path path;
+	public static int playSpeed;
 	public static int health;
 	
 	public static Context gameContext;

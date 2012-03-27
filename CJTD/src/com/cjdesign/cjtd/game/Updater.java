@@ -22,14 +22,27 @@ public class Updater implements Runnable {
 	    			break;//updates no longer needed at this point
 	    		}
 	    		else if(!G.Creeps.isEmpty()){//current wave still going. this implies state == state_battle, which is set when a wave is launched
-	    			doLogic(dt);
+	    			for(int i = 0; i < G.playSpeed; i++){
+	    				doLogic(dt);
+	    			}
 	    		}
 	    		else if(G.Waves.isEmpty() && G.Creeps.isEmpty()){//last wave of the level launched and current/last wave is finished
 	    			G.state = G.STATE_VICTORY;//indicates victory/level over screen in renderer
 	    			break;//updates no longer needed at this point
 	    		}
 	    		else{//waiting for next wave to launch
+	    			G.nextWave -= dt;
 	    			G.state = G.STATE_PREPARATION;
+	    			if(G.nextWave <= 0){
+		    			G.state = G.STATE_BATTLE;
+		    			G.playSpeed = 1;
+			    		G.Creeps = G.Waves.get(0);
+			    		G.Waves.remove(0);
+			    		if(G.timeBetweenWaves.size() != 0){
+			    			G.nextWave= G.timeBetweenWaves.get(0);
+			    			G.timeBetweenWaves.remove(0);
+			    		}
+	    			}
 	    		}
 	    		updateCamera(dt);
 	    	}

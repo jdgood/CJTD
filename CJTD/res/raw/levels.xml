@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game>
 	<level levelNum="1">
-		<wave>
+		<wave delay="30">
 			<creep type="speed" start="0" wait="3" num="6"/>
 			<creep type="speed" start="16" wait="1" num="6"/>
 		</wave>
 	</level>
 	<level levelNum="2">
-		<wave>
+		<wave delay="30">
 			<creep type="speed" start="0" wait=".5" num="12"/>
 		</wave>
 	</level>
 	<level levelNum="3">
-		<wave>
+		<wave delay="30">
 			<creep type="speed" start="0" wait="3" num="6"/>
 			<creep type="speed" start="16" wait="1" num="6"/>
 		</wave>
-		<wave>
+		<wave delay="30">
 			<creep type="speed" start="0" wait=".5" num="12"/>
 		</wave>
 	</level>
