@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import com.cjdesign.cjtd.game.GameView;
+import com.cjdesign.cjtd.game.gameobjects.creeps.Creep;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
 import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.*;
@@ -83,6 +84,12 @@ public class MainGame extends Activity{
     		        	}
     		        	if(G.state == G.STATE_BATTLE && G.gamestate.Mode == G.MODE_OVERWATCH){//mid wave, time to pew pew the creeps
     		        		System.out.println("Pew, pew at " + out[0] + ", " + out[1]);
+    		        		for(Creep c : G.Creeps){
+    		        			if(Math.pow(c.x - out[0], 2) <= 1 && Math.pow(c.y - out[1], 2) <= 1){
+    		        				c.takeDamage(5);
+    		        				break;
+    		        			}
+    		        		}
     		        	}
 	        	    }
 	        	}

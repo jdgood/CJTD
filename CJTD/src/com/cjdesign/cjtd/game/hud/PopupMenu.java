@@ -3,6 +3,9 @@
  */
 package com.cjdesign.cjtd.game.hud;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -14,6 +17,25 @@ import com.cjdesign.cjtd.globals.G;
  *
  */
 public abstract class PopupMenu {
+	
+	/** The buffer holding the vertices */
+	private FloatBuffer vertexBuffer;
+	/** The buffer holding the texture coordinates */
+	private FloatBuffer textureBuffer;
+	/** The buffer holding the indices */
+	private ByteBuffer indexBuffer;
+	
+
+	/** The initial texture coordinates (u, v) */	
+	private float texture[] = {
+				1.0f, 0.0f,
+				0.0f, 0.0f,
+				1.0f, 1.0f,
+				0.0f, 1.0f};
+	
+	/** The initial indices definition */	
+	private byte indices[] = {
+	    		0,1,3, 0,3,2};
 
     private boolean visible = false;
     private boolean initialized = false;
@@ -35,6 +57,18 @@ public abstract class PopupMenu {
         }
         itemHeight = G.tf.GetTextHeight();
         
+        
+
+		ByteBuffer byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		textureBuffer = byteBuf.asFloatBuffer();
+		textureBuffer.put(texture);
+		textureBuffer.position(0);
+
+		indexBuffer = ByteBuffer.allocateDirect(indices.length);
+		indexBuffer.put(indices);
+		indexBuffer.position(0);
+        
         initialized = true;
     }
     
@@ -44,6 +78,31 @@ public abstract class PopupMenu {
 
         if(!isVisible())
             return;
+        
+        gl.glDisable(GL10.GL_BLEND);
+        gl.glDisable(GL10.GL_TEXTURE_2D);
+        gl.glColor4f(0, 0, 0, 0);
+		
+		//Point to our buffers
+		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+
+		//Set the face rotation
+		gl.glFrontFace(GL10.GL_CCW);
+		
+		//Enable the vertex and texture state
+		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+		
+		//Draw the vertices as triangles, based on the Index Buffer information
+		gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
+		
+		//Disable the client state before leaving
+		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+		
+		gl.glColor4f(1, 1, 1, 1);
+		
+		gl.glEnable(GL10.GL_BLEND);
+		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+		gl.glEnable(GL10.GL_TEXTURE_2D);
 
         G.tf.SetScale(scale);
         for(int i = 0; i < getOptions().size(); i++) {
@@ -67,6 +126,18 @@ public abstract class PopupMenu {
             right = x;
             left = right - width;
         }
+        
+        float vertices[] = {
+    			right+5, G.H - bottom, 0,
+        		left-5, G.H - bottom, 0,    		
+        		right+5, G.H - top, 0,
+        		left-5, G.H - top, 0};
+        
+        ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
+		byteBuf.order(ByteOrder.nativeOrder());
+		vertexBuffer = byteBuf.asFloatBuffer();
+		vertexBuffer.put(vertices);
+		vertexBuffer.position(0);
     }
 
     public boolean hitTest(float x, float y) {

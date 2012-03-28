@@ -39,14 +39,10 @@ public class Renderer implements GLSurfaceView.Renderer {
 		
 		G.level.drawShots(gl); //draw bullets
 		
-		gl.glEnable(GL10.GL_BLEND);
-		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
-		
 		ArrayList<Creep> clist = new ArrayList<Creep>(G.Creeps);//this should avoid concurrent exception
 		for(Creep c : clist){
 			c.draw(gl); //draw creeps last
 		}
-		gl.glDisable(GL10.GL_BLEND);
 		
 		readyHUD(gl);
 		
