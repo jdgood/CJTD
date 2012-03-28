@@ -119,6 +119,9 @@ public class MainGame extends Activity{
 						oldDist = newDist;
 					}
 	        	}
+	        	if(mode != TARGET) {
+	        	    G.hud.hideMenus();
+	        	}
 	        	mGLSurfaceView.requestRender();
 	            break;
         }

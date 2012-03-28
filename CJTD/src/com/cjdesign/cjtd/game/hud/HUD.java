@@ -125,6 +125,12 @@ public class HUD {
 	    }
 	    return retval;
 	}
+	
+	public void hideMenus() {
+	    for(PopupMenu m : menus) {
+	        m.hide();
+	    }
+	}
 
     /**
      * @return the upgradeMenu
