@@ -86,11 +86,4 @@ public class G {
 	public static final int STATE_BATTLE = 1;
 	public static final int STATE_VICTORY = 2;
 	public static final int STATE_DEFEAT = 3;
-
-    public static final int NORMAL_TOWER_ID = 0;
-    public static final int ALPHA_TOWER_ID = 1;
-    public static final int SPIKE_TRAP_ID = 2;
-    public static final int MUD_TRAP_ID = 3;
-    
-    public static int buildId = NORMAL_TOWER_ID;
 }

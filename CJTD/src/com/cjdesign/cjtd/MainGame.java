@@ -16,10 +16,6 @@ import android.view.MotionEvent;
 
 import com.cjdesign.cjtd.game.GameView;
 import com.cjdesign.cjtd.game.gameobjects.grid.Ground;
-import com.cjdesign.cjtd.game.gameobjects.towers.AlphaObject;
-import com.cjdesign.cjtd.game.gameobjects.towers.Tower;
-import com.cjdesign.cjtd.game.gameobjects.traps.MudTrap;
-import com.cjdesign.cjtd.game.gameobjects.traps.SpikeTrap;
 import com.cjdesign.cjtd.globals.G;
 import com.cjdesign.cjtd.utils.*;
 
@@ -71,29 +67,7 @@ public class MainGame extends Activity{
 	            
 	        case MotionEvent.ACTION_UP://single finger up
 	        	if(mode == TARGET){//if no movement was detected
-	        	    if(G.hud.getBuildMenu().hitTest(e.getX(), e.getY())) {
-                        G.hud.getUpgradeMenu().hide();
-                        G.hud.getBuildMenu().hide();
-	        	        switch(G.buildId) {
-	        	            case G.NORMAL_TOWER_ID:
-	        	                new Tower(G.hud.getBuildMenu().getGround());
-	        	                break;
-	        	            case G.ALPHA_TOWER_ID:
-	        	                new AlphaObject(G.hud.getBuildMenu().getGround());
-	        	                break;
-	        	            case G.SPIKE_TRAP_ID:
-	        	                new SpikeTrap(G.hud.getBuildMenu().getGround());
-	        	                break;
-	        	            case G.MUD_TRAP_ID:
-	        	                new MudTrap(G.hud.getBuildMenu().getGround());
-	        	                break;
-	        	        }
-	        	    } else if (G.hud.getUpgradeMenu().hitTest(e.getX(), e.getY())) {
-                        G.hud.getUpgradeMenu().hide();
-                        G.hud.getBuildMenu().hide();
-	        	    } else {
-	                    G.hud.getUpgradeMenu().hide();
-	                    G.hud.getBuildMenu().hide();
+	        	    if(!G.hud.hitTest(e.getX(),e.getY())) {
     	        		float[] out = unproject(e.getX(), G.viewport[3] - e.getY(), distanceToDepth(G.viewZ - G.gridDepth));//gets the x,y coordinate
     		        	if(G.state == G.STATE_PREPARATION){
     	        			Ground g = G.level.getGround(out[0], out[1]);//gets the ground piece associated with the x,y found above

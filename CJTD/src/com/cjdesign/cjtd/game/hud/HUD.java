@@ -3,6 +3,7 @@ package com.cjdesign.cjtd.game.hud;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -12,6 +13,7 @@ import com.cjdesign.cjtd.globals.G;
 public class HUD {
     private BuildMenu buildMenu;
     private UpgradeMenu upgradeMenu;
+    private ArrayList<PopupMenu> menus;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
@@ -40,6 +42,9 @@ public class HUD {
 	public HUD(){
 	    buildMenu = new BuildMenu();
 	    upgradeMenu = new UpgradeMenu();
+	    menus = new ArrayList<PopupMenu>();
+	    menus.add(buildMenu);
+	    menus.add(upgradeMenu);
 	    
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(vertices.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
@@ -84,8 +89,8 @@ public class HUD {
 			G.tf.SetScale(2);
 			G.tf.PrintAt(gl, print, 10, 10);
 			
-			getBuildMenu().draw(gl);
-			getUpgradeMenu().draw(gl);
+			for(PopupMenu m : menus)
+			    m.draw(gl);
 			
 			gl.glDisable(GL10.GL_BLEND);
 			return;
@@ -111,13 +116,15 @@ public class HUD {
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
 		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 	}
-
-    /**
-     * @return the buildMenu
-     */
-    public BuildMenu getBuildMenu() {
-        return buildMenu;
-    }
+	
+	public boolean hitTest(float x, float y) {
+	    boolean retval = false;
+	    for(PopupMenu m : menus) {
+	        if(m.hitTest(x, y))
+	            retval = true;
+	    }
+	    return retval;
+	}
 
     /**
      * @return the upgradeMenu
@@ -126,4 +133,10 @@ public class HUD {
         return upgradeMenu;
     }
 
+    /**
+     * @return the buildMenu
+     */
+    public BuildMenu getBuildMenu() {
+        return buildMenu;
+    }
 }

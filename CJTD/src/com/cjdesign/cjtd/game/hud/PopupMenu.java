@@ -53,7 +53,6 @@ public abstract class PopupMenu {
 
     public void setPosition(float x, float y) {
         y = G.H - y;
-        System.out.println("show build menu at (" + x + ", " + y + ").");
 
         left = x;
         bottom = y;
@@ -74,20 +73,10 @@ public abstract class PopupMenu {
         y = G.H - y;
         if(!isVisible())
             return false;
-
-        /*
-        System.out.println("top: " + top);
-        System.out.println("bottom: " + bottom);
-        System.out.println("left: " + left);
-        System.out.println("right: " + right);
-        System.out.println("x: " + x);
-        System.out.println("y: " + y);
-        */
+        this.hide();
         
         if(x > left && x < right && y < top && y > bottom) {
-            System.out.println("hit menu!");
             for(int i = 0; i < getOptions().size(); i++) {
-                System.out.println("Testing " + i + " : " + (top - (i+1) * itemHeight));
                 if(y > top - (i+1) * itemHeight) {
                     this.getOptions().get(i).onSelection();
                     return true;
