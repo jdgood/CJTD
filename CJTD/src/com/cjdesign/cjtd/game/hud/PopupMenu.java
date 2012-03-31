@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.cjdesign.cjtd.game.hud;
 
 import java.nio.ByteBuffer;
@@ -25,7 +22,6 @@ public abstract class PopupMenu {
 	/** The buffer holding the indices */
 	private ByteBuffer indexBuffer;
 	
-
 	/** The initial texture coordinates (u, v) */	
 	private float texture[] = {
 				1.0f, 0.0f,
@@ -45,6 +41,10 @@ public abstract class PopupMenu {
     
     private ArrayList<MenuOption> options;
     
+    /**
+     * Popup Menu must be initialized in {@code draw()} because {@code G.tf} is
+     * not ready when object is constructed.
+     */
     private void init() {
         G.tf.SetScale(scale);
         height = G.tf.GetTextHeight() * getOptions().size();
@@ -57,8 +57,6 @@ public abstract class PopupMenu {
         }
         itemHeight = G.tf.GetTextHeight();
         
-        
-
 		ByteBuffer byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
 		textureBuffer = byteBuf.asFloatBuffer();
@@ -158,9 +156,6 @@ public abstract class PopupMenu {
         return false;
     }
 
-    /**
-     * @return if is visible
-     */
     public boolean isVisible() {
         return visible;
     }
@@ -174,16 +169,10 @@ public abstract class PopupMenu {
         visible = false;
     }
 
-    /**
-     * @return the options
-     */
     public ArrayList<MenuOption> getOptions() {
         return options;
     }
 
-    /**
-     * @param options the options to set
-     */
     public void setOptions(ArrayList<MenuOption> options) {
         this.options = options;
     }

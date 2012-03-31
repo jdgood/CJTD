@@ -32,6 +32,9 @@ public class Updater implements Runnable {
 	    		}
 	    		else{//waiting for next wave to launch
 	    			G.nextWave -= dt;
+	    			if(G.state == G.STATE_BATTLE){//wave just finished
+	    				doLogic(5);
+	    			}
 	    			G.state = G.STATE_PREPARATION;
 	    			if(G.nextWave <= 0){
 		    			G.state = G.STATE_BATTLE;

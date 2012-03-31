@@ -21,6 +21,10 @@ public abstract class Ground extends GameObject {
 	protected int xPos;
 	protected int yPos;
 	
+	/** 
+	 * Count number of creeps on tile. Could be used to check validity of 
+	 * placement if building while creeps are attacking. 
+	 * */
 	private int creepCount = 0;
 	
 	private float vertices[] = {
@@ -47,9 +51,12 @@ public abstract class Ground extends GameObject {
 	}
 	
 	public void update(float dt){
-		if(isOccupied()){ 
+	    // Must check for null in case of race condition where pathfinding is
+	    // testing validity of placement in other thread and has set occupied but
+	    // not created tower yet.
+		if(isOccupied() && getTower() != null){ 
 			getTower().update(dt);
-		} else if(isTrapped()) {
+		} else if(isTrapped() && getTrap() != null) {
 		    getTrap().update(dt);
 		}
 	}
@@ -82,18 +89,27 @@ public abstract class Ground extends GameObject {
 	}
 	
 	public void drawTower(GL10 gl){
+        // Must check for null in case of race condition where pathfinding is
+        // testing validity of placement in other thread and has set occupied but
+        // not created tower yet.
 		if(isOccupied() && getTower() != null){
 			getTower().draw(gl);
 		}
 	}
 
     public void drawTrap(GL10 gl) {
+        // Must check for null in case of race condition where pathfinding is
+        // testing validity of placement in other thread and has set occupied but
+        // not created tower yet.
         if(isTrapped() && getTrap() != null) {
             getTrap().draw(gl);
         }
     }
 	
 	public void drawShots(GL10 gl){
+        // Must check for null in case of race condition where pathfinding is
+        // testing validity of placement in other thread and has set occupied but
+        // not created tower yet.
 		if(isOccupied() && getTower() != null){
 			getTower().drawShots(gl);
 		}
