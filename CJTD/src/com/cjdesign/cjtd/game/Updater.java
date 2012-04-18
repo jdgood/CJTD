@@ -16,6 +16,8 @@ public class Updater implements Runnable {
 	    	startTime = System.currentTimeMillis();
 	    	float dt = (float)(startTime - endTime)/1000f;
 	    	
+	    	G.damageTimer -= dt;
+	    	
 	    	if(!G.paused){
 	    		if(G.health <= 0){//ran out of health or whatever set somewhere within update method
 	    			G.state = G.STATE_DEFEAT;//indicates death/game over screen in renderer
@@ -31,12 +33,14 @@ public class Updater implements Runnable {
 	    			break;//updates no longer needed at this point
 	    		}
 	    		else{//waiting for next wave to launch
-	    			G.nextWave -= dt;
-	    			if(G.state == G.STATE_BATTLE){//wave just finished
-	    				doLogic(5);
+	    			if(G.state != G.STATE_INITIAL){//initial gives user unlimited time to do initial setup of towers
+		    			G.nextWave -= dt;
+		    			if(G.state == G.STATE_BATTLE){//wave just finished, clear out all bullets and enemies
+		    				doLogic(5);
+		    			}
+		    			G.state = G.STATE_PREPARATION;
 	    			}
-	    			G.state = G.STATE_PREPARATION;
-	    			if(G.nextWave <= 0){
+		    		if(G.nextWave <= 0){
 		    			G.state = G.STATE_BATTLE;
 		    			G.playSpeed = 1;
 			    		G.Creeps = G.Waves.get(0);

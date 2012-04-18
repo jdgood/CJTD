@@ -7,33 +7,33 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import com.cjdesign.cjtd.R;
 import com.cjdesign.cjtd.globals.G;
 
 public class HUD {
     private BuildMenu buildMenu;
     private UpgradeMenu upgradeMenu;
     private ArrayList<PopupMenu> menus;
+    private String message;
 	
 	/** The buffer holding the vertices */
 	private FloatBuffer vertexBuffer;
-	/** The buffer holding the texture coordinates */
-	private FloatBuffer textureBuffer;
+	/** The buffer holding the vertices */
+	private FloatBuffer vertexBuffer2;
 	/** The buffer holding the indices */
 	private ByteBuffer indexBuffer;
 	
 	private float vertices[] = {
+			G.W, G.H-60, 0,
+    		0, G.H-60, 0,    		
+    		G.W, G.H, 0,
+    		0, G.H, 0};
+	
+	private float vertices2[] = {
 			G.W, 0, 0,
     		0, 0, 0,    		
     		G.W, G.H, 0,
     		0, G.H, 0};
-
-	/** The initial texture coordinates (u, v) */	
-	private float texture[] = {
-				1.0f, 0.0f,
-				0.0f, 0.0f,
-				1.0f, 1.0f,
-				0.0f, 1.0f};
+	
 	
 	/** The initial indices definition */	
 	private byte indices[] = {
@@ -51,12 +51,12 @@ public class HUD {
 		vertexBuffer = byteBuf.asFloatBuffer();
 		vertexBuffer.put(vertices);
 		vertexBuffer.position(0);
-
-		byteBuf = ByteBuffer.allocateDirect(texture.length * 4);
+		
+		byteBuf = ByteBuffer.allocateDirect(vertices2.length * 4);
 		byteBuf.order(ByteOrder.nativeOrder());
-		textureBuffer = byteBuf.asFloatBuffer();
-		textureBuffer.put(texture);
-		textureBuffer.position(0);
+		vertexBuffer2 = byteBuf.asFloatBuffer();
+		vertexBuffer2.put(vertices2);
+		vertexBuffer2.position(0);
 
 		indexBuffer = ByteBuffer.allocateDirect(indices.length);
 		indexBuffer.put(indices);
@@ -64,14 +64,43 @@ public class HUD {
 	}
 
 	public void draw(GL10 gl) {
-		int textureResource = 0;
 		if(G.state == G.STATE_DEFEAT){
-			textureResource = R.drawable.defeat;
+			gl.glColor4f(0, 0, 0, 0);
+			message = "Defeat!";
 		}
 		else if(G.state == G.STATE_VICTORY){
-			textureResource = R.drawable.victory;
+			gl.glColor4f(0, 0, 0, 0);
+			message = "Victory!";
+		}
+		else if(G.damageTimer > 0){
+			System.out.println("here");
+			gl.glColor4f(1, 0, 0, 0);
+			message = "";
 		}
 		else{
+			gl.glDisable(GL10.GL_BLEND);
+	        gl.glDisable(GL10.GL_TEXTURE_2D);
+	        gl.glColor4f(0, 0, 0, 0);
+			
+			//Point to our buffers
+			gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+
+			//Set the face rotation
+			gl.glFrontFace(GL10.GL_CCW);
+			
+			//Enable the vertex and texture state
+			gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+			
+			//Draw the vertices as triangles, based on the Index Buffer information
+			gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
+			
+			//Disable the client state before leaving
+			gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
+			
+			gl.glColor4f(1, 1, 1, 1);
+			
+			gl.glEnable(GL10.GL_TEXTURE_2D);
+			
 			gl.glEnable(GL10.GL_BLEND);
 			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 			
@@ -81,6 +110,9 @@ public class HUD {
 			
 			if(G.state == G.STATE_PREPARATION){
 				print += ((int)G.nextWave / 60) + (G.nextWave%60 < 10?":0":":") + ((int)G.nextWave % 60) + " till next wave\t\t";
+			}
+			else if(G.state == G.STATE_INITIAL){
+				print += "Hit the menu button to send the first wave\t\t";
 			}
 			else{
 				print += G.playSpeed + "X speed\t\t";
@@ -96,25 +128,34 @@ public class HUD {
 			return;
 		}
 		
-		gl.glBindTexture(GL10.GL_TEXTURE_2D, G.textures.loadTexture(textureResource, gl));
+		gl.glDisable(GL10.GL_TEXTURE_2D);
 		
 		//Point to our buffers
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
 
 		//Set the face rotation
 		gl.glFrontFace(GL10.GL_CCW);
 		
 		//Enable the vertex and texture state
-		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-		gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffer);
+		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer2);
 		
 		//Draw the vertices as triangles, based on the Index Buffer information
 		gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_BYTE, indexBuffer);
 		
 		//Disable the client state before leaving
 		gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-		gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
+		
+		gl.glColor4f(1, 1, 1, 1);
+		
+		gl.glEnable(GL10.GL_TEXTURE_2D);
+		
+		gl.glEnable(GL10.GL_BLEND);
+		gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+		
+		G.tf.SetScale(10);
+		G.tf.PrintAt(gl, message, (int)G.W/2-300, (int)G.H/2-150);
+		
+		gl.glDisable(GL10.GL_BLEND);
 	}
 	
 	public boolean hitTest(float x, float y) {

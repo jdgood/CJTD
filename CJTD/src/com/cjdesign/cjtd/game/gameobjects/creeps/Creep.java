@@ -233,6 +233,7 @@ public class Creep extends GameObject {
      */
     public void setCurrentGoal(Ground newGoal) {
     	if(this.currentGoal == newGoal){
+    		G.damageTimer = .05f;
     		G.health--;
     		die();
     	}

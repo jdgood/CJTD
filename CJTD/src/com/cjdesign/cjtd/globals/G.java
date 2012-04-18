@@ -49,6 +49,7 @@ public class G {
 	public static Path path;
 	public static int playSpeed;
 	public static int health;
+	public static float damageTimer;
 	
 	public static Context gameContext;
 	public static GLTextures textures;
@@ -86,4 +87,5 @@ public class G {
 	public static final int STATE_BATTLE = 1;
 	public static final int STATE_VICTORY = 2;
 	public static final int STATE_DEFEAT = 3;
+	public static final int STATE_INITIAL = 4;
 }

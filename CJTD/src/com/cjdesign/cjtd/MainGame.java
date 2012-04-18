@@ -70,7 +70,7 @@ public class MainGame extends Activity{
 	        	if(mode == TARGET){//if no movement was detected
 	        	    if(!G.hud.hitTest(e.getX(),e.getY())) {
     	        		float[] out = unproject(e.getX(), G.viewport[3] - e.getY(), distanceToDepth(G.viewZ - G.gridDepth));//gets the x,y coordinate
-    		        	if(G.state == G.STATE_PREPARATION){
+    		        	if(G.state == G.STATE_PREPARATION || G.state == G.STATE_INITIAL){
     	        			Ground g = G.level.getGround(out[0], out[1]);//gets the ground piece associated with the x,y found above
     		        		if(g == null){//pressed outside of grid
     		        			System.out.println("No ground chosen");
@@ -241,10 +241,10 @@ public class MainGame extends Activity{
 	    	return true;
 	    }
 	    else if(keyCode == KeyEvent.KEYCODE_MENU) {
-	    	if(G.state == G.STATE_PREPARATION){
+	    	if(G.state == G.STATE_PREPARATION || G.state == G.STATE_INITIAL){
 	    	    G.hud.getBuildMenu().hide();
 	    	    G.hud.getUpgradeMenu().hide();
-	    		G.nextWave = 0;//quick start next wave
+	    		G.nextWave = -1;//quick start next wave
 	    	}
 	    	else if(G.state == G.STATE_BATTLE){//add a speed multiplier (1-4)
 	    		G.playSpeed++;
